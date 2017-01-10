@@ -1,6 +1,7 @@
 <script>
   export default {
-    data() {
+    props:['params'],
+    data: function() {
       return {
         form: {
           chiffreAffaireHt:0,
@@ -19,13 +20,19 @@
 
     },
     watch: {
-      "form.bindToCaHt": function(val, OldVal) {
-        if (OldVal == 0) {
+      "form": {
+        deep: true,
+        handler:function(val, oldVal) {
+          this.$emit('formValuesUpdated', this.form);
+        }
+      },
+      "form.bindToCaHt": function(val, oldVal) {
+        if (oldVal == 0) {
           this.form.chiffreAffaireTtc = this.form.chiffreAffaireHt * 1.20;
         }
       },
-      "form.bindToFraisHt": function(val, OldVal) {
-        if (OldVal == 0) {
+      "form.bindToFraisHt": function(val, oldVal) {
+        if (oldVal == 0) {
           this.form.fraisTtc = this.form.fraisHt * 1.20;
         }
       },
