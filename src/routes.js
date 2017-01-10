@@ -1,7 +1,7 @@
-import Hello from 'components/Hello'
-import Aide from 'components/Aide'
+import PageAide from 'components/PageAide'
+import PageSimulateur from 'components/PageSimulateur'
 
 export default [
-  { path: '/', component: Hello },
-  { path: '/aide', component: Aide }
+  { path: '/', component: PageSimulateur },
+  { path: '/aide', component: PageAide }
 ]
