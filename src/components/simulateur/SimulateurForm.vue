@@ -1,5 +1,5 @@
 <script>
-  export default{
+  export default {
     data() {
       return {
         form: {
@@ -19,22 +19,29 @@
 
     },
     watch: {
-      "form.chiffreAffaireHt": {
-        handler:function(val, oldVal) {
-          if (this.form.bindToCaHt) {
-            this.form.chiffreAffaireTtc = this.form.chiffreAffaireHt * 1.20;
-          }
-        },
+      "form.bindToCaHt": function(val, OldVal) {
+        if (OldVal == 0) {
+          this.form.chiffreAffaireTtc = this.form.chiffreAffaireHt * 1.20;
+        }
       },
-      "form.fraisHt": {
-        handler:function(val, oldVal) {
-          if (this.form.bindToFraisHt) {
-            this.form.fraisTtc = this.form.fraisHt * 1.20;
-          }
+      "form.bindToFraisHt": function(val, OldVal) {
+        if (OldVal == 0) {
+          this.form.fraisTtc = this.form.fraisHt * 1.20;
+        }
+      },
+      "form.chiffreAffaireHt": function(val, oldVal) {
+        if (this.form.bindToCaHt) {
+          this.form.chiffreAffaireTtc = this.form.chiffreAffaireHt * 1.20;
+        }
+      },
+      "form.fraisHt": function(val, oldVal) {
+        if (this.form.bindToFraisHt) {
+          this.form.fraisTtc = this.form.fraisHt * 1.20;
         }
       }
     }
   }
+
 </script>
 
 <template>
@@ -54,11 +61,12 @@
       <!-- Chiffre d'affaire TTC -->
       <div class="large-3 small-12 columns">
         <label for="chiffre_affaire_ttc">Chiffre d'affaires TTC</label>
-        <input v-model.number="form.chiffreAffaireTtc" type="number" id="chiffre_affaire_ttc" :disabled="form.bindToCaHt">
+        <input v-model.number="form.chiffreAffaireTtc" type="number" id="chiffre_affaire_ttc"
+               :disabled="form.bindToCaHt">
 
         <div class="charges-form__field__descripton">
 
-          <input type="checkbox" v-model.number="form.bindToCaHt">  <em>automatiquement à 20% du HT</em> <br>
+          <input type="checkbox" v-model.number="form.bindToCaHt"> <em>automatiquement à 20% du HT</em> <br>
           Le total des ventes de la société en incluant la TVA.
         </div>
       </div>
@@ -75,10 +83,13 @@
       <!-- frais TTC-->
       <div class="large-3 small-12 columns">
         <label for="fraisTtc"> Frais TTC </label>
-        <input v-model="form.fraisTtc" type="number" id="fraisTtc" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" placeholder="Frais TTC" ng-disabled="form.bindToFraisHt" disabled="disabled">
+        <input v-model="form.fraisTtc" type="number" id="fraisTtc"
+               class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" placeholder="Frais TTC"
+               ng-disabled="form.bindToFraisHt" disabled="disabled">
         <div class="charges-form__field__descripton">
 
-          <input type="checkbox" v-model="form.bindToFraisHt" class="ng-pristine ng-untouched ng-valid ng-not-empty"> <em>automatiquement à 20% du HT</em> <br>
+          <input type="checkbox" v-model="form.bindToFraisHt" class="ng-pristine ng-untouched ng-valid ng-not-empty">
+          <em>automatiquement à 20% du HT</em> <br>
           <div class="">
             Vos dépenses de sociétés avec la TVA : expertise comptable, achats, fournisseurs etc ...
           </div>
@@ -92,7 +103,8 @@
       <!-- CFE -->
       <div class="large-3 small-12 columns">
         <label for="cfe"> CFE à verser </label>
-        <input v-model="form.cfe" type="number" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" id="cfe" placeholder="CFE">
+        <input v-model="form.cfe" type="number" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty"
+               id="cfe" placeholder="CFE">
         <div class="charges-form__field__descripton">
           Vous devez verser une cotisation foncière des entreprises, dont le montant dépend de votre commune.
         </div>
@@ -101,7 +113,8 @@
       <!-- Rémunération -->
       <div class="large-3 small-12 columns">
         <label for="remuneration"> Rémunération </label>
-        <input v-model="form.remuneration" id="remuneration" type="number" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" placeholder="Rémunération">
+        <input v-model="form.remuneration" id="remuneration" type="number"
+               class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" placeholder="Rémunération">
         <div class="charges-form__field__descripton">
           Votre rémunération en tant que gérant. Les cotisations sociales sont calculées sur cette base.
         </div>
