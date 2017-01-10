@@ -1,12 +1,17 @@
 <template>
   <div class="hello">
+    <simulateur-form></simulateur-form>
     Je suis la page du simulateur
   </div>
 </template>
 
 <script>
+import SimulateurForm from './simulateur/simulateurForm'
 export default {
-  name: 'page-simulateur'
+  name: 'page-simulateur',
+  components: {
+    SimulateurForm
+  }
 }
 </script>
 
