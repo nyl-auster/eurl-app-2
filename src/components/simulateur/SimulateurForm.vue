@@ -5,11 +5,18 @@
         form: {
           chiffreAffaireHt:0,
           chiffreAffaireTtc:0,
-          bindToCaHt:true
+          bindToCaHt:true,
+          bindToFraisHt:true,
+          fraisHt:0,
+          fraisTttc:0,
+          cfe:500,
+          remuneration:0,
+          prevoyance:'B'
         }
       }
     },
     methods: {
+
     },
     watch: {
       "form.chiffreAffaireHt": {
@@ -18,6 +25,13 @@
             this.form.chiffreAffaireTtc = this.form.chiffreAffaireHt * 1.20;
           }
         },
+      },
+      "form.fraisHt": {
+        handler:function(val, oldVal) {
+          if (this.form.bindToFraisHt) {
+            this.form.fraisTtc = this.form.fraisHt * 1.20;
+          }
+        }
       }
     }
   }
@@ -31,7 +45,7 @@
       <!-- Chiffres d'affaires HT -->
       <div class="large-3 small-12 columns">
         <label for="chiffre_affaire_ht">Chiffre d'affaires HT</label>
-        <input id="chiffre_affaire_ht" v-model="form.chiffreAffaireHt" type="number">
+        <input id="chiffre_affaire_ht" v-model.number="form.chiffreAffaireHt" type="number">
         <div class="charges-form__field__descripton">
           Votre chiffre d'affaires sans la TVA de vos ventes. C'est une base de calcul pour certaines des charges.
         </div>
@@ -40,11 +54,11 @@
       <!-- Chiffre d'affaire TTC -->
       <div class="large-3 small-12 columns">
         <label for="chiffre_affaire_ttc">Chiffre d'affaires TTC</label>
-        <input v-model="form.chiffreAffaireTtc" type="number" id="chiffre_affaire_ttc" :disabled="form.bindToCaHt">
+        <input v-model.number="form.chiffreAffaireTtc" type="number" id="chiffre_affaire_ttc" :disabled="form.bindToCaHt">
 
         <div class="charges-form__field__descripton">
 
-          <input type="checkbox" v-model="form.bindToCaHt" class="ng-pristine ng-untouched ng-valid ng-not-empty">  <em>automatiquement à 20% du HT</em> <br>
+          <input type="checkbox" v-model.number="form.bindToCaHt">  <em>automatiquement à 20% du HT</em> <br>
           Le total des ventes de la société en incluant la TVA.
         </div>
       </div>
@@ -52,7 +66,7 @@
       <!-- frais HT -->
       <div class="large-3 small-12 columns">
         <label for="fraisHt"> Frais HT </label>
-        <input v-model="form.fraisHt" type="number" id="fraisHt" class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" placeholder="Frais HT">
+        <input v-model="form.fraisHt" type="number" id="fraisHt">
         <div class="charges-form__field__descripton">
           Vos dépenses de sociétés <strong>hors taxe</strong> : expertise comtpable, achats, fournisseurs etc ...
         </div>
@@ -96,7 +110,9 @@
       <div class="large-3 small-12 columns end">
         <label> Prévoyance </label>
         <select v-model="form.prevoyance" type="number">
-          <option value=""></option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
         </select>
         <div class="charges-form__field__descripton">
           Assurance vie.
