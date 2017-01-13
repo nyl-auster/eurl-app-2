@@ -1,20 +1,17 @@
 <template>
   <div id="app">
-    <menu-main></menu-main>
-    <transition name="fade" mode="out-in">
-      <router-view></router-view>
-    </transition>
+    <site-header></site-header>
+    <site-menu></site-menu>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import MenuMain from './components/MenuMain'
+import SiteMenu from './components/SiteMenu'
+import SiteHeader from './components/SiteHeader'
 
 export default {
-  name: 'app',
-  components: {
-    MenuMain
-  }
+  components: { SiteMenu, SiteHeader }
 }
 </script>
 
@@ -27,14 +24,4 @@ export default {
   color: #2c3e50;
   margin-top: 20px;
 }
-
-/*
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0
-}
-*/
-
 </style>
