@@ -1,7 +1,10 @@
+<!--
+Composant racine de notre simulateur
+-->
 <template>
 
   <div id="simulateur">
-    <simulateur-form :formValues="params" @onFormValuesUpdated="onFormValuesUpdated"></simulateur-form>
+    <simulateur-form :formValues="params" @onFormValuesUpdated="setParams"></simulateur-form>
     <div class="row">
       <div class="small-12 columns">
         <simulateur-results-table :lines="lines"></simulateur-results-table>
@@ -20,6 +23,7 @@
     data: function() {
       return {
         lines: [],
+        // paramètres pour lancer le calcul de nos simulations
         params:  {
           chiffreAffaireHt: 0,
           chiffreAffaireTtc: 0,
@@ -33,13 +37,13 @@
          }
       }
     },
+    // calculer les résultats lors de la création de la vue
     created: function() {
       this.calculateResults();
     },
     methods: {
-      // on met à jour l'état de notre composant en fonction
-      // des données renseignées dans le formulaire
-      onFormValuesUpdated:function(formValues) {
+      // mettre à jour les données de notre simulateur
+      setParams:function(formValues) {
          for (let property in formValues) {
             this.params[property] = formValues[property];
          }
@@ -54,7 +58,6 @@
         lines.push(calculator.getImpotSurLesSocietes());
         lines.push(calculator.getTva());
         lines.push(calculator.getCfe());
-
         this.lines = lines;
 
         // ajout du total à provisionner
