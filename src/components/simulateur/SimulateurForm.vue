@@ -1,18 +1,9 @@
 <script>
   export default {
+    props:['formValues'],
     data: function() {
       return {
-        form: {
-          chiffreAffaireHt:0,
-          chiffreAffaireTtc:0,
-          bindToCaHt:true,
-          bindToFraisHt:true,
-          fraisHt:0,
-          fraisTttc:0,
-          cfe:500,
-          remuneration:0,
-          prevoyance:'B'
-        }
+        form: this.formValues
       }
     },
     methods: {
@@ -24,7 +15,7 @@
         // on émet un évènement à chaque fois que les données du formulaire
         // sont mises à jour pour les autres composants
         handler:function(val, oldVal) {
-          this.$emit('formValuesUpdated', this.form);
+          this.$emit('onFormValuesUpdated', this.form);
         }
       },
       "form.bindToCaHt": function(val, oldVal) {

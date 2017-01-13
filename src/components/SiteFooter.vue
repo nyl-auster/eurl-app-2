@@ -1,6 +1,6 @@
 <template>
   <footer>
-    Par <a target="_blank" href="http://yineo.fr">Yineo Company </a>
+    Par <a target="_blank" href="http://yineo.fr">Yineo Incorporation </a>
     </footer>
 </template>
 

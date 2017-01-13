@@ -7,7 +7,7 @@
 <script>
 import Simulateur from '../simulateur/simulateur'
 export default {
-  name: 'page-simulateur',
+  name: 'pageSimulateur',
   components: {
     Simulateur
   }
