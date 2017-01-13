@@ -21,7 +21,6 @@
     background: #1779ba;
     color: #fefefe;
     border-radius:5px;
-    font-weight:bold;
   }
 
 </style>

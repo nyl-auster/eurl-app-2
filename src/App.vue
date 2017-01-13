@@ -2,17 +2,19 @@
   <div id="app">
     <site-header></site-header>
     <site-menu></site-menu>
-    <div class="row">
-      <router-view></router-view>
+    <div class="row router-view">
+      <div class="small-12 columns">
+        <router-view></router-view>
+      </div>
     </div>
     <site-footer></site-footer>
   </div>
 </template>
 
 <script>
-import SiteMenu from './components/SiteMenu'
-import SiteHeader from './components/SiteHeader'
-import SiteFooter from './components/SiteFooter'
+import SiteMenu from './components/site/SiteMenu'
+import SiteHeader from './components/site/SiteHeader'
+import SiteFooter from './components/site/SiteFooter'
 
 export default {
   components: {
@@ -36,4 +38,9 @@ export default {
 h1, h2, h3, h4, h5, h6 {
   text-transform:uppercase;
 }
+
+.router-view {
+  margin-top:1.5rem;
+}
+
 </style>

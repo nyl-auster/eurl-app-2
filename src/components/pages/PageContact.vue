@@ -7,9 +7,3 @@
     <a class="button" target="_blank" href="https://yineo.fr/contact">Me contacter</a>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'pageAide'
-}
-</script>
