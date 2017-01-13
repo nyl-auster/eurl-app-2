@@ -1,11 +1,17 @@
 <template>
   <header>
-    <h1> SImulateur de charges et de trésorerie pour EURL </h1>
-    <div id="version">version 0.0.1</div>
+    <div id="site-title"> Simulateur de charges et de trésorerie pour EURL </div>
+    <div id="version">version 0.1.0</div>
   </header>
 </template>
 
 <style scoped>
+
+  #site-title {
+    font-size:2rem;
+    text-transform:uppercase;
+  }
+
   #version {
     font-style:italic;
     background:orange;
