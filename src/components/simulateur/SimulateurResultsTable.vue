@@ -57,3 +57,25 @@ export default {
 }
 </script>
 
+<style scoped>
+
+  table {
+    border-collapse:collapse;
+  }
+
+  table tr:nth-of-type(even) {
+    background-color: transparent !important;
+  }
+
+  .lines-results__result__details {
+    font-style: italic;
+    color: #888;
+    font-size: .9em;
+  }
+
+  .lines-results__result__total td {
+    border-top: 1px solid #BBB;
+}
+
+</style>
+
