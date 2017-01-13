@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Simulateur from './simulateur/simulateur'
+import Simulateur from '../simulateur/simulateur'
 export default {
   name: 'page-simulateur',
   components: {

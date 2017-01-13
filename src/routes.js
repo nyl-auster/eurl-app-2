@@ -1,5 +1,5 @@
-import PageAide from 'components/PageAide'
-import PageSimulateur from 'components/PageSimulateur'
+import PageAide from 'components/pages/PageAide'
+import PageSimulateur from 'components/pages/PageSimulateur'
 
 export default [
   { path: '/', component: PageSimulateur },
