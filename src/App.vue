@@ -3,15 +3,21 @@
     <site-header></site-header>
     <site-menu></site-menu>
     <router-view></router-view>
+    <site-footer></site-footer>
   </div>
 </template>
 
 <script>
 import SiteMenu from './components/SiteMenu'
-import SiteHeader from './components/SiteHeader'
+import SiteMenu from './components/SiteMenu'
+import SiteFooter from './components/SiteFooter'
 
 export default {
-  components: { SiteMenu, SiteHeader }
+  components: {
+  SiteMenu,
+  SiteHeader,
+  SiteFooter
+  }
 }
 </script>
 
