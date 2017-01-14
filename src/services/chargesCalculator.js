@@ -29,8 +29,10 @@
  * - prevoyance
  */
 
-import chargesConfig from "./chargesConfig";
-import chargesTranchesCalculatorService from "./chargesTranchesCalculator";
+import config from "./config";
+import tranchesCalculator from "./chargesTranchesCalculator";
+import resultLine from "./resultLine";
+
 
 const chargesCalculator =  function(params) {
 
@@ -51,19 +53,19 @@ const chargesCalculator =  function(params) {
   self.getPrevoyance = () => {
 
     let classeChoisie = null;
-    chargesConfig.charges.prevoyance.classes.forEach((classe) => {
+    config.prevoyance.classes.forEach((classe) => {
       if (classe.classe == self.prevoyance) {
         classeChoisie = classe;
       }
     });
 
-    let charge = chargesConfig.charges.prevoyance;
+    let charge = config.prevoyance;
     if (classeChoisie) {
       charge.label = "Prévoyance classe " + classeChoisie.classe;
       charge.montant = classeChoisie.montant_forfaitaire;
     }
     else {
-      charge.montant = chargesConfig.charges.prevoyance.classes[0].montant_forfaitaire;
+      charge.montant = config.prevoyance.classes[0].montant_forfaitaire;
     }
 
     return charge;
@@ -208,18 +210,21 @@ const chargesCalculator =  function(params) {
   /**
    * Calcul des cotisations maladie et maternité - URSSAF
    */
-  self.getAssuranceVieillesseComplementaire = (baseCalcul) => {
-    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul,
-      chargesConfig.charges.assuranceVieillesseComplementaire);
+  self.getAssuranceVieillesseComplementaire = function(baseCalcul) {
+    let line = new resultLine()
+      .extends(config.assuranceVieillesseComplementaire)
+      .extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, config.assuranceVieillesseComplementaire.tranches));
+    return line;
   };
 
   /**
    * Calcul des cotisations pour la formation professionnelle
    */
   self.getFormationProfessionnelle = () => {
-    const baseCalcul = chargesConfig.plafond_securite_sociale;
-    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul,
-      chargesConfig.charges.formationProfessionnelle);
+    let line = new resultLine()
+      .extends(config.formationProfessionnelle)
+      .extends(tranchesCalculator.calculerTrancheExclusive(config.plafond_securite_sociale, config.formationProfessionnelle.tranches));
+    return line;
   };
 
   /**
@@ -227,15 +232,24 @@ const chargesCalculator =  function(params) {
    * https://www.urssaf.fr/portail/home/independant/je-beneficie-dexonerations/modulation-de-la-cotisation-dall.html
    */
   self.getAllocationsFamiliales = (baseCalcul) => {
-    const config = chargesConfig.charges.allocationsFamiliales;
+
+    let line = new resultLine();
+    const allocationsFamiliales = config.allocationsFamiliales;
+
     // le taux de la tranche 2 est progressif
-    const tauxReduit = config.tranches[1].taux_reduit;
-    const tauxPlein = config.tranches[1].taux_plein;
-    const PASS = chargesConfig.plafond_securite_sociale;
+    const tauxReduit = allocationsFamiliales.tranches[1].taux_reduit;
+    const tauxPlein = allocationsFamiliales.tranches[1].taux_plein;
+    const PASS = allocationsFamiliales.plafond_securite_sociale;
+    // formule pour calculer le taux progressif récupérer sur le site de l'URSSAF via un png dégueulasse
     const tauxProgressif = ((tauxPlein - tauxReduit) / (0.3 * PASS)) * (baseCalcul - 1.1 * PASS) + tauxReduit;
     // voilà notre taux à appliquer pour les base de calcul comprises entre 110% et 140% du passe
-    config.tranches[1]['taux'] = tauxProgressif;
-    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul, config);
+    allocationsFamiliales.tranches[1]['taux'] = tauxProgressif;
+
+    line
+      .extends(allocationsFamiliales)
+      .extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, allocationsFamiliales.tranches));
+
+    return line;
   };
 
   /**
@@ -243,8 +257,7 @@ const chargesCalculator =  function(params) {
    *
    */
   self.getAssuranceVieillesseBase = (baseCalcul) => {
-    console.log(baseCalcul);
-    let assuranceVieillesseBase = chargesConfig.charges.assuranceVieillesseBase;
+    let assuranceVieillesseBase = config.assuranceVieillesseBase;
     // si le revenu est inférieur ou égal à la première tranche, montant forfaitaire:
     if (baseCalcul <= assuranceVieillesseBase.montant_forfaitaire.plafond) {
       assuranceVieillesseBase.montant = assuranceVieillesseBase.montant_forfaitaire.montant;
@@ -266,16 +279,18 @@ const chargesCalculator =  function(params) {
    * Calcul des cotisations maladie et maternité - URSSAF
    */
   self.getMaladiesMaternite = (baseCalcul) => {
-    return chargesTranchesCalculatorService.calculerTrancheExclusive(baseCalcul,
-      chargesConfig.charges.maladiesMaternite);
+    let line = new resultLine()
+      .extends(config.maladiesMaternite)
+      .extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, config.maladiesMaternite.tranches));
+     return line;
   };
 
   /**
    * Calcul de l'impot sur les bénéfices - Impots
    */
   self.getImpotSurLesSocietes = () => {
-    return chargesTranchesCalculatorService.calculerTranchesCumulatives(self.getBaseCalculIs(),
-      chargesConfig.charges.impotSurLesSocietes);
+    return tranchesCalculator.calculerTranchesCumulatives(self.getBaseCalculIs(),
+      config.impotSurLesSocietes);
   };
 
   /**
@@ -283,7 +298,7 @@ const chargesCalculator =  function(params) {
    */
   self.getCgsCrds = () => {
     const baseCalcul = self.remuneration + self.getTotalCotisationsSociales().montant;
-    return chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, chargesConfig.charges.cgsCrds);
+    return tranchesCalculator.calculerTranchesCumulatives(baseCalcul, config.cgsCrds);
   };
 
   return self;

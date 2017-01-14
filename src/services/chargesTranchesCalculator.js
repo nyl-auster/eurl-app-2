@@ -18,48 +18,46 @@ const service = {};
 
 /**
  * Retourne le montant pour une tranche de charge.
- *
- * Une tranche est un objet qui peut contenir les clefs suivantes :
- * - montant : peut être déjà rempli pour les montants forfaitaires
- * - taux : le pourcentage à appliquer sur le montant
- * - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
+ * @param tranche object
+ *   - montant : peut être déjà rempli pour les montants forfaitaires
+ *   - taux : le pourcentage à appliquer sur le montant
+ *   - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.
+ * @param baseCalcul float
  */
 service.calculerMontantTranche = (tranche, baseCalcul) => {
-
-  var montant = 0;
-
-  // si un montant forfaitaire est prédéfini pour cette tranche
+  let montant = 0;
   if (tranche.montant_forfaitaire) {
     montant = tranche.montant_forfaitaire;
   }
-  // sinon on calcule le montant de la tranche en fonction du taux indiqué
   else if (tranche.taux) {
     montant = baseCalcul * (tranche.taux / 100);
   }
-
-  // on ajoute ou met à jour le montant à notre objet tranche
-  tranche.montant = montant.toFixedNumber(2);
-  tranche.baseCalcul = baseCalcul;
-  return montant;
+  // tranche.montant = montant.toFixedNumber(2);
+  // tranche.baseCalcul = baseCalcul;
+  return montant.toFixedNumber(2);
 };
 
 /**
- * Calcul la tranche qui correspond à baseDeCalcul en fonction du tableau "tranches".
+ * Calcul la tranche qui correspond à baseCalcul en fonction du tableau "tranches".
  * Pour les tranches exclusives, seule UNE tranche est conservé pour le calcul, les
  * tranches précédentes ou suivantes n'entrent donc en rien dans le calcul du montant
  * de la cotisation
  *
  * @param baseCalcul float | int :
  * @param charge array : tableau d'objet "charge"
+ *
+ * @return objet
  */
-service.calculerTrancheExclusive = (baseCalcul, charge) => {
+service.calculerTrancheExclusive = (baseCalcul, tranches) => {
 
-  charge.montant = 0;
+  let result = {};
+
+  result.montant = 0;
 
   // on recherche la tranche qui correspond à notre baseCalcul
-  var trancheActive = null;
+  let trancheActive = null;
 
-  charge.tranches.forEach(function(tranche) {
+  tranches.forEach(function(tranche) {
     // tant que la base de calcul n'est pas supérieur au plafond en cours, on continue
     // d'itérer.
     if (!trancheActive && baseCalcul <= tranche.plafond) {
@@ -71,18 +69,19 @@ service.calculerTrancheExclusive = (baseCalcul, charge) => {
   });
 
   if (trancheActive) {
-    charge.montant = service.calculerMontantTranche(trancheActive, baseCalcul).toFixedNumber(2);
-    charge.tranchesActives= [trancheActive];
+    result.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
+    result.baseCalcul = baseCalcul;
+    result.trancheActives = [trancheActive];
   }
 
-  return charge;
+  return result;
 };
 
 /**
  * Calcul des charges à tranches cumulatives, tels que l'impot sur les bénéfices :
  * 15% pour pour les 38120 premiers euros, puis on ajoute 33,33% sur le reste des bénéfices
  *
- * @param baseCalcul float | int :
+ * @param baseCalcul float
  * @param charge array : tableau d'objet "charges"
  */
 service.calculerTranchesCumulatives = (baseCalcul, charge) => {

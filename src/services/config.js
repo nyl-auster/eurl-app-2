@@ -1,5 +1,5 @@
 /**
- * Les objets "charges" d'une EURL à l'IS en PL
+ * Paramètres pour calculer les charges d'une EURL à l'IS
  * qui seront consommés par le service "chargesCalculator",
  * qui permettra de calculer le montant des cotisations et impots à payer.
  *
@@ -52,9 +52,7 @@
  * formation professionnelle
  */
 
-
 const parametres = {
-  general:{},
   charges:{},
   organismes:{}
 };
@@ -65,9 +63,8 @@ parametres.plafondMax =  Number.MAX_SAFE_INTEGER;
 parametres.plafond_securite_sociale = 38616;
 
 // URSSAF : MALADIE-MATERNITE
-parametres.charges.maladiesMaternite = {
+parametres.maladiesMaternite = {
   organisme:'RSI',
-  type_tranches: 'tranche_exclusive',
   label:'Maladie-maternité',
   commentaire:'Base de calcul : totalité des revenus professionnels',
   type_tranches: 'tranche_exclusive',
@@ -81,7 +78,7 @@ parametres.charges.maladiesMaternite = {
 };
 
 // URSSAF : ALLOCATIONS FAMILIALES
-parametres.charges.allocationsFamiliales = {
+parametres.allocationsFamiliales = {
   organisme:'URSSAF',
   label:'Allocations familiales',
   commentaire:"Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %. Faute de détails, le calculateur passe à 5.25 dès qu'on dépasse 42 478 €",
@@ -110,7 +107,7 @@ parametres.charges.allocationsFamiliales = {
 };
 
 // URSSAF : CGS-CRDS
-parametres.charges.cgsCrds = {
+parametres.cgsCrds = {
   organisme:'URSSAF',
   label:'CGS-CRDS',
   commentaire:"Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires hors CSG-CRDS",
@@ -125,7 +122,7 @@ parametres.charges.cgsCrds = {
 };
 
 // URSSAF : CSG-CRDS (la distinction déductible n'est pas faite)
-parametres.charges.csgNonDeductible = {
+parametres.csgNonDeductible = {
   organisme:'URSSAF',
   label:'CSG-CRDS Non déductible',
   commentaire:"Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires hors CSG-CRDS",
@@ -140,7 +137,7 @@ parametres.charges.csgNonDeductible = {
 };
 
 // URSSAF : FORMATION PROFESSIONNELLE
-parametres.charges.formationProfessionnelle = {
+parametres.formationProfessionnelle = {
   organisme: 'URSSAF',
   label: 'Formation professionnelle',
   commentaire: "Base de calcul forfaitaire (fixe): plafond de la sécurité sociale",
@@ -157,19 +154,13 @@ parametres.charges.formationProfessionnelle = {
 // CIPAV - Retraite de base CNAVPL
 // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
 // Voir le simulateur ici pour des exemples concrets : http://www.guide-tns.fr/simulateurs/chargesprofessionnelliberal.html
-
-
-
-parametres.charges.assuranceVieillesseBase = {
+parametres.assuranceVieillesseBase = {
   label: 'Retraite de base',
   organisme: 'CIPAV',
-  type_tranches: 'custom',
   description: "Retraite de base CNAVPL",
   commentaire: "En cas de revenus non connus : 3 178 € (maximum de la tranche 1) ; 3 611 € (maximum de la tranche 2)",
   // montant forfaitaire en dessous d'un certain plafond
-  revenus_non_connus: {
-
-  },
+  revenus_non_connus: 3611,
   montant_forfaitaire : {
     label:"Retraite de base",
     commentaire:"si les revenus sont inférieurs à 4441€, le montant est forfaitaire",
@@ -192,7 +183,7 @@ parametres.charges.assuranceVieillesseBase = {
 };
 
 // IMPOT
-parametres.charges.impotSurLesSocietes = {
+parametres.impotSurLesSocietes = {
   label: 'Impot sur les sociétés',
   organisme: "Impots",
   type_tranches: 'cumulatives',
@@ -213,7 +204,7 @@ parametres.charges.impotSurLesSocietes = {
 // CIPAV: Assurance vieillesse "complémentaire" ( mais obligatoire :-p )
 // http://service.cipav-retraite.fr/cipav/article-28-principes-de-calcul-des-cotisations-103.htm
 // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
-parametres.charges.assuranceVieillesseComplementaire = {
+parametres.assuranceVieillesseComplementaire = {
   label : 'Retraite complémentaire',
   organisme: 'CIPAV',
   type_tranches : "exclusive",
@@ -271,7 +262,7 @@ parametres.charges.assuranceVieillesseComplementaire = {
 
 // Réduction assurance vieillesse complémentaire
 // @pas appliquée dans le calculateur pour le moment
-parametres.charges.AssuranceVieillesseComplementaireReduction = {
+parametres.AssuranceVieillesseComplementaireReduction = {
   organisme:'CIPAV',
   label: "Réduction assurance vieillesse complémentaire",
   type_tranches: "exclusive",
@@ -307,7 +298,7 @@ parametres.charges.AssuranceVieillesseComplementaireReduction = {
   ]
 };
 
-parametres.charges.prevoyance = {
+parametres.prevoyance = {
   organisme:'CIPAV',
   label: "Invalidité Décès",
   type_tranches:'exclusive',
@@ -332,8 +323,8 @@ parametres.charges.prevoyance = {
 };
 
 // les professions libérales ne cotisent pas pour les indemnités journalières
-// source : http://www.rsi.fr/baremes/charges.html
-//parametres.charges.indemnitesJournalieres = {};
+// source : http://www.rsi.fr/baremes/html
+//parametres.indemnitesJournalieres = {};
 
 export default parametres;
 

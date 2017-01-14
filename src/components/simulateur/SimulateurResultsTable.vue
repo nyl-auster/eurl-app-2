@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import chargesConfig from "../../services/chargesConfig";
+import chargesConfig from "../../services/config";
 
 export default {
   name:'SimulateurResultsTable',
