@@ -1,8 +1,10 @@
 <template>
 
+
+
   <table class="table lines-results">
     <caption>
-      Détails des montants à reverser
+      Dettes <a class="showDetails" @click="showDetails=!showDetails"> - {{showDetails ? 'Masquer' : 'Montrer'}} les détails des calculs</a>
     </caption>
     <thead>
       <tr>
@@ -25,12 +27,12 @@
         <td> {{line.montant }} </td>
       </tr>
 
-      <tr class="lines-results__result__details show-for-large" v-for="(tranche, $index) in line.tranchesActives">
+      <tr v-show="showDetails" class="lines-results__result__details show-for-large" v-for="(tranche, $index) in line.tranchesActives">
 
         <td colspan="2"></td>
         <td> {{$index + 1}} </td>
         <td> {{tranche.baseCalcul }} </td>
-        <td> {{tranche.taux}} <span ng-show="tranche.taux">%</span> </td>
+        <td> {{tranche.taux}} <span v-show="tranche.taux">%</span> </td>
         <td> {{tranche.montant_forfaitaire }}</td>
         <td> {{tranche.plafond == plafondMax ? ' - ' : (tranche.plafond ) }} </td>
         <td> {{tranche.montant }} </td>
@@ -51,6 +53,7 @@ export default {
   props:['lines'],
   data:function() {
     return {
+      showDetails:false,
       plafondMax:chargesConfig.plafondMax
     }
   }
@@ -61,6 +64,10 @@ export default {
 
   table {
     border-collapse:collapse;
+  }
+
+  .showDetails {
+    font-weight: normal;
   }
 
   table tr:nth-of-type(even) {
@@ -75,7 +82,7 @@ export default {
 
   .lines-results__result__total td {
     border-top: 1px solid #BBB;
-}
+  }
 
 </style>
 

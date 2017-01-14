@@ -1,5 +1,8 @@
 /**
- * Augment les objets charges avec deux clefs :
+ * Responsability : transformer les paramètres de chargesConfig
+ * En des lignes de montants calculés
+ *
+ * Augment les objets chargesConfig avec deux clefs :
  * - le montant global à payer en fonction de la base de calcul
  * - les "tranches actives" : le détail du montant par tranche
  */
@@ -77,7 +80,7 @@ service.calculerTrancheExclusive = (baseCalcul, charge) => {
 
 /**
  * Calcul des charges à tranches cumulatives, tels que l'impot sur les bénéfices :
- * - 15% pour pour les 38120 premiers euros, puis 33,33% sur le reste des bénéfices
+ * 15% pour pour les 38120 premiers euros, puis on ajoute 33,33% sur le reste des bénéfices
  *
  * @param baseCalcul float | int :
  * @param charge array : tableau d'objet "charges"
@@ -96,7 +99,7 @@ service.calculerTranchesCumulatives = (baseCalcul, charge) => {
 
   charge.tranches.forEach((tranche, index) => {
 
-    // on calcule le "planger" de la tranche, qui est soit égal
+    // on calcule le "plancher" de la tranche, qui est soit égal
     // au plafond précédent, soit à zéro si c'est la première tranche.
     if (typeof tranches[index - 1] !== 'undefined') {
       plancher = tranches[index - 1].plafond;

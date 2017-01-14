@@ -18,9 +18,7 @@
   }
 
   a.router-link-active {
-    background: #1779ba;
-    color: #fefefe;
-    border-radius:5px;
+    border-bottom: solid #1779ba 1px;
   }
 
 </style>

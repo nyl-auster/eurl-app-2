@@ -239,16 +239,27 @@ const chargesCalculator =  function(params) {
   };
 
   /**
-   * Calcul des cotisations maladie et maternité - CIPAV
-   * @FIXME calcul chelou, à vérifier
+   * CIPAV - calcul assurance vieillesse base
+   *
    */
   self.getAssuranceVieillesseBase = (baseCalcul) => {
-    let assuranceVieillesseBase = Object.assign(chargesConfig.charges.assuranceVieillesseBase);
-    if (baseCalcul > assuranceVieillesseBase.tranches[0].plafond) {
-      delete assuranceVieillesseBase.tranches[0];
+    console.log(baseCalcul);
+    let assuranceVieillesseBase = chargesConfig.charges.assuranceVieillesseBase;
+    // si le revenu est inférieur ou égal à la première tranche, montant forfaitaire:
+    if (baseCalcul <= assuranceVieillesseBase.montant_forfaitaire.plafond) {
+      assuranceVieillesseBase.montant = assuranceVieillesseBase.montant_forfaitaire.montant;
+      return assuranceVieillesseBase;
     }
-    let result = chargesTranchesCalculatorService.calculerTranchesCumulatives(baseCalcul, assuranceVieillesseBase);
-    return result;
+    else {
+      if (baseCalcul <= assuranceVieillesseBase.tranches[0].plafond) {
+        assuranceVieillesseBase.montant = baseCalcul * (assuranceVieillesseBase.tranches[0].taux/100);
+        return assuranceVieillesseBase;
+      }
+      else {
+        assuranceVieillesseBase.montant =  baseCalcul * (assuranceVieillesseBase.tranches[0].taux/100) + baseCalcul * (assuranceVieillesseBase.tranches[1].taux/100);
+        return assuranceVieillesseBase;
+      }
+    }
   };
 
   /**

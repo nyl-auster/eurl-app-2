@@ -157,29 +157,34 @@ parametres.charges.formationProfessionnelle = {
 // CIPAV - Retraite de base CNAVPL
 // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
 // Voir le simulateur ici pour des exemples concrets : http://www.guide-tns.fr/simulateurs/chargesprofessionnelliberal.html
+
+
+
 parametres.charges.assuranceVieillesseBase = {
   label: 'Retraite de base',
   organisme: 'CIPAV',
   type_tranches: 'custom',
   description: "Retraite de base CNAVPL",
   commentaire: "En cas de revenus non connus : 3 178 € (maximum de la tranche 1) ; 3 611 € (maximum de la tranche 2)",
+  // montant forfaitaire en dessous d'un certain plafond
+  revenus_non_connus: {
+
+  },
+  montant_forfaitaire : {
+    label:"Retraite de base",
+    commentaire:"si les revenus sont inférieurs à 4441€, le montant est forfaitaire",
+    plafond:  4441,
+    montant: 448
+  },
+  // sinon calcul cumulatif classique de tranches
   tranches: [
     {
       label:"Tranche 1",
-      commentaire:"Sous 4441, le montant est forfaitaire",
-      plafond:  4441,
-      montant_forfaitaire: 448
-    },
-    // d'abord on devra calcul le pourcentage sur cette tranche dans la limite du plafond,
-    // puis on y ajoutera la seconde tranche en reprenant la base de calcul en entier.
-    // WTF ?
-    {
-      label:"Tranche 2",
       plafond: parametres.plafond_securite_sociale,
       taux: 8.23
     },
     {
-      label: "Tranche 3",
+      label: "Tranche 2",
       plafond: 193080,
       taux: 1.87
     }

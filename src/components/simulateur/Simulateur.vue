@@ -23,7 +23,7 @@ Composant racine de notre simulateur
     data: function() {
       return {
         lines: [],
-        // paramètres pour lancer le calcul de nos simulations
+        // paramètres de base pour initier le calcul de nos dettes
         params:  {
           chiffreAffaireHt: 0,
           chiffreAffaireTtc: 0,
@@ -42,6 +42,9 @@ Composant racine de notre simulateur
       this.calculateResults();
     },
     methods: {
+      onClick:function() {
+        this.$router.push('/aide')
+      },
       // mettre à jour les données de notre simulateur
       setParams:function(formValues) {
          for (let property in formValues) {
@@ -50,7 +53,7 @@ Composant racine de notre simulateur
          this.calculateResults();
       },
       calculateResults:function() {
-        let calculator = chargesCalculator(this.params);
+        const calculator = chargesCalculator(this.params);
         let lines = [];
         lines = lines.concat(calculator.getCotisationsSocialesArray());
         lines.push(calculator.getCgsCrds());
@@ -59,7 +62,6 @@ Composant racine de notre simulateur
         lines.push(calculator.getTva());
         lines.push(calculator.getCfe());
         this.lines = lines;
-
         // ajout du total à provisionner
         //charges.push(getChargesTotal(charges));
       }

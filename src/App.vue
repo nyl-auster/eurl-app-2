@@ -1,13 +1,28 @@
 <template>
   <div id="app">
-    <site-header></site-header>
-    <site-menu></site-menu>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <site-header></site-header>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <site-menu></site-menu>
+      </div>
+    </div>
+
     <div class="row router-view">
       <div class="small-12 columns">
         <router-view></router-view>
       </div>
     </div>
+
+    <div class="row router-view">
+      <div class="small-12 columns">
     <site-footer></site-footer>
+
   </div>
 </template>
 
@@ -26,17 +41,23 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+#app,h1, h2, h3, h4, h5, h6 {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 20px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  text-transform:uppercase;
+h1 {
+  font-size:1.9rem;
+}
+
+h2 {
+  font-size:1.3rem;
+}
+
+h3 {
+  font-size:1.2rem;
 }
 
 .router-view {

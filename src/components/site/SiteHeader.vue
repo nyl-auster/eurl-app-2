@@ -7,6 +7,11 @@
 
 <style scoped>
 
+  header {
+    text-align:center;
+    margin-top:1rem;
+  }
+
   #site-title {
     font-size:2rem;
     text-transform:uppercase;
