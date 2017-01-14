@@ -33,7 +33,7 @@ import config from "./config";
 import tranchesCalculator from "./chargesTranchesCalculator";
 import resultLine from "./resultLine";
 
-const chargesCalculator =  function(params) {
+const chargesCalculator = function(params) {
 
   const self = {};
 
@@ -315,9 +315,3 @@ const chargesCalculator =  function(params) {
 };
 
 export default chargesCalculator;
-
-
-
-
-
-
