@@ -25,5 +25,4 @@ const resultLine = function() {
 
 };
 
-
 export default resultLine;

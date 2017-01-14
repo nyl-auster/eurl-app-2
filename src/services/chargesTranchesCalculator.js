@@ -1,8 +1,8 @@
 /**
- * Responsability : transformer les paramètres de chargesConfig
+ * Responsability : transformer les paramètres de resultsConfig
  * En des lignes de montants calculés
  *
- * Augment les objets chargesConfig avec deux clefs :
+ * Augment les objets resultsConfig avec deux clefs :
  * - le montant global à payer en fonction de la base de calcul
  * - les "tranches actives" : le détail du montant par tranche
  */
@@ -17,7 +17,7 @@ Number.prototype.toFixedNumber = function(x, base){
 const service = {};
 
 /**
- * Retourne le montant pour une tranche de charge.
+ * Retourne le montant pour une tranche de result.
  * @param tranche object
  *   - montant : peut être déjà rempli pour les montants forfaitaires
  *   - taux : le pourcentage à appliquer sur le montant
@@ -43,10 +43,10 @@ service.calculerMontantTranche = (tranche, baseCalcul) => {
  * tranches précédentes ou suivantes n'entrent donc en rien dans le calcul du montant
  * de la cotisation
  *
- * @param baseCalcul float | int :
- * @param charge array : tableau d'objet "charge"
+ * @param baseCalcul float
+ * @param tranches array d'objet tranche
  *
- * @return objet
+ * @return object {montant, baseCalcul, trancheActive}
  */
 service.calculerTrancheExclusive = (baseCalcul, tranches) => {
 
@@ -71,32 +71,34 @@ service.calculerTrancheExclusive = (baseCalcul, tranches) => {
   if (trancheActive) {
     result.montant = service.calculerMontantTranche(trancheActive, baseCalcul);
     result.baseCalcul = baseCalcul;
-    result.trancheActives = [trancheActive];
+    // l'objet lineResult attend un tableau pour tranchesActive
+    result.tranchesActives = [trancheActive];
   }
 
   return result;
 };
 
 /**
- * Calcul des charges à tranches cumulatives, tels que l'impot sur les bénéfices :
+ * Calcul des results à tranches cumulatives, tels que l'impot sur les bénéfices :
  * 15% pour pour les 38120 premiers euros, puis on ajoute 33,33% sur le reste des bénéfices
  *
  * @param baseCalcul float
- * @param charge array : tableau d'objet "charges"
+ * @param result array : tableau d'objet "results"
  */
-service.calculerTranchesCumulatives = (baseCalcul, charge) => {
+service.calculerTranchesCumulatives = (baseCalcul, tranches) => {
 
-  charge.montant = 0;
+  let result = {};
+  result.montant = 0;
+  let tranchesActives = [];
 
   // contiendra la liste des tranches qui seront appliquée
   // à notre base de calcul
-  var tranches = [];
 
   // montant total, toute tranches cumulées
-  var montant = 0;
-  var plancher = 0;
+  let montant = 0;
+  let plancher = 0;
 
-  charge.tranches.forEach((tranche, index) => {
+  tranches.forEach((tranche, index) => {
 
     // on calcule le "plancher" de la tranche, qui est soit égal
     // au plafond précédent, soit à zéro si c'est la première tranche.
@@ -115,29 +117,28 @@ service.calculerTranchesCumulatives = (baseCalcul, charge) => {
       // on ajoute le montant de la cotisation de cette tranche au total.
       montant += tranche.montant;
       // ajout à la liste des tranches qui s'applique à notre cas.
-      tranches.push(tranche);
+      tranchesActives.push(tranche);
     }
-
     // mais si la somme est inférieure au plafond courant, c'est que nous sommes à la dernière tranche
     else
     {
       // on calcule le montant pour cette derniere tranche
-      var depassement_plancher = baseCalcul - plancher;
+      let depassement_plancher = baseCalcul - plancher;
       if (depassement_plancher > 0)
       {
         tranche.baseCalcul = depassement_plancher;
         montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul).toFixedNumber(2);
         // ajout à la liste des tranches qui s'appliquent à notre cas.
-        tranches.push(tranche);
+        tranchesActives.push(tranche);
       }
     }
 
   });
 
-  charge.montant = montant;
-  charge.tranchesActives= tranches;
+  result.montant = montant;
+  result.tranchesActives= tranchesActives;
 
-  return charge;
+  return result;
 };
 
 export default service;

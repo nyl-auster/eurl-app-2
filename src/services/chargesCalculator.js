@@ -33,7 +33,6 @@ import config from "./config";
 import tranchesCalculator from "./chargesTranchesCalculator";
 import resultLine from "./resultLine";
 
-
 const chargesCalculator =  function(params) {
 
   const self = {};
@@ -51,7 +50,7 @@ const chargesCalculator =  function(params) {
    * @returns {*}
    */
   self.getPrevoyance = () => {
-
+    let line = new resultLine();
     let classeChoisie = null;
     config.prevoyance.classes.forEach((classe) => {
       if (classe.classe == self.prevoyance) {
@@ -67,7 +66,8 @@ const chargesCalculator =  function(params) {
     else {
       charge.montant = config.prevoyance.classes[0].montant_forfaitaire;
     }
-
+    line.extends(config.prevoyance);
+    line.extends(charge);
     return charge;
   };
 
@@ -76,9 +76,9 @@ const chargesCalculator =  function(params) {
    * @returns {number}
    */
   self.getTvaCollectee = () => {
-    return {
-      montant: self.chiffreAffaireTtc - self.chiffreAffaireHt
-    };
+    let line = new resultLine();
+    line.extends({montant: self.chiffreAffaireTtc - self.chiffreAffaireHt});
+    return line;
   };
 
   /**
@@ -86,9 +86,11 @@ const chargesCalculator =  function(params) {
    * @returns {number}
    */
   self.getTvaDeductible = () => {
-    return {
+    let line = new resultLine();
+    line.extends({
       montant: self.fraisTtc - self.fraisHt
-    }
+    });
+    return line;
   };
 
   /**
@@ -108,22 +110,22 @@ const chargesCalculator =  function(params) {
   };
 
   self.getTva = () => {
-    return {
+    return new resultLine().extends({
       label: 'TVA à reverser',
       organisme: 'Impots',
       montant: self.getTvaCollectee().montant - self.getTvaDeductible().montant
-    }
+    });
   };
 
   /**
    * Pseudo charge
    */
   self.getCfe = () => {
-    return {
+    return new resultLine().extends({
       label: "CFE",
       commentaire: "Cotisation foncière des entreprises",
       montant: self.cfe
-    };
+    });
   };
 
   /**
@@ -131,10 +133,10 @@ const chargesCalculator =  function(params) {
    * @returns {{label: string, montant: (number|*)}}
    */
   self.getfraisTtc = () => {
-    return {
+    return new resultLine().extends({
       label: 'fraisTtc',
       montant: self.fraisTtc
-    };
+    });
   };
 
   /**
@@ -145,14 +147,16 @@ const chargesCalculator =  function(params) {
    * @returns {{label: string, montant: number}}
    */
   self.getResteEnBanque = () => {
+
     const montant = self.chiffreAffaireTtc
       - self.fraisTtc
       - self.remuneration
       - self.getTotalAProvisionner().montant;
-    return {
+
+    return new resultLine().extends({
       label: "Reste en Banque",
       montant: montant
-    };
+    });
   };
 
   /**
@@ -201,10 +205,10 @@ const chargesCalculator =  function(params) {
   };
 
   self.getTotalCotisationsSociales = () => {
-    return {
+    return new resultLine().extends({
       label: 'Cotisations sociales',
       montant: self.calculerTotalCotisationsSociales()
-    }
+    });
   };
 
   /**
@@ -282,23 +286,28 @@ const chargesCalculator =  function(params) {
     let line = new resultLine()
       .extends(config.maladiesMaternite)
       .extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, config.maladiesMaternite.tranches));
-     return line;
+    return line;
   };
 
   /**
    * Calcul de l'impot sur les bénéfices - Impots
    */
   self.getImpotSurLesSocietes = () => {
-    return tranchesCalculator.calculerTranchesCumulatives(self.getBaseCalculIs(),
-      config.impotSurLesSocietes);
+    let line = new resultLine();
+    line.extends(config.impotSurLesSocietes);
+    line.extends(tranchesCalculator.calculerTranchesCumulatives(self.getBaseCalculIs(), config.impotSurLesSocietes.tranches));
+    return line;
   };
 
   /**
    * la CGS-CRDS se calcul sur la rému augmenté des autre cotisatiions sociales hors CSG-CRDS
    */
   self.getCgsCrds = () => {
+    let line = new resultLine();
     const baseCalcul = self.remuneration + self.getTotalCotisationsSociales().montant;
-    return tranchesCalculator.calculerTranchesCumulatives(baseCalcul, config.cgsCrds);
+    let tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, config.cgsCrds.tranches);
+    line.extends(config.cgsCrds).extends(tranches);
+    return line;
   };
 
   return self;
