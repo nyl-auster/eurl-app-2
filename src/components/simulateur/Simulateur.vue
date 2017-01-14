@@ -42,9 +42,6 @@ Composant racine de notre simulateur
       this.calculateResults();
     },
     methods: {
-      onClick:function() {
-        this.$router.push('/aide')
-      },
       // mettre à jour les données de notre simulateur
       setParams:function(formValues) {
          for (let property in formValues) {
