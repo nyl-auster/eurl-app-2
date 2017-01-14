@@ -3,7 +3,8 @@
  * @param object object
  * @return object
  */
-const resultLine = function() {
+
+const ResultLine = function() {
 
   this.extends = function(datas) {
     for (let property in datas) {
@@ -14,6 +15,8 @@ const resultLine = function() {
     return this;
   };
 
+  this.includeInTotal = true;
+  this.order = 0;
   this.label = "";
   this.organisme= "";
   this.baseCalcul = 0;
@@ -22,7 +25,22 @@ const resultLine = function() {
   this.tranchesActives = [];
   this.commentaire = "";
   this.details = [];
-
 };
 
-export default resultLine;
+const addTotalLines = function(resultLines) {
+  console.log(resultLines);
+  let total = 0;
+  resultLines.forEach(function(resultLine){
+    total += resultLine.montant;
+  });
+  /*new ResultLine.extends({
+    label: 'Total',
+    montant: total
+  });
+  */
+};
+
+export default {
+  ResultLine,
+  addTotalLines
+};

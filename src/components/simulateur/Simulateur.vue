@@ -15,9 +15,11 @@ Composant racine de notre simulateur
 </template>
 
 <script>
+
   import SimulateurForm from "./simulateurForm"
   import simulateurResultsTable from "./simulateurResultsTable"
   import chargesCalculator from "../../services/chargesCalculator";
+  import resultLineInterface from "../../services/resultLineInterface";
 
   export default {
     data: function() {
@@ -50,17 +52,7 @@ Composant racine de notre simulateur
          this.calculateResults();
       },
       calculateResults:function() {
-        const calculator = chargesCalculator(this.params);
-        let lines = [];
-        lines = lines.concat(calculator.getCotisationsSocialesArray());
-        lines.push(calculator.getCgsCrds());
-        lines.push(calculator.getPrevoyance());
-        lines.push(calculator.getImpotSurLesSocietes());
-        lines.push(calculator.getTva());
-        lines.push(calculator.getCfe());
-        this.lines = lines;
-        // ajout du total à provisionner
-        //charges.push(getChargesTotal(charges));
+        this.lines = chargesCalculator(this.params).getAll();
       }
     },
     components:{
