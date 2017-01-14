@@ -19,7 +19,6 @@ Composant racine de notre simulateur
   import SimulateurForm from "./simulateurForm"
   import simulateurResultsTable from "./simulateurResultsTable"
   import chargesCalculator from "../../services/chargesCalculator";
-  import resultLineInterface from "../../services/resultLineInterface";
 
   export default {
     data: function() {
@@ -46,7 +45,7 @@ Composant racine de notre simulateur
     methods: {
       // mettre à jour les données de notre simulateur
       setParams:function(formValues) {
-         for (let property in formValues) {
+         for (const property in formValues) {
             this.params[property] = formValues[property];
          }
          this.calculateResults();

@@ -4,16 +4,7 @@
  * @return object
  */
 
-var ResultLine = function() {
-
-  this.extends = function(datas) {
-    for (let property in datas) {
-      if (datas.hasOwnProperty(property)) {
-        this[property] = datas[property];
-      }
-    }
-    return this;
-  };
+const Line = function() {
 
   this.includeInTotal = true;
   this.order = 0;
@@ -24,16 +15,24 @@ var ResultLine = function() {
   this.tranches = [];
   this.tranchesActives = [];
   this.commentaire = "";
-  this.details = [];
+
+  this.extends = function(datas) {
+    for (let property in datas) {
+      if (datas.hasOwnProperty(property)) {
+        this[property] = datas[property];
+      }
+    }
+    return this;
+  };
+
 };
 
 const getTotalLine = function(resultLines) {
-  console.log(resultLines);
   let total = 0;
   resultLines.forEach(function(resultLine){
     total += resultLine.montant;
   });
-  return new ResultLine().extends({
+  return new Line().extends({
     class:"total",
     label: 'Total',
     montant: total.toFixedNumber(2)
@@ -41,6 +40,6 @@ const getTotalLine = function(resultLines) {
 };
 
 export default {
-  ResultLine,
+  Line,
   getTotalLine
 };
