@@ -4,7 +4,7 @@
 
   <table class="table lines-results">
     <caption>
-      Dettes <a class="showDetails" @click="showDetails=!showDetails"> - {{showDetails ? 'Masquer' : 'Montrer'}} les détails des calculs</a>
+      DETTES <a class="showDetails" @click="showDetails=!showDetails"> <br/> {{showDetails ? 'Masquer' : 'Montrer'}} les détails des calculs</a>
     </caption>
     <thead>
       <tr>

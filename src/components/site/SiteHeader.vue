@@ -1,7 +1,8 @@
 <template>
   <header>
-    <div id="site-title"> Simulateur de charges et de trésorerie pour EURL </div>
-    <div id="version">version 0.8.0</div>
+    <div id="site-title"> Simulateur de dettes pour EURL</div>
+    <div id="site-subtitle">Professions libérales - Impot sur les sociétés</div>
+    <div id="version">version <strong>ALPHA</strong> - v 0.9.1</div>
   </header>
 </template>
 
@@ -13,14 +14,20 @@
   }
 
   #site-title {
-    font-size:2rem;
+    font-size:1.7rem;
     text-transform:uppercase;
+  }
+
+  #site-subtitle {
+    font-size:1.2rem;
+    margin-bottom:0.5rem;
   }
 
   #version {
     font-style:italic;
     font-size:0.9rem;
     margin:auto;
+
     margin-bottom:1rem;
   }
 

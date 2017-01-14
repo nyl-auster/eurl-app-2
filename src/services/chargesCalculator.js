@@ -269,11 +269,12 @@ const chargesCalculator = function(params) {
     }
     else {
       if (baseCalcul <= assuranceVieillesseBase.tranches[0].plafond) {
-        return line.montant = baseCalcul * (assuranceVieillesseBase.tranches[0].taux/100);
+        line.montant = baseCalcul * (assuranceVieillesseBase.tranches[0].taux/100);
       }
       else {
-        return line.montant =  baseCalcul * (assuranceVieillesseBase.tranches[0].taux/100) + baseCalcul * (assuranceVieillesseBase.tranches[1].taux/100);
+        line.montant =  baseCalcul * (assuranceVieillesseBase.tranches[0].taux/100) + baseCalcul * (assuranceVieillesseBase.tranches[1].taux/100);
       }
+      return line;
     }
   };
 
