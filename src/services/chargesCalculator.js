@@ -317,6 +317,7 @@ const chargesCalculator = function(params) {
     lines.push(self.getImpotSurLesSocietes());
     lines.push(self.getTva());
     lines.push(self.getCfe());
+    lines.push(resultLineInterface.getTotalLine(lines));
     return lines;
   };
 

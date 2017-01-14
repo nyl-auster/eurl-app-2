@@ -4,7 +4,7 @@
  * @return object
  */
 
-const ResultLine = function() {
+var ResultLine = function() {
 
   this.extends = function(datas) {
     for (let property in datas) {
@@ -27,20 +27,20 @@ const ResultLine = function() {
   this.details = [];
 };
 
-const addTotalLines = function(resultLines) {
+const getTotalLine = function(resultLines) {
   console.log(resultLines);
   let total = 0;
   resultLines.forEach(function(resultLine){
     total += resultLine.montant;
   });
-  /*new ResultLine.extends({
+  return new ResultLine().extends({
+    class:"total",
     label: 'Total',
-    montant: total
+    montant: total.toFixedNumber(2)
   });
-  */
 };
 
 export default {
   ResultLine,
-  addTotalLines
+  getTotalLine
 };
