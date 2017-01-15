@@ -32,7 +32,7 @@ export default {
       </tr>
     </thead>
 
-    <tbody :class="line.type" class="lines-results__result" v-for="(line, $index) in Results.lines">
+    <tbody :class="line.type" class="lines-results__result" v-if="!line.hidden" v-for="(line, $index) in Results.lines">
 
       <tr>
         <td> {{line.label}} </td>
@@ -60,7 +60,7 @@ export default {
 
 <style scoped>
 
-  .subtotal {
+  .total, .subtotal {
     font-weight:bold;
   }
 

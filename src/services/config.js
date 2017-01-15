@@ -124,7 +124,7 @@ contributions.push(new objectInterfaces.Contribution({
 // Voir le simulateur ici pour des exemples concrets :
 // http://www.guide-tns.fr/simulateurs/chargesprofessionnelliberal.html
 contributions.push(new objectInterfaces.Contribution({
-  id:"retraiteBase",
+  id: "retraiteBase",
   label: 'Retraite de base',
   organisme: 'CIPAV',
   description: "Retraite de base CNAVPL",

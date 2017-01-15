@@ -21,9 +21,9 @@
 
     <div class="row router-view">
       <div class="small-12 columns">
-    <site-footer></site-footer>
+        <site-footer></site-footer>
 
-  </div>
+      </div>
 </template>
 
 <script>
@@ -50,14 +50,17 @@ export default {
 
 h1 {
   font-size:1.9rem;
+  text-align:center;
 }
 
 h2 {
   font-size:1.3rem;
+  text-align:center;
 }
 
 h3 {
   font-size:1.2rem;
+  text-align:center;
 }
 
 .router-view {

@@ -60,9 +60,6 @@ const ResultLine = function(datas) {
   this.tranches = [];
   this.tranchesActives = [];
   this.commentaire = "";
-  if(!datas.id) {
-    throw "Un id est obligatoire pour l'objet ResultLine";
-  }
   this.extends(datas);
   return this;
 };
@@ -74,50 +71,32 @@ const ResultLine = function(datas) {
 const Results = function() {
 
   this.lines = [];
-  // l'index de
-  this.lineComputedIndex = 0;
-  // le total de toutes les lignes
   this.total = 0;
-
-  this.tmpTotal = 0;
 
   this.addLine = function(ResultLine) {
     this.lines.push(ResultLine);
-    if('subtotal' !== ResultLine.type) {
-      this.total += ResultLine.montant;
+    if (ResultLine.type != 'total' && ResultLine.type != 'subtotal' ) {
+      this.total += ResultLine.montant.toFixedNumber(2);
     }
   };
 
-
-  /**
-   * Fais le sous-total automatique des lignes précédentes
-   * depuis le dernier sous total.
-   * @param datas
-   * @return {number} soustotal calculé
-   */
-  this.automaticSubTotal = function(datas) {
-
-    let subtotal = 0;
-
-    for (this.lineComputedIndex; this.lineComputedIndex < this.lines.length ; this.lineComputedIndex++) {
-      if('subtotal' !== this.lines[this.lineComputedIndex].type) {
-        subtotal += this.lines[this.lineComputedIndex].montant;
-      }
-    }
-
-    console.log(this.lineComputedIndex, this.lines[this.lineComputedIndex]);
-
-    this.addLine(new ResultLine(datas).extends({
-      type:'subtotal',
-      montant: subtotal.toFixedNumber(2)
-    }));
-    return subtotal.toFixedNumber(2);
+  this.getTotal = function() {
+    return this.total.toFixedNumber(2);
   };
 
-  this.getLineById = function(ResultLineId) {
+  this.sum = function(resultLineIds) {
+    let sum = 0;
+    resultLineIds.forEach((resultLineId) => {
+      const ResultLine = this.getLineById(resultLineId);
+      sum += ResultLine.montant;
+    });
+    return sum.toFixedNumber(2);
+  };
+
+  this.getLineById = function(resultLineId) {
     let result = null;
-    this.ResultLines.forEach(function(ResultLine) {
-      if (ResultLineId == ResultLine.id) {
+    this.lines.forEach(function(ResultLine) {
+      if (resultLineId == ResultLine.id) {
         result = ResultLine;
       }
     });
