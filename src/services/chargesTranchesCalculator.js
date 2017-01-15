@@ -63,7 +63,7 @@ service.calculerTrancheExclusive = (baseCalcul, tranches) => {
     if (!trancheActive && baseCalcul <= tranche.plafond) {
       // on a dépassé le plafond, on arrête de mettre à jour la variable trancheActive
       // qui contient maintenant notre réponse
-      //tranche.baseCalcul = baseCalcul;
+      tranche.baseCalcul = baseCalcul;
       trancheActive = tranche;
     }
   });

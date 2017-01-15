@@ -15,7 +15,7 @@
         <th class="show-for-large"> Tranche taux </th>
         <th class="show-for-large"> Tranche forfait </th>
         <th class="show-for-large"> tranche plafond </th>
-        <th> Montant </th>
+        <th class="montant"> Montant </th>
       </tr>
     </thead>
 
@@ -24,7 +24,7 @@
       <tr class="lines-results__result__total">
         <td> {{line.label}} </td>
         <td class="show-for-large" colspan="6"> {{line.organisme}} </td>
-        <td> {{line.montant }} </td>
+        <td class="montant"> {{line.montant }} </td>
       </tr>
 
       <tr v-show="showDetails" class="lines-results__result__details show-for-large" v-for="(tranche, $index) in line.tranchesActives">
@@ -35,7 +35,7 @@
         <td> {{tranche.taux}} <span v-show="tranche.taux">%</span> </td>
         <td> {{tranche.montant_forfaitaire }}</td>
         <td> {{tranche.plafond == plafondMax ? ' - ' : (tranche.plafond ) }} </td>
-        <td> {{tranche.montant }} </td>
+        <td class="montant"> {{tranche.montant }} </td>
       </tr>
 
     </tbody>
@@ -64,6 +64,7 @@ export default {
 
   table {
     border-collapse:collapse;
+    border: solid black 1px;
   }
 
   .showDetails {
@@ -82,6 +83,10 @@ export default {
 
   .lines-results__result__total td {
     border-top: 1px solid #BBB;
+  }
+
+  .montant {
+    text-align:right;
   }
 
 </style>
