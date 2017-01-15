@@ -39,7 +39,7 @@ let contributions = [];
 contributions.push(new objectInterfaces.Contribution({
   id:'maladieMaternite',
   label: 'Maladie-maternité',
-  organisme:'CIPAV',
+  organisme:'RSI',
   tranches:[
     new objectInterfaces.ContributionBracket({
       label:"Tranche 1",

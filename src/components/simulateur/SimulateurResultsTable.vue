@@ -1,6 +1,19 @@
+<script>
+import chargesConfig from "../../services/config";
+
+export default {
+  name:'SimulateurResultsTable',
+  props:['Results'],
+  data:function() {
+    return {
+      showDetails:false,
+      plafondMax:chargesConfig.plafondMax
+    }
+  }
+}
+</script>
+
 <template>
-
-
 
   <table class="table lines-results">
     <caption>
@@ -19,9 +32,9 @@
       </tr>
     </thead>
 
-    <tbody class="lines-results__result" v-for="(line, $index) in lines">
+    <tbody :class="line.type" class="lines-results__result" v-for="(line, $index) in Results.lines">
 
-      <tr class="lines-results__result__total">
+      <tr>
         <td> {{line.label}} </td>
         <td class="show-for-large" colspan="6"> {{line.organisme}} </td>
         <td class="montant"> {{line.montant }} </td>
@@ -45,22 +58,11 @@
 
 </template>
 
-<script>
-import chargesConfig from "../../services/config";
-
-export default {
-  name:'SimulateurResultsTable',
-  props:['lines'],
-  data:function() {
-    return {
-      showDetails:false,
-      plafondMax:chargesConfig.plafondMax
-    }
-  }
-}
-</script>
-
 <style scoped>
+
+  .subtotal {
+    font-weight:bold;
+  }
 
   table {
     border-collapse:collapse;

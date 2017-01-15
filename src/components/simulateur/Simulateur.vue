@@ -7,7 +7,7 @@ Composant racine de notre simulateur
     <simulateur-form :formValues="params" @onFormValuesUpdated="setParams"></simulateur-form>
     <div class="row">
       <div class="small-12 columns">
-        <simulateur-results-table :lines="lines"></simulateur-results-table>
+        <simulateur-results-table :Results="Results"></simulateur-results-table>
       </div>
     </div>
   </div>
@@ -42,8 +42,8 @@ Composant racine de notre simulateur
       //this.calculateResults();
     },
     computed: {
-      lines:function() {
-        return chargesCalculator(this.params).getAll();
+      Results:function() {
+        return chargesCalculator(this.params).getResults();
       }
     },
     methods: {
@@ -55,7 +55,7 @@ Composant racine de notre simulateur
          this.calculateResults();
       },
       calculateResults:function() {
-        this.lines = chargesCalculator(this.params).getAll();
+        this.Results = chargesCalculator(this.params).getResults();
       }
     },
     components:{

@@ -11,7 +11,6 @@ const simulatorObject = function(datas) {
     }
     return this;
   };
-  this.extends(datas);
 };
 
 /**
@@ -20,12 +19,13 @@ const simulatorObject = function(datas) {
  * @constructor
  */
 const Contribution = function(datas) {
+  simulatorObject.call(this, datas);
   this.id = "";
   this.label = "";
   this.plafond = "";
   this.montant = 0;
   this.tranches = [];
-  simulatorObject.call(this, datas);
+  this.extends(datas);
   return this;
 };
 
@@ -35,12 +35,13 @@ const Contribution = function(datas) {
  * @constructor
  */
 const ContributionBracket = function(datas) {
+  simulatorObject.call(this, datas);
   this.id = "";
   this.label = "";
   this.taux = "";
   this.montant = 0;
   this.plafond = 0;
-  simulatorObject.call(this, datas);
+  this.extends(datas);
   return this;
 };
 
@@ -50,39 +51,84 @@ const ContributionBracket = function(datas) {
  * @constructor
  */
 const ResultLine = function(datas) {
+  simulatorObject.call(this, datas);
   this.label = "";
+  this.type = "result";
   this.organisme= "";
   this.baseCalcul = 0;
   this.montant = 0;
   this.tranches = [];
   this.tranchesActives = [];
   this.commentaire = "";
-  simulatorObject.call(this, datas);
+  if(!datas.id) {
+    throw "Un id est obligatoire pour l'objet ResultLine";
+  }
+  this.extends(datas);
   return this;
 };
 
 /**
  * @param resultLines array d'objects ResultLine
+ * @constructor
  */
-const getTotalLine = function(resultLines) {
-  let total = 0;
-  resultLines.forEach(function(resultLine){
-    if (resultLine.montant) {
-      total += resultLine.montant;
+const Results = function() {
+
+  this.lines = [];
+  // l'index de
+  this.lineComputedIndex = 0;
+  // le total de toutes les lignes
+  this.total = 0;
+
+  this.tmpTotal = 0;
+
+  this.addLine = function(ResultLine) {
+    this.lines.push(ResultLine);
+    if('subtotal' !== ResultLine.type) {
+      this.total += ResultLine.montant;
     }
-  });
-  console.log(resultLines);
-  return new ResultLine().extends({
-    class:"total",
-    label: 'Total',
-    montant: total.toFixedNumber(2)
-  });
+  };
+
+
+  /**
+   * Fais le sous-total automatique des lignes précédentes
+   * depuis le dernier sous total.
+   * @param datas
+   * @return {number} soustotal calculé
+   */
+  this.automaticSubTotal = function(datas) {
+
+    let subtotal = 0;
+
+    for (this.lineComputedIndex; this.lineComputedIndex < this.lines.length ; this.lineComputedIndex++) {
+      if('subtotal' !== this.lines[this.lineComputedIndex].type) {
+        subtotal += this.lines[this.lineComputedIndex].montant;
+      }
+    }
+
+    console.log(this.lineComputedIndex, this.lines[this.lineComputedIndex]);
+
+    this.addLine(new ResultLine(datas).extends({
+      type:'subtotal',
+      montant: subtotal.toFixedNumber(2)
+    }));
+    return subtotal.toFixedNumber(2);
+  };
+
+  this.getLineById = function(ResultLineId) {
+    let result = null;
+    this.ResultLines.forEach(function(ResultLine) {
+      if (ResultLineId == ResultLine.id) {
+        result = ResultLine;
+      }
+    });
+    return result;
+  };
 
 };
 
 export default {
+  Results,
   ResultLine,
-  getTotalLine,
   Contribution,
-  ContributionBracket
+  ContributionBracket,
 };

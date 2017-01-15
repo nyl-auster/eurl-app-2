@@ -61,7 +61,7 @@ const chargesCalculator = function(params) {
 
   /**
    * La tva collectée pour le compte de l'état, c'est à dire la tva des ventes
-   * @returns {number}
+   * @return {ResultLine}
    */
   self.getTvaCollectee = () => {
     const ResultLine = new objectInterfaces.ResultLine();
@@ -72,7 +72,7 @@ const chargesCalculator = function(params) {
 
   /**
    * La tva sur les achats, à déduire de la TVA "collectée" (celle des ventes)
-   * @returns {number}
+   * @return {ResultLine}
    */
   self.getTvaDeductible = () => {
     const ResultLine = new objectInterfaces.ResultLine();
@@ -98,6 +98,9 @@ const chargesCalculator = function(params) {
       - self.getPrevoyance().montant;
   };
 
+  /**
+   * @return {ResultLine}
+   */
   self.getTva = () => {
     return new objectInterfaces.ResultLine().extends({
       label: 'TVA à reverser',
@@ -107,7 +110,7 @@ const chargesCalculator = function(params) {
   };
 
   /**
-   * Pseudo charge
+   * @return {ResultLine}
    */
   self.getCfe = () => {
     return new objectInterfaces.ResultLine().extends({
@@ -119,7 +122,7 @@ const chargesCalculator = function(params) {
 
   /**
    * pseudo charge
-   * @returns {{label: string, montant: (number|*)}}
+   * @return {ResultLine}
    */
   self.getfraisTtc = () => {
     return new objectInterfaces.ResultLine().extends({
@@ -133,7 +136,7 @@ const chargesCalculator = function(params) {
    * - payé tout ce que l'on devait
    * - payé notre rémunération
    * - payé nos frais TTC
-   * @returns {{label: string, montant: number}}
+   * @return {ResultLine}
    */
   self.getResteEnBanque = () => {
 
@@ -151,7 +154,7 @@ const chargesCalculator = function(params) {
 
   /**
    * Toute les cotisations sociales à l'exception de la CGS-CRDS et de la prévoyance
-   * @returns {[*,*,*,*,*]}
+   * @returns {[ResultLine,ResultLine,ResultLine,ResultLine,ResultLine]}
    */
   self.getCotisationsSocialesArray = () => {
     return [
@@ -165,7 +168,7 @@ const chargesCalculator = function(params) {
 
   /**
    * Obtenir le montant total des cotisations sociales
-   * @returns {number}
+   * @returns ResultLine
    */
   self.calculerTotalCotisationsSociales = () => {
     let total = 0;
@@ -178,7 +181,7 @@ const chargesCalculator = function(params) {
    * c'est à dire ce qui devra être payé un jour ou l'autre, peu
    * nous importe la date d'ailleurs peu prédictible.
    * à un moement donné.
-   * @returns {*}
+   * @returns {id, label, montant}
    */
   self.getTotalAProvisionner = () => {
     let total = self.getCfe().montant
@@ -194,8 +197,13 @@ const chargesCalculator = function(params) {
     };
   };
 
+  /**
+   * @FIXME pas besoin de retourner un {ResultLine}
+   * @return {ResultLine}
+   */
   self.getTotalCotisationsSociales = () => {
-    return new objectInterfaces.ResultLine().extends({
+    return new objectInterfaces.ResultLine({
+      id:'totalCotisationsSociales',
       label: 'Cotisations sociales',
       montant: self.calculerTotalCotisationsSociales()
     });
@@ -203,6 +211,7 @@ const chargesCalculator = function(params) {
 
   /**
    * Calcul des cotisations maladie et maternité - URSSAF
+   * @return {ResultLine}
    */
   self.getAssuranceVieillesseComplementaire = function(baseCalcul) {
     const contribution = config.getContribution("retraiteComplementaire");
@@ -213,6 +222,7 @@ const chargesCalculator = function(params) {
 
   /**
    * Calcul des cotisations pour la formation professionnelle
+   * @return {ResultLine}
    */
   self.getFormationProfessionnelle = () => {
     const contribution = config.getContribution("formationProfessionnelle");
@@ -224,6 +234,7 @@ const chargesCalculator = function(params) {
   /**
    * Calcul des cotisations maladie et maternité - URSSAF
    * https://www.urssaf.fr/portail/home/independant/je-beneficie-dexonerations/modulation-de-la-cotisation-dall.html
+   * ResultLine
    */
   self.getAllocationsFamiliales = (baseCalcul) => {
 
@@ -250,6 +261,7 @@ const chargesCalculator = function(params) {
   self.getAssuranceVieillesseBase = (baseCalcul) => {
     let assuranceVieillesseBase = config.getContribution('retraiteBase');
     const line = new objectInterfaces.ResultLine(assuranceVieillesseBase);
+
     // si le revenu est inférieur ou égal à la première tranche, montant forfaitaire:
     if (baseCalcul <= assuranceVieillesseBase.montant_forfaitaire.plafond) {
       return line.extends({montant:assuranceVieillesseBase.montant_forfaitaire.montant});
@@ -289,24 +301,100 @@ const chargesCalculator = function(params) {
    * la CGS-CRDS se calcul sur la rému augmenté des autre cotisatiions sociales hors CSG-CRDS
    */
   self.getCgsCrds = () => {
+
     const contribution = config.getContribution("cgsCrds");
+
     const baseCalcul = self.remuneration + self.getTotalCotisationsSociales().montant;
+
     let tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, contribution.tranches);
     const ResultLine = new objectInterfaces.ResultLine(contribution);
+
     ResultLine.extends(tranches);
+
     return ResultLine;
   };
 
-  self.getAll = () => {
-    let lines = [];
-    lines = lines.concat(self.getCotisationsSocialesArray());
-    lines.push(self.getCgsCrds());
-    lines.push(self.getPrevoyance());
-    lines.push(self.getImpotSurLesSocietes());
-    lines.push(self.getTva());
-    lines.push(self.getCfe());
-    lines.push(objectInterfaces.getTotalLine(lines));
-    return lines;
+  self.getResults = () => {
+
+    const Results = new objectInterfaces.Results();
+
+    // CIPAV
+    Results.addLine(self.getAssuranceVieillesseBase(self.remuneration));
+    Results.addLine(self.getAssuranceVieillesseComplementaire(self.remuneration));
+    Results.addLine(self.getPrevoyance());
+    const subTotalCIPAV = Results.automaticSubTotal({id:'totalCIPAV', label:'Total CIPAV'});
+
+    // RSI
+    Results.addLine(self.getMaladiesMaternite(self.remuneration));
+    const subTotalRSI = Results.automaticSubTotal({id:'totalRSI', label:'Total RSI'});
+
+
+    // URSSAF
+    Results.addLine(self.getFormationProfessionnelle(self.remuneration));
+    Results.addLine(self.getCgsCrds(self.remuneration));
+    const subTotalURSSAF = Results.automaticSubTotal({id:'totalURSSAF', label:'Total CIPAV'});
+
+    // ajout du total des cotisations sociales
+    Results.addLine({
+      type:"subtotal",
+      id:'totalCotisationSociales',
+      label:"Total cotisations sociales",
+      montant:(subTotalCIPAV + subTotalRSI + subTotalURSSAF)
+    });
+
+
+
+    //Results.addLine(self.getImpotSurLesSocietes());
+    /*
+    Results.addLine(self.getTva());
+    Results.addLine(self.getCfe());
+    Results.automaticSubTotal({id:'totalURSSAF', label:'Total CIPAV'});
+    */
+
+
+    /*
+     */
+//Results.addTotalLine({id:'totalURSSAF', label:'Total URSSAF'});
+
+    return Results;
+    /*
+     let resultLines = [];
+
+     // CIPAV
+     const linesCIPAV = [
+     self.getAssuranceVieillesseBase(self.remuneration),
+     self.getAssuranceVieillesseComplementaire(self.remuneration),
+     self.getMaladiesMaternite(self.remuneration),
+     self.getPrevoyance()
+     ];
+
+     resultLines = resultLines.concat(linesCIPAV);
+
+     resultLines.push(objectInterfaces.addTotalLine({label:"TOTAL CIPAV"}, linesCIPAV));
+
+
+     // URSSAF
+     const linesURSSAF = [
+     self.getFormationProfessionnelle(self.remuneration),
+     self.getFormationProfessionnelle(self.remuneration),
+     self.getCgsCrds()
+     ];
+     resultLines = resultLines.concat(linesURSSAF);
+     resultLines.push(objectInterfaces.addTotalLine({label:"TOTAL URSSAF"}, linesURSSAF));
+
+     // IMPOTS
+     const linesIMPOTS = [
+     self.getImpotSurLesSocietes(),
+     self.getTva(),
+     self.getCfe()
+     ];
+     resultLines = resultLines.concat(linesIMPOTS);
+     resultLines.push(objectInterfaces.addTotalLine({label:"TOTAL IMPOTS"}, linesIMPOTS));
+
+     return resultLines;
+
+     */
+
   };
 
   return self;
