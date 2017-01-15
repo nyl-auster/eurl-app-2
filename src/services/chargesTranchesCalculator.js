@@ -1,13 +1,9 @@
 /**
- * Responsability : transformer les paramètres de resultsConfig
- * En des lignes de montants calculés
- *
- * Augment les objets resultsConfig avec deux clefs :
- * - le montant global à payer en fonction de la base de calcul
- * - les "tranches actives" : le détail du montant par tranche
+ * Calculer un montant en fonction d'une base de calcul
+ * et de ses "tranches" correspondantes.
  */
 
-// ajout d'une nouvelle méthode au prototype pour arrondir à
+// ajout d'une nouvelle méthode au prototype Number pour arrondir à
 // 2 chiffres après la virgule
 Number.prototype.toFixedNumber = function(x, base){
   var pow = Math.pow(base||10,x);
@@ -18,7 +14,9 @@ const service = {};
 
 /**
  * Retourne le montant pour une tranche de result.
+ *
  * @param tranche object
+ *   - label
  *   - montant : peut être déjà rempli pour les montants forfaitaires
  *   - taux : le pourcentage à appliquer sur le montant
  *   - montant_forfaitaire : si la tranche est un montant fixe en fonction du plafond.

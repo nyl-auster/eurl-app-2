@@ -1,20 +1,5 @@
 /**
- * Calculs des charges d'une EURL en fonction des paramètres
- *
- * Les méthodes de ce services enrichit les objets de type charges
- * tels que définit dans le fichier de configuration des charges, avec commes clefs obligatoires.
- * La clef "tranchesActives" indique les tranches qui sont appliquées à notre base de calcul
- *
- * return {
- *   label:"nom de la charge"
- *   montant:7,
- *   tranchesActives: [
- *     {
- *       label: "Tranche 1",
- *       montant: 8,
- *     }
- *   ]
- * }
+ * Calculs des charges d'une EURL en fonction de la configuration
  */
 
 /**
@@ -31,7 +16,7 @@
 
 import config from "./config";
 import tranchesCalculator from "./chargesTranchesCalculator";
-import resultsInterface from "./resultsInterface";
+import objectInterfaces from "./objectInterfaces";
 
 const chargesCalculator = function(params) {
 
@@ -50,25 +35,28 @@ const chargesCalculator = function(params) {
    * @returns {*}
    */
   self.getPrevoyance = () => {
-    let line = new resultsInterface.Line();
+
+    const contribution = config.getContribution('prevoyance');
+
     let classeChoisie = null;
-    config.prevoyance.classes.forEach((classe) => {
+    contribution.classes.forEach((classe) => {
       if (classe.classe == self.prevoyance) {
         classeChoisie = classe;
       }
     });
 
-    let charge = config.prevoyance;
+    const charge = {};
     if (classeChoisie) {
       charge.label = "Prévoyance classe " + classeChoisie.classe;
       charge.montant = classeChoisie.montant_forfaitaire;
     }
     else {
-      charge.montant = config.prevoyance.classes[0].montant_forfaitaire;
+      charge.montant = contribution.classes[0].montant_forfaitaire;
     }
-    line.extends(config.prevoyance);
-    line.extends(charge);
-    return line;
+
+    const ResultLine = new objectInterfaces.ResultLine(contribution);
+    ResultLine.extends(charge);
+    return ResultLine;
   };
 
   /**
@@ -76,10 +64,10 @@ const chargesCalculator = function(params) {
    * @returns {number}
    */
   self.getTvaCollectee = () => {
-    const line = new resultsInterface.Line();
-    const montant = (self.chiffreAffaireTtc - self.chiffreAffaireHt).toFixedNumber(2)
-    line.extends({montant});
-    return line;
+    const ResultLine = new objectInterfaces.ResultLine();
+    const montant = (self.chiffreAffaireTtc - self.chiffreAffaireHt).toFixedNumber(2);
+    ResultLine.extends({montant});
+    return ResultLine;
   };
 
   /**
@@ -87,11 +75,11 @@ const chargesCalculator = function(params) {
    * @returns {number}
    */
   self.getTvaDeductible = () => {
-    const line = new resultsInterface.Line();
-    line.extends({
+    const ResultLine = new objectInterfaces.ResultLine();
+    ResultLine.extends({
       montant: self.fraisTtc - self.fraisHt
     });
-    return line;
+    return ResultLine;
   };
 
   /**
@@ -111,7 +99,7 @@ const chargesCalculator = function(params) {
   };
 
   self.getTva = () => {
-    return new resultsInterface.Line().extends({
+    return new objectInterfaces.ResultLine().extends({
       label: 'TVA à reverser',
       organisme: 'Impots',
       montant: self.getTvaCollectee().montant - self.getTvaDeductible().montant
@@ -122,7 +110,7 @@ const chargesCalculator = function(params) {
    * Pseudo charge
    */
   self.getCfe = () => {
-    return new resultsInterface.Line().extends({
+    return new objectInterfaces.ResultLine().extends({
       label: "CFE",
       commentaire: "Cotisation foncière des entreprises",
       montant: self.cfe
@@ -134,7 +122,7 @@ const chargesCalculator = function(params) {
    * @returns {{label: string, montant: (number|*)}}
    */
   self.getfraisTtc = () => {
-    return new resultsInterface.Line().extends({
+    return new objectInterfaces.ResultLine().extends({
       label: 'fraisTtc',
       montant: self.fraisTtc
     });
@@ -148,14 +136,17 @@ const chargesCalculator = function(params) {
    * @returns {{label: string, montant: number}}
    */
   self.getResteEnBanque = () => {
+
     const montant = self.chiffreAffaireTtc
       - self.fraisTtc
       - self.remuneration
       - self.getTotalAProvisionner().montant;
-    return new resultsInterface.Line().extends({
+
+    return new objectInterfaces.ResultLine().extends({
       label: "Reste en Banque",
       montant: montant
     });
+
   };
 
   /**
@@ -204,7 +195,7 @@ const chargesCalculator = function(params) {
   };
 
   self.getTotalCotisationsSociales = () => {
-    return new resultsInterface.Line().extends({
+    return new objectInterfaces.ResultLine().extends({
       label: 'Cotisations sociales',
       montant: self.calculerTotalCotisationsSociales()
     });
@@ -214,20 +205,20 @@ const chargesCalculator = function(params) {
    * Calcul des cotisations maladie et maternité - URSSAF
    */
   self.getAssuranceVieillesseComplementaire = function(baseCalcul) {
-    const line = new resultsInterface.Line()
-      .extends(config.assuranceVieillesseComplementaire)
-      .extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, config.assuranceVieillesseComplementaire.tranches));
-    return line;
+    const contribution = config.getContribution("retraiteComplementaire");
+    const ResultLine = new objectInterfaces.ResultLine(contribution);
+    ResultLine.extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, contribution.tranches));
+    return ResultLine;
   };
 
   /**
    * Calcul des cotisations pour la formation professionnelle
    */
   self.getFormationProfessionnelle = () => {
-    const line = new resultsInterface.Line()
-      .extends(config.formationProfessionnelle)
-      .extends(tranchesCalculator.calculerTrancheExclusive(config.plafond_securite_sociale, config.formationProfessionnelle.tranches));
-    return line;
+    const contribution = config.getContribution("formationProfessionnelle");
+    const ResultLine = new objectInterfaces.ResultLine(contribution);
+    ResultLine.extends(tranchesCalculator.calculerTrancheExclusive(config.plafond_securite_sociale, contribution.tranches));
+    return ResultLine;
   };
 
   /**
@@ -236,23 +227,20 @@ const chargesCalculator = function(params) {
    */
   self.getAllocationsFamiliales = (baseCalcul) => {
 
-    const line = new resultsInterface.Line();
-    const allocationsFamiliales = config.allocationsFamiliales;
+    const contribution = config.getContribution("allocationsFamiliales");
 
     // le taux de la tranche 2 est progressif
-    const tauxReduit = allocationsFamiliales.tranches[1].taux_reduit;
-    const tauxPlein = allocationsFamiliales.tranches[1].taux_plein;
-    const PASS = allocationsFamiliales.plafond_securite_sociale;
+    const tauxReduit = contribution.tranches[1].taux_reduit;
+    const tauxPlein = contribution.tranches[1].taux_plein;
+    const PASS = config.plafond_securite_sociale;
     // formule pour calculer le taux progressif récupérer sur le site de l'URSSAF via un png dégueulasse
     const tauxProgressif = ((tauxPlein - tauxReduit) / (0.3 * PASS)) * (baseCalcul - 1.1 * PASS) + tauxReduit;
     // voilà notre taux à appliquer pour les base de calcul comprises entre 110% et 140% du passe
-    allocationsFamiliales.tranches[1]['taux'] = tauxProgressif;
+    contribution.tranches[1]['taux'] = tauxProgressif;
 
-    line
-      .extends(allocationsFamiliales)
-      .extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, allocationsFamiliales.tranches));
-
-    return line;
+    const ResultLine = new objectInterfaces.ResultLine(contribution);
+    ResultLine.extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, contribution.tranches));
+    return ResultLine;
   };
 
   /**
@@ -260,9 +248,8 @@ const chargesCalculator = function(params) {
    *
    */
   self.getAssuranceVieillesseBase = (baseCalcul) => {
-    const line = new resultsInterface.Line();
-    line.extends(config.assuranceVieillesseBase);
-    let assuranceVieillesseBase = config.assuranceVieillesseBase;
+    let assuranceVieillesseBase = config.getContribution('retraiteBase');
+    const line = new objectInterfaces.ResultLine(assuranceVieillesseBase);
     // si le revenu est inférieur ou égal à la première tranche, montant forfaitaire:
     if (baseCalcul <= assuranceVieillesseBase.montant_forfaitaire.plafond) {
       return line.extends({montant:assuranceVieillesseBase.montant_forfaitaire.montant});
@@ -282,31 +269,32 @@ const chargesCalculator = function(params) {
    * Calcul des cotisations maladie et maternité - URSSAF
    */
   self.getMaladiesMaternite = (baseCalcul) => {
-    const line = new resultsInterface.Line()
-      .extends(config.maladiesMaternite)
-      .extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, config.maladiesMaternite.tranches));
-    return line;
+    const contribution = config.getContribution("maladieMaternite");
+    const ResultLine = new objectInterfaces.ResultLine(contribution);
+    ResultLine.extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, contribution.tranches));
+    return ResultLine;
   };
 
   /**
    * Calcul de l'impot sur les bénéfices - Impots
    */
   self.getImpotSurLesSocietes = () => {
-    const line = new resultsInterface.Line();
-    line.extends(config.impotSurLesSocietes);
-    line.extends(tranchesCalculator.calculerTranchesCumulatives(self.getBaseCalculIs(), config.impotSurLesSocietes.tranches));
-    return line;
+    const contribution = config.getContribution("impotSocietes");
+    const ResultLine = new objectInterfaces.ResultLine(contribution);
+    ResultLine.extends(tranchesCalculator.calculerTranchesCumulatives(self.getBaseCalculIs(), contribution.tranches));
+    return ResultLine;
   };
 
   /**
    * la CGS-CRDS se calcul sur la rému augmenté des autre cotisatiions sociales hors CSG-CRDS
    */
   self.getCgsCrds = () => {
-    const line = new resultsInterface.Line();
+    const contribution = config.getContribution("cgsCrds");
     const baseCalcul = self.remuneration + self.getTotalCotisationsSociales().montant;
-    let tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, config.cgsCrds.tranches);
-    line.extends(config.cgsCrds).extends(tranches);
-    return line;
+    let tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, contribution.tranches);
+    const ResultLine = new objectInterfaces.ResultLine(contribution);
+    ResultLine.extends(tranches);
+    return ResultLine;
   };
 
   self.getAll = () => {
@@ -317,7 +305,7 @@ const chargesCalculator = function(params) {
     lines.push(self.getImpotSurLesSocietes());
     lines.push(self.getTva());
     lines.push(self.getCfe());
-    lines.push(resultsInterface.getTotalLine(lines));
+    lines.push(objectInterfaces.getTotalLine(lines));
     return lines;
   };
 

@@ -23,7 +23,6 @@ Composant racine de notre simulateur
   export default {
     data: function() {
       return {
-        lines: [],
         // paramètres de base pour initier le calcul de nos dettes
         params:  {
           chiffreAffaireHt: 0,
@@ -40,7 +39,12 @@ Composant racine de notre simulateur
     },
     // calculer les résultats lors de la création de la vue
     created: function() {
-      this.calculateResults();
+      //this.calculateResults();
+    },
+    computed: {
+      lines:function() {
+        return chargesCalculator(this.params).getAll();
+      }
     },
     methods: {
       // mettre à jour les données de notre simulateur

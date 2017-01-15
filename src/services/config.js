@@ -3,33 +3,6 @@
  * qui seront consommés par le service "chargesCalculator",
  * qui permettra de calculer le montant des cotisations et impots à payer.
  *
- * Une "charge" *DOIT* contenir les propriétés suivantes :
- *
- * // l'organisme qui doit recueillir la charge
- * organisme: 'urssaf',
- *
- * // label de la charge à afficher dans le tableau de résultats
- * label: 'Allocations familiales',
- *
- * // remarque supplémentaire concernant le calcul de la charge
- * commentaire: 'Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %',
- *
- * // Chaque charge contient une à plusieurs tranches. Le type de tranche
- * // indique comment une tranche doit être calculée : en cumulant les cotisations
- * // pour chaque tranche existante, on sélectionnant uniquement une des tranches etc...
- * // il existe les types suivants :
- * // - tranche_exclusive : une seule tranche sera choisie pour effectuer le calcul
- * // - tranches_cumulatives : le montant de chaque tranque se cumule pour créer un total
- * type_tranches: 'tranche_exclusive',
- *
- * // un tableau des tranches est obligatoire, même si une seule tranche existe.
- * tranches: [
- *   {
- *     taux: 0.0215, // le taux à appliquer. "0.0215" définit un pourcentage de 2,15%
- *     plafond: 32000 // le plafond au delà duquel on passe à la tranche suivante
- *   }
- * ]
- *
  * SOURCES pour le calcul des cotisations:
  *
  *   CIPAV
@@ -52,109 +25,106 @@
  * formation professionnelle
  */
 
-const parametres = {
-  charges:{},
-  organismes:{}
-};
+import objectInterfaces from "./objectInterfaces";
+
+const parametres = {};
 
 parametres.plafondMax =  Number.MAX_SAFE_INTEGER;
 
 // paramètres généraux pour le calcul des montants et charges
 parametres.plafond_securite_sociale = 38616;
 
-// URSSAF : MALADIE-MATERNITE
-parametres.maladiesMaternite = {
-  organisme:'RSI',
-  label:'Maladie-maternité',
-  commentaire:'Base de calcul : totalité des revenus professionnels',
-  type_tranches: 'tranche_exclusive',
-  tranches: [
-    {
-      label: "Tranche 1",
-      taux: 6.50,
-      plafond: parametres.plafondMax
-    }
-  ]
-};
+let contributions = [];
 
-// URSSAF : ALLOCATIONS FAMILIALES
-parametres.allocationsFamiliales = {
-  organisme:'URSSAF',
+contributions.push(new objectInterfaces.Contribution({
+  id:'maladieMaternite',
+  label: 'Maladie-maternité',
+  organisme:'CIPAV',
+  tranches:[
+    new objectInterfaces.ContributionBracket({
+      label:"Tranche 1",
+      taux:6.50,
+      plafond: parametres.plafondMax
+    })
+  ]
+}));
+
+contributions.push(new objectInterfaces.Contribution({
+  id:'allocationsFamiliales',
   label:'Allocations familiales',
+  organisme:'URSSAF',
   commentaire:"Pour les revenus compris entre 42 478 € et 54 062 €, taux progressif : entre 2,15 % et 5,25 %. Faute de détails, le calculateur passe à 5.25 dès qu'on dépasse 42 478 €",
-  type_tranches: 'exclusive',
-  tranches: [
-    {
+  tranches:[
+    new objectInterfaces.ContributionBracket({
       label: "Tranche 1",
       plafond:42478,
       commentaire:"Le plafond de cette tranche est égal à 110% du PASS",
       taux:2.15
-    },
-    // la clef taux de cette tranche sera calculée dynamiquement
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label:'Tranche 2',
       commentaire:"Taux progressif de 2.15% à 5.25% entre 110% du PASS et 140% du PASS",
       taux_reduit:2.15,
       taux_plein:5.25,
       plafond: 54062
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label:'Tranche 3',
       taux: 5.25,
       plafond: parametres.plafondMax
-    }
+    }),
   ]
-};
+}));
 
-// URSSAF : CGS-CRDS
-parametres.cgsCrds = {
+contributions.push(new objectInterfaces.Contribution({
+  id:"cgsCrds",
   organisme:'URSSAF',
   label:'CGS-CRDS',
   commentaire:"Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires hors CSG-CRDS",
-  type_tranches: 'exclusive',
-  tranches: [
-    {
+  tranches:[
+    new objectInterfaces.ContributionBracket({
       label:"Tranche 1",
       taux: 8,
       plafond: parametres.plafondMax
-    }
+    })
   ]
-};
+}));
 
-// URSSAF : CSG-CRDS (la distinction déductible n'est pas faite)
-parametres.csgNonDeductible = {
+contributions.push(new objectInterfaces.Contribution({
+  id:'csgNonDeductible',
   organisme:'URSSAF',
   label:'CSG-CRDS Non déductible',
   commentaire:"Base de calcul : 	Totalité du revenu de l’activité non salariée + cotisations sociales obligatoires hors CSG-CRDS",
-  type_tranches: 'exclusive',
-  tranches: [
-    {
+  tranches:[
+    new objectInterfaces.ContributionBracket({
       label:"Tranche 1",
-      taux: 2.9,
+      taux: 8,
       plafond: parametres.plafondMax
-    }
+    })
   ]
-};
+}));
 
-// URSSAF : FORMATION PROFESSIONNELLE
-parametres.formationProfessionnelle = {
-  organisme: 'URSSAF',
+contributions.push(new objectInterfaces.Contribution({
+  id:"formationProfessionnelle",
   label: 'Formation professionnelle',
+  organisme: 'URSSAF',
   commentaire: "Base de calcul forfaitaire (fixe): plafond de la sécurité sociale",
   type_tranches: 'exclusive',
-  tranches: [
-    {
+  tranches:[
+    new objectInterfaces.ContributionBracket({
       label: "Tranche 1",
       taux: 0.25,
       plafond: parametres.plafondMax
-    }
+    })
   ]
-};
+}));
 
 // CIPAV - Retraite de base CNAVPL
 // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
-// Voir le simulateur ici pour des exemples concrets : http://www.guide-tns.fr/simulateurs/chargesprofessionnelliberal.html
-parametres.assuranceVieillesseBase = {
+// Voir le simulateur ici pour des exemples concrets :
+// http://www.guide-tns.fr/simulateurs/chargesprofessionnelliberal.html
+contributions.push(new objectInterfaces.Contribution({
+  id:"retraiteBase",
   label: 'Retraite de base',
   organisme: 'CIPAV',
   description: "Retraite de base CNAVPL",
@@ -167,138 +137,137 @@ parametres.assuranceVieillesseBase = {
     plafond:  4441,
     montant: 448
   },
-  // sinon calcul cumulatif classique de tranches
-  tranches: [
-    {
+  tranches:[
+    new objectInterfaces.ContributionBracket({
       label:"Tranche 1",
       plafond: parametres.plafond_securite_sociale,
       taux: 8.23
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label: "Tranche 2",
       plafond: 193080,
       taux: 1.87
-    }
+    })
   ]
-};
+}));
 
-// IMPOT
-parametres.impotSurLesSocietes = {
+contributions.push(new objectInterfaces.Contribution({
+  id:"impotSocietes",
   label: 'Impot sur les sociétés',
   organisme: "Impots",
-  type_tranches: 'cumulatives',
   tranches:[
-    {
+    new objectInterfaces.ContributionBracket({
       label: "tranche 1",
       plafond: 38120,
       taux: 15
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label: "tranche 2",
       plafond: parametres.plafondMax,
       taux: 33
-    }
+    })
   ]
-};
+}));
 
 // CIPAV: Assurance vieillesse "complémentaire" ( mais obligatoire :-p )
 // http://service.cipav-retraite.fr/cipav/article-28-principes-de-calcul-des-cotisations-103.htm
 // http://service.cipav-retraite.fr/cipav/article-33-recapitulatif-des-options-de-montantmax04.htm
-parametres.assuranceVieillesseComplementaire = {
+contributions.push(new objectInterfaces.Contribution({
+  id: 'retraiteComplementaire',
   label : 'Retraite complémentaire',
   organisme: 'CIPAV',
-  type_tranches : "exclusive",
-  tranches : [
-    {
+  tranches:[
+    new objectInterfaces.ContributionBracket({
       label : 'A',
       plafond : 26580,
       montant_forfaitaire : 1214,
       points_retraite : 36
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label : 'B',
       plafond : 49280,
       montant_forfaitaire : 2427,
       points_retraite : 72
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label : 'C',
       plafond : 57850,
       montant_forfaitaire : 3641,
       points_retraite : 108
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label : 'D',
       plafond : 66400,
       montant_forfaitaire : 6068,
       points_retraite : 180
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label : 'E',
       plafond : 83060,
       montant_forfaitaire : 8495,
       points_retraite :  252
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label : 'F',
       plafond : 103180,
       montant_forfaitaire : 13349,
       points_retraite : 396
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label : 'G',
       plafond : 123300,
       montant_forfaitaire : 14563,
       points_retraite : 432
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label : 'H',
       plafond : parametres.plafondMax,
       montant_forfaitaire : 15776,
       points_retraite : 468
-    }
+    })
   ]
-};
+}));
 
 // Réduction assurance vieillesse complémentaire
 // @pas appliquée dans le calculateur pour le moment
-parametres.AssuranceVieillesseComplementaireReduction = {
+contributions.push(new objectInterfaces.Contribution({
+  id: "reductionRetraiteComplementaire",
   organisme:'CIPAV',
   label: "Réduction assurance vieillesse complémentaire",
-  type_tranches: "exclusive",
-  tranches: [
-    {
+  tranches:[
+    new objectInterfaces.ContributionBracket({
       label: "Tranche 1",
       plafond : 5792,
       taux : 100,
       points_retraite:0,
       commentaire:"aucun point retraite",
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label: "Tranche 2",
       plafond : 11585,
       taux : 75,
       points_retraite:9,
       commentaire:"9 points retraite",
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label: "Tranche 3",
       plafond :  17377,
       taux :50,
       commentaire:"18 points retraite",
       points_retraite:18
-    },
-    {
+    }),
+    new objectInterfaces.ContributionBracket({
       label: "Tranche 4",
       plafond : 23170,
       taux : 25,
       points_retraite:27,
       commentaire:"27 points retraite"
-    }
+    })
   ]
-};
+}));
 
-parametres.prevoyance = {
+contributions.push(new objectInterfaces.Contribution({
+  id:"prevoyance",
   organisme:'CIPAV',
   label: "Invalidité Décès",
   type_tranches:'exclusive',
@@ -320,6 +289,18 @@ parametres.prevoyance = {
       montant_forfaitaire: 380
     }
   ]
+}));
+
+parametres.contributions = contributions;
+
+parametres.getContribution = function(contributionId) {
+  let ContributionSearched = null;
+  parametres.contributions.forEach(function(Contribution) {
+    if (Contribution.id == contributionId) {
+      ContributionSearched = Contribution;
+    }
+  });
+  return ContributionSearched;
 };
 
 // les professions libérales ne cotisent pas pour les indemnités journalières
