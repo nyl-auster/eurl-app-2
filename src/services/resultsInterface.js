@@ -32,11 +32,13 @@ const getTotalLine = function(resultLines) {
   resultLines.forEach(function(resultLine){
     total += resultLine.montant;
   });
+  console.log(resultLines);
   return new Line().extends({
     class:"total",
     label: 'Total',
     montant: total.toFixedNumber(2)
   });
+
 };
 
 export default {
