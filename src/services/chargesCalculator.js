@@ -61,10 +61,10 @@ const chargesCalculator = function(params) {
     let charge = config.prevoyance;
     if (classeChoisie) {
       charge.label = "Prévoyance classe " + classeChoisie.classe;
-      charge.montant = classeChoisie.montant_forfaitaire.montant;
+      charge.montant = classeChoisie.montant_forfaitaire;
     }
     else {
-      charge.montant = config.prevoyance.classes[0].montant_forfaitaire.montant;
+      charge.montant = config.prevoyance.classes[0].montant_forfaitaire;
     }
     line.extends(config.prevoyance);
     line.extends(charge);

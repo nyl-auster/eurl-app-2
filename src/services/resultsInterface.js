@@ -12,7 +12,7 @@ const Line = function() {
   this.organisme= "";
   this.baseCalcul = 0;
   this.montant = 0;
-  this.tranches = [];
+  this.tranches = [];``
   this.tranchesActives = [];
   this.commentaire = "";
 
@@ -30,7 +30,9 @@ const Line = function() {
 const getTotalLine = function(resultLines) {
   let total = 0;
   resultLines.forEach(function(resultLine){
-    total += resultLine.montant;
+    if (resultLine.montant) {
+      total += resultLine.montant;
+    }
   });
   console.log(resultLines);
   return new Line().extends({
