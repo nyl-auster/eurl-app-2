@@ -80,7 +80,7 @@
       <!-- frais TTC-->
       <div class="large-3 small-12 columns">
         <label for="fraisTtc"> Frais TTC </label>
-        <input v-model="form.fraisTtc" type="number" id="fraisTtc" class="form-control" ng-disabled="form.bindToFraisHt" disabled="disabled">
+        <input v-model="form.fraisTtc" type="number" id="fraisTtc" class="form-control" :disabled="form.bindToFraisHt">
         <div class="simulator-form__field__description">
           <input type="checkbox" v-model="form.bindToFraisHt">
           <em>automatiquement à 20% du HT</em> <br>
