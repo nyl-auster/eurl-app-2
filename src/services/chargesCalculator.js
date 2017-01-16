@@ -16,7 +16,7 @@
 
 import config from "./config";
 import tranchesCalculator from "./chargesTranchesCalculator";
-import objectInterfaces from "./objectInterfaces";
+import ObjectInterfaces from "./ObjectInterfaces";
 
 const chargesCalculator = function(params) {
 
@@ -31,32 +31,19 @@ const chargesCalculator = function(params) {
   self.prevoyance = params.prevoyance;
 
   /**
-   * @FIXME à réecrire clean
-   * @returns {*}
+   * @returns {ResultLine}
    */
   self.getPrevoyance = () => {
-
     const contribution = config.getContribution('prevoyance');
-
     let classeChoisie = null;
     contribution.classes.forEach((classe) => {
       if (classe.classe == self.prevoyance) {
         classeChoisie = classe;
       }
     });
-
-    const charge = {};
-    if (classeChoisie) {
-      charge.label = "Prévoyance classe " + classeChoisie.classe;
-      charge.montant = classeChoisie.montant_forfaitaire;
-    }
-    else {
-      charge.montant = contribution.classes[0].montant_forfaitaire;
-    }
-
-    const ResultLine = new objectInterfaces.ResultLine(contribution);
-    ResultLine.extends(charge);
-    return ResultLine;
+    contribution.label = "Prévoyance classe " + classeChoisie.classe;
+    contribution.montant = classeChoisie.montant_forfaitaire;
+    return new ObjectInterfaces.ResultLine(contribution);
   };
 
   /**
@@ -64,14 +51,11 @@ const chargesCalculator = function(params) {
    * @return {ResultLine}
    */
   self.getTvaCollectee = () => {
-    const ResultLine = new objectInterfaces.ResultLine();
-    const montant = (self.chiffreAffaireTtc - self.chiffreAffaireHt).toFixedNumber(2);
-    ResultLine.extends({
+    return new ObjectInterfaces.ResultLine({
       id:"tvaColllectee",
       label:"TVA collectée",
-      montant:montant
+      montant:(self.chiffreAffaireTtc - self.chiffreAffaireHt).toFixedNumber(2)
     });
-    return ResultLine;
   };
 
   /**
@@ -79,12 +63,11 @@ const chargesCalculator = function(params) {
    * @return {ResultLine}
    */
   self.getTvaDeductible = () => {
-    const ResultLine = new objectInterfaces.ResultLine();
-    ResultLine.extends({
+    return new ObjectInterfaces.ResultLine({
       id:"tvaDeductible",
+      label:"TVA déductible",
       montant: self.fraisTtc - self.fraisHt
     });
-    return ResultLine;
   };
 
   /**
@@ -107,7 +90,7 @@ const chargesCalculator = function(params) {
    * @return {ResultLine}
    */
   self.getTva = () => {
-    return new objectInterfaces.ResultLine({
+    return new ObjectInterfaces.ResultLine({
       id: 'tvaDue',
       label: 'TVA à reverser',
       organisme: 'Impots',
@@ -119,7 +102,7 @@ const chargesCalculator = function(params) {
    * @return {ResultLine}
    */
   self.getCfe = () => {
-    return new objectInterfaces.ResultLine({
+    return new ObjectInterfaces.ResultLine({
       label: "CFE",
       id:"cfe",
       commentaire: "Cotisation foncière des entreprises",
@@ -132,7 +115,7 @@ const chargesCalculator = function(params) {
    * @return {ResultLine}
    */
   self.getfraisTtc = () => {
-    return new objectInterfaces.ResultLine().extends({
+    return new ObjectInterfaces.ResultLine().extends({
       label: 'fraisTtc',
       montant: self.fraisTtc
     });
@@ -150,7 +133,7 @@ const chargesCalculator = function(params) {
       - self.fraisTtc
       - self.remuneration
       - self.totalDettes().montant;
-    return new objectInterfaces.ResultLine({
+    return new ObjectInterfaces.ResultLine({
       id:"resteEnBanque",
       type:'total',
       hidden:true,
@@ -198,7 +181,7 @@ const chargesCalculator = function(params) {
       + self.cgsCrds().montant
       + self.getPrevoyance().montant
       + self.impotSocietes().montant;
-    return new objectInterfaces.ResultLine({
+    return new ObjectInterfaces.ResultLine({
       id: 'totalDettes',
       label: 'Total A provisionner',
       hidden:true,
@@ -211,7 +194,7 @@ const chargesCalculator = function(params) {
    * @return {ResultLine}
    */
   self.getTotalCotisationsSociales = () => {
-    return new objectInterfaces.ResultLine({
+    return new ObjectInterfaces.ResultLine({
       id:'totalCotisationsSociales',
       label: 'Cotisations sociales',
       montant: self.calculerTotalCotisationsSociales()
@@ -224,9 +207,8 @@ const chargesCalculator = function(params) {
    */
   self.retraiteComplementaire = function() {
     const contribution = config.getContribution("retraiteComplementaire");
-    const ResultLine = new objectInterfaces.ResultLine(contribution);
-    ResultLine.extends(tranchesCalculator.calculerTrancheExclusive(self.remuneration, contribution.tranches));
-    return ResultLine;
+    const tranches = tranchesCalculator.calculerTrancheExclusive(self.remuneration, contribution.tranches);
+    return new ObjectInterfaces.ResultLine(contribution).extends(tranches);
   };
 
   /**
@@ -235,9 +217,8 @@ const chargesCalculator = function(params) {
    */
   self.formationProfessionnelle = () => {
     const contribution = config.getContribution("formationProfessionnelle");
-    const ResultLine = new objectInterfaces.ResultLine(contribution);
-    ResultLine.extends(tranchesCalculator.calculerTrancheExclusive(config.plafond_securite_sociale, contribution.tranches));
-    return ResultLine;
+    const tranches = tranchesCalculator.calculerTrancheExclusive(config.plafond_securite_sociale, contribution.tranches);
+    return new ObjectInterfaces.ResultLine(contribution).extends(tranches);
   };
 
   /**
@@ -248,6 +229,7 @@ const chargesCalculator = function(params) {
   self.allocationsFamiliales = () => {
     const baseCalcul = self.remuneration;
     const contribution = config.getContribution("allocationsFamiliales");
+
     // le taux de la tranche 2 est progressif
     const tauxReduit = contribution.tranches[1].taux_reduit;
     const tauxPlein = contribution.tranches[1].taux_plein;
@@ -256,9 +238,9 @@ const chargesCalculator = function(params) {
     const tauxProgressif = ((tauxPlein - tauxReduit) / (0.3 * PASS)) * (baseCalcul - 1.1 * PASS) + tauxReduit;
     // voilà notre taux à appliquer pour les base de calcul comprises entre 110% et 140% du passe
     contribution.tranches[1]['taux'] = tauxProgressif;
-    const ResultLine = new objectInterfaces.ResultLine(contribution);
-    ResultLine.extends(tranchesCalculator.calculerTrancheExclusive(baseCalcul, contribution.tranches));
-    return ResultLine;
+
+    const tranches = tranchesCalculator.calculerTrancheExclusive(baseCalcul, contribution.tranches);
+    return new ObjectInterfaces.ResultLine(contribution).extends(tranches);
   };
 
   /**
@@ -268,7 +250,7 @@ const chargesCalculator = function(params) {
   self.retraiteBase = () => {
     const baseCalcul = self.remuneration;
     const assuranceVieillesseBase = config.getContribution('retraiteBase');
-    const line = new objectInterfaces.ResultLine(assuranceVieillesseBase);
+    const line = new ObjectInterfaces.ResultLine(assuranceVieillesseBase);
     // si le revenu est inférieur ou égal à la première tranche, montant forfaitaire:
     if (baseCalcul <= assuranceVieillesseBase.montant_forfaitaire.plafond) {
       return line.extends({montant:assuranceVieillesseBase.montant_forfaitaire.montant});
@@ -289,9 +271,9 @@ const chargesCalculator = function(params) {
    */
   self.maladieMaternite = () => {
     const contribution = config.getContribution("maladieMaternite");
-    const ResultLine = new objectInterfaces.ResultLine(contribution);
-    ResultLine.extends(tranchesCalculator.calculerTrancheExclusive(self.remuneration, contribution.tranches));
-    return ResultLine;
+    const baseCalcul = self.remuneration;
+    const tranches = tranchesCalculator.calculerTrancheExclusive(baseCalcul, contribution.tranches);
+    return new ObjectInterfaces.ResultLine(contribution).extends(tranches);
   };
 
   /**
@@ -300,9 +282,8 @@ const chargesCalculator = function(params) {
   self.impotSocietes = () => {
     const baseCalcul = self.getBaseCalculIs();
     const contribution = config.getContribution("impotSocietes");
-    const ResultLine = new objectInterfaces.ResultLine(contribution);
-    ResultLine.extends(tranchesCalculator.calculerTranchesCumulatives(baseCalcul, contribution.tranches));
-    return ResultLine;
+    const tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, contribution.tranches);
+    return new ObjectInterfaces.ResultLine(contribution).extends(tranches);
   };
 
   /**
@@ -311,15 +292,13 @@ const chargesCalculator = function(params) {
   self.cgsCrds = () => {
     const contribution = config.getContribution("cgsCrds");
     const baseCalcul = self.remuneration + self.getTotalCotisationsSociales().montant;
-    let tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, contribution.tranches);
-    const ResultLine = new objectInterfaces.ResultLine(contribution);
-    ResultLine.extends(tranches);
-    return ResultLine;
+    const tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, contribution.tranches);
+    return new ObjectInterfaces.ResultLine(contribution).extends(tranches);
   };
 
   self.getResults = () => {
 
-    const Results = new objectInterfaces.Results();
+    const Results = new ObjectInterfaces.Results();
 
     // CIPAV
     Results.addLine(self.retraiteBase());
