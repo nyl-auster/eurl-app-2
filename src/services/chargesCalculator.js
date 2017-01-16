@@ -171,7 +171,6 @@ const chargesCalculator = function(params) {
    * Le total a provisionner, ce pour quoi j'ai créer l'application
    * c'est à dire ce qui devra être payé un jour ou l'autre, peu
    * nous importe la date d'ailleurs peu prédictible.
-   * à un moement donné.
    * @returns {id, label, montant}
    */
   self.totalDettes = () => {
@@ -185,7 +184,7 @@ const chargesCalculator = function(params) {
       id: 'totalDettes',
       label: 'Total A provisionner',
       hidden:true,
-      montant: total
+      montant: total.toFixedNumber(2)
     });
   };
 
@@ -248,22 +247,21 @@ const chargesCalculator = function(params) {
    *
    */
   self.retraiteBase = () => {
+
     const baseCalcul = self.remuneration;
-    const assuranceVieillesseBase = config.getContribution('retraiteBase');
-    const line = new ObjectInterfaces.ResultLine(assuranceVieillesseBase);
+    const contribution = config.getContribution('retraiteBase');
+    const line = new ObjectInterfaces.ResultLine(contribution);
+
     // si le revenu est inférieur ou égal à la première tranche, montant forfaitaire:
-    if (baseCalcul <= assuranceVieillesseBase.montant_forfaitaire.plafond) {
-      return line.extends({montant:assuranceVieillesseBase.montant_forfaitaire.montant});
-    }
-    else {
-      if (baseCalcul <= assuranceVieillesseBase.tranches[0].plafond) {
-        line.montant = baseCalcul * (assuranceVieillesseBase.tranches[0].taux/100);
-      }
-      else {
-        line.montant =  baseCalcul * (assuranceVieillesseBase.tranches[0].taux/100) + baseCalcul * (assuranceVieillesseBase.tranches[1].taux/100);
-      }
+    if (baseCalcul <= contribution.montant_forfaitaire.plafond) {
+      line.montant = contribution.montant_forfaitaire.montant;
+      line.tranchesActives.push(new ObjectInterfaces.ContributionBracket(contribution.montant_forfaitaire));
       return line;
     }
+
+    const tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, contribution.tranches);
+    line.extends(tranches);
+    return line;
   };
 
   /**
@@ -282,7 +280,7 @@ const chargesCalculator = function(params) {
   self.impotSocietes = () => {
     const baseCalcul = self.getBaseCalculIs();
     const contribution = config.getContribution("impotSocietes");
-    const tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, contribution.tranches);
+    const tranches = tranchesCalculator.calculerTranchesCumulatives(baseCalcul, contribution.tranches);;
     return new ObjectInterfaces.ResultLine(contribution).extends(tranches);
   };
 

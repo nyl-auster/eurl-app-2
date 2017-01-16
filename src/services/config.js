@@ -130,7 +130,7 @@ contributions.push(new ObjectInterfaces.Contribution({
   // montant forfaitaire en dessous d'un certain plafond
   revenus_non_connus: 3611,
   montant_forfaitaire : {
-    label:"Retraite de base",
+    label:"Montant forfaitaire retraite de base",
     commentaire:"si les revenus sont inférieurs à 4441€, le montant est forfaitaire",
     plafond:  4441,
     montant: 448
@@ -138,8 +138,9 @@ contributions.push(new ObjectInterfaces.Contribution({
   tranches:[
     new ObjectInterfaces.ContributionBracket({
       label:"Tranche 1",
+      commentaire:"8.23% + 1.87% pour la première tranche",
       plafond: config.plafond_securite_sociale,
-      taux: 8.23
+      taux:  10.1
     }),
     new ObjectInterfaces.ContributionBracket({
       label: "Tranche 2",

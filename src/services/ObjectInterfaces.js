@@ -1,3 +1,10 @@
+// ajout d'une nouvelle méthode au prototype Number pour arrondir à
+// 2 chiffres après la virgule
+Number.prototype.toFixedNumber = function(x, base){
+  const pow = Math.pow(base||10,x);
+  return +( Math.round(this*pow) / pow );
+};
+
 /**
  * Méthodes communes pour nos objets
  * @param datas
@@ -36,9 +43,9 @@ const Contribution = function(datas) {
  */
 const ContributionBracket = function(datas) {
   simulatorObject.call(this, datas);
-  this.id = "";
   this.label = "";
   this.taux = "";
+  this.baseCalcul = ""
   this.montant = 0;
   this.plafond = 0;
   this.extends(datas);
