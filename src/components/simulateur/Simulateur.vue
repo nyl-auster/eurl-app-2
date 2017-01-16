@@ -5,6 +5,7 @@ Composant racine de notre simulateur
 
   <div id="simulateur">
     <simulateur-form :formValues="params" @onFormValuesUpdated="setParams"></simulateur-form>
+    <simulateur-results-synthese :Results="Results"></simulateur-results-synthese>
     <div class="row">
       <div class="small-12 columns">
         <simulateur-results-table :Results="Results"></simulateur-results-table>
@@ -17,7 +18,8 @@ Composant racine de notre simulateur
 <script>
 
   import SimulateurForm from "./simulateurForm"
-  import simulateurResultsTable from "./simulateurResultsTable"
+  import SimulateurResultsTable from "./SimulateurResultsTable"
+  import SimulateurResultsSynthese from "./SimulateurResultsSynthese";
   import chargesCalculator from "../../services/chargesCalculator";
 
   export default {
@@ -61,7 +63,8 @@ Composant racine de notre simulateur
     components:{
       SimulateurForm,
       chargesCalculator,
-      simulateurResultsTable
+      SimulateurResultsTable,
+      SimulateurResultsSynthese
     }
   }
 </script>
