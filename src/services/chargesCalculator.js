@@ -34,7 +34,7 @@ const chargesCalculator = function(params) {
    * @FIXME à réecrire clean
    * @returns {*}
    */
-  self.prevoyance = () => {
+  self.getPrevoyance = () => {
 
     const contribution = config.getContribution('prevoyance');
 
@@ -100,7 +100,7 @@ const chargesCalculator = function(params) {
       - self.getTotalCotisationsSociales().montant
       - self.getCfe().montant
       - self.cgsCrds().montant
-      - self.prevoyance().montant;
+      - self.getPrevoyance().montant;
   };
 
   /**
@@ -149,10 +149,13 @@ const chargesCalculator = function(params) {
     const montant = self.chiffreAffaireTtc
       - self.fraisTtc
       - self.remuneration
-      - self.getTotalAProvisionner().montant;
-    return new objectInterfaces.ResultLine().extends({
+      - self.totalDettes().montant;
+    return new objectInterfaces.ResultLine({
+      id:"resteEnBanque",
+      type:'total',
+      hidden:true,
       label: "Reste en Banque",
-      montant: montant
+      montant: montant.toFixedNumber(2)
     });
 
   };
@@ -188,18 +191,19 @@ const chargesCalculator = function(params) {
    * à un moement donné.
    * @returns {id, label, montant}
    */
-  self.getTotalAProvisionner = () => {
+  self.totalDettes = () => {
     let total = self.getCfe().montant
       + self.getTva().montant
       + self.getTotalCotisationsSociales().montant
       + self.cgsCrds().montant
-      + self.prevoyance().montant
+      + self.getPrevoyance().montant
       + self.impotSocietes().montant;
-    return {
-      id: 'totalAProvisionner',
-      label: 'Total à provisionner',
+    return new objectInterfaces.ResultLine({
+      id: 'totalDettes',
+      label: 'Total A provisionner',
+      hidden:true,
       montant: total
-    };
+    });
   };
 
   /**
@@ -320,7 +324,7 @@ const chargesCalculator = function(params) {
     // CIPAV
     Results.addLine(self.retraiteBase());
     Results.addLine(self.retraiteComplementaire(self.remuneration));
-    Results.addLine(self.prevoyance());
+    Results.addLine(self.getPrevoyance());
     Results.addLine({
       id:"totalCIPAV",
       type:"subtotal",
@@ -366,6 +370,9 @@ const chargesCalculator = function(params) {
       label:'TOTAL',
       montant:Results.getTotal()
     });
+
+    Results.addLine(self.totalDettes());
+    Results.addLine(self.getResteEnBanque());
 
     return Results;
 

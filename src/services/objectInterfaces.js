@@ -75,7 +75,8 @@ const Results = function() {
 
   this.addLine = function(ResultLine) {
     this.lines.push(ResultLine);
-    if (ResultLine.type != 'total' && ResultLine.type != 'subtotal' ) {
+    // on ajout au total tous les types de ligne "result"
+    if ('result' === ResultLine.type) {
       this.total += ResultLine.montant.toFixedNumber(2);
     }
   };
@@ -87,13 +88,13 @@ const Results = function() {
   this.sum = function(resultLineIds) {
     let sum = 0;
     resultLineIds.forEach((resultLineId) => {
-      const ResultLine = this.getLineById(resultLineId);
+      const ResultLine = this.getLine(resultLineId);
       sum += ResultLine.montant;
     });
     return sum.toFixedNumber(2);
   };
 
-  this.getLineById = function(resultLineId) {
+  this.getLine = function(resultLineId) {
     let result = null;
     this.lines.forEach(function(ResultLine) {
       if (resultLineId == ResultLine.id) {
