@@ -1,13 +1,13 @@
 <template>
   <div id="app">
 
-    <div class="row">
+    <div class="row header">
       <div class="small-12 columns">
         <site-header></site-header>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row menu">
       <div class="small-12 columns">
         <site-menu></site-menu>
       </div>
@@ -19,11 +19,13 @@
       </div>
     </div>
 
-    <div class="row router-view">
+    <div class="row footer">
       <div class="small-12 columns">
         <site-footer></site-footer>
-
       </div>
+    </div>
+  </div>
+
 </template>
 
 <script>

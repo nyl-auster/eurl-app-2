@@ -26,12 +26,12 @@ const simulatorObject = function(datas) {
  * @constructor
  */
 const Contribution = function(datas) {
+  //this.id = "";
+  //this.label = "";
+  //this.plafond = "";
+  //this.montant = 0;
+  //this.tranches = [];
   simulatorObject.call(this, datas);
-  this.id = "";
-  this.label = "";
-  this.plafond = "";
-  this.montant = 0;
-  this.tranches = [];
   this.extends(datas);
   return this;
 };
@@ -43,11 +43,11 @@ const Contribution = function(datas) {
  */
 const ContributionBracket = function(datas) {
   simulatorObject.call(this, datas);
-  this.label = "";
-  this.taux = "";
-  this.baseCalcul = ""
-  this.montant = 0;
-  this.plafond = 0;
+  //this.label = "";
+  //this.taux = "";
+  //this.baseCalcul = "";
+  //this.montant = 0;
+  //this.plafond = 0;
   this.extends(datas);
   return this;
 };
