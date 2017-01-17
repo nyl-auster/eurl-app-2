@@ -66,7 +66,7 @@ const chargesCalculator = function(params) {
     return new ObjectInterfaces.ResultLine({
       id:"tvaDeductible",
       label:"TVA déductible",
-      montant: self.fraisTtc - self.fraisHt
+      montant: (self.fraisTtc - self.fraisHt).toFixedNumber(2)
     });
   };
 
