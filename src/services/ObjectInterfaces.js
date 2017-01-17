@@ -59,15 +59,15 @@ const ContributionBracket = function(datas) {
  */
 const ResultLine = function(datas) {
   simulatorObject.call(this, datas);
-  this.label = "";
-  this.type = "result";
-  this.organisme= "";
-  this.baseCalcul = 0;
-  this.montant = 0;
-  this.tranches = [];
-  this.tranchesActives = [];
-  this.commentaire = "";
-  this.extends(datas);
+  //this.label = "";
+  //this.type = "result";
+  //this.organisme= "";
+  //this.baseCalcul = 0;
+  //this.montant = 0;
+  //this.tranches = [];
+  //this.tranchesActives = [];
+  //this.commentaire = "";
+  //this.extends(datas);
   return this;
 };
 
