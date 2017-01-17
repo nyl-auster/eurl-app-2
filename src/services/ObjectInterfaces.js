@@ -26,11 +26,11 @@ const simulatorObject = function(datas) {
  * @constructor
  */
 const Contribution = function(datas) {
-  //this.id = "";
-  //this.label = "";
-  //this.plafond = "";
-  //this.montant = 0;
-  //this.tranches = [];
+  // this.id = "";
+  // this.label = "";
+  // this.plafond = "";
+  // this.montant = 0;
+  // this.tranches = [];
   simulatorObject.call(this, datas);
   this.extends(datas);
   return this;
@@ -43,11 +43,11 @@ const Contribution = function(datas) {
  */
 const ContributionBracket = function(datas) {
   simulatorObject.call(this, datas);
-  //this.label = "";
-  //this.taux = "";
-  //this.baseCalcul = "";
-  //this.montant = 0;
-  //this.plafond = 0;
+  // this.label = "";
+  // this.taux = "";
+  // this.baseCalcul = "";
+  // this.montant = 0;
+  // this.plafond = 0;
   this.extends(datas);
   return this;
 };
@@ -59,15 +59,15 @@ const ContributionBracket = function(datas) {
  */
 const ResultLine = function(datas) {
   simulatorObject.call(this, datas);
-  //this.label = "";
-  //this.type = "result";
-  //this.organisme= "";
-  //this.baseCalcul = 0;
-  //this.montant = 0;
-  //this.tranches = [];
-  //this.tranchesActives = [];
-  //this.commentaire = "";
-  //this.extends(datas);
+  // this.label = "";
+  // this.type = "result";
+  // this.organisme= "";
+  // this.baseCalcul = 0;
+  // this.montant = 0;
+  // this.tranches = [];
+  // this.commentaire = "";
+  this.tranchesActives = [];
+  this.extends(datas);
   return this;
 };
 
