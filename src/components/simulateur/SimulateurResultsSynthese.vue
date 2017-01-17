@@ -15,9 +15,9 @@ export default {
 <template>
   <div class="row big-picture">
     <div class="small-12 medium-6 columns">
-      <h2> Dettes <span class="subheader">hors rémunération </span></h2>
+      <h2> Dettes EURL <span class="subheader"></span></h2>
       <p>
-        <span class="result">{{Results.getLine('totalDettes').montant}}</span>
+        <span class="result">{{Results.getLine('total').montant}}</span>
       </p>
     </div>
     <div class="small-12 medium-6 columns">

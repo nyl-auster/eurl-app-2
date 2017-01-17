@@ -105,8 +105,7 @@
       <!-- Rémunération -->
       <div class="large-3 small-12 columns">
         <label for="remuneration"> Rémunération </label>
-        <input v-model="form.remuneration" id="remuneration" type="number"
-               class="form-control ng-pristine ng-untouched ng-valid ng-not-empty" placeholder="Rémunération">
+        <input v-model="form.remuneration" id="remuneration" type="number" placeholder="Rémunération">
         <div class="simulator-form__field__description">
           Votre rémunération en tant que gérant. Les cotisations sociales sont calculées sur cette base.
         </div>

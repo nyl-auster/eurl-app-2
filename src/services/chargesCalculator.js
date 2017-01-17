@@ -22,13 +22,25 @@ const chargesCalculator = function(params) {
 
   const self = {};
 
-  self.chiffreAffaireTtc = params.chiffreAffaireTtc;
-  self.chiffreAffaireHt = params.chiffreAffaireHt;
-  self.remuneration = params.remuneration;
-  self.fraisTtc = params.fraisTtc;
-  self.fraisHt = params.fraisHt;
-  self.cfe = params.cfe;
-  self.prevoyance = params.prevoyance;
+  self.chiffreAffaireTtc = params.chiffreAffaireTtc ? params.chiffreAffaireTtc : 0;
+  self.chiffreAffaireHt = params.chiffreAffaireHt ? params.chiffreAffaireHt : 0;
+  self.remuneration = params.remuneration ? params.remuneration : 0;
+  self.fraisTtc = params.fraisTtc ? params.fraisTtc : 0;
+  self.fraisHt = params.fraisHt ? params.fraisHt : 0;
+  self.cfe = params.cfe ? params.cfe : 0;
+  self.prevoyance = params.prevoyance ? params.prevoyance : A;
+  console.log(self);
+
+  self.getRemuneration = () => {
+
+    return {
+      id: "remuneration",
+      type: 'result',
+      organisme: 'Vous :)',
+      label : 'Votre rémunération',
+      montant : self.remuneration
+    }
+  };
 
   /**
    * @returns {ResultLine}
@@ -92,6 +104,7 @@ const chargesCalculator = function(params) {
   self.getTva = () => {
     return new ObjectInterfaces.ResultLine({
       id: 'tvaDue',
+      type: 'result',
       label: 'TVA à reverser',
       organisme: 'Impots',
       montant: self.getTvaCollectee().montant - self.getTvaDeductible().montant
@@ -104,6 +117,7 @@ const chargesCalculator = function(params) {
   self.getCfe = () => {
     return new ObjectInterfaces.ResultLine({
       label: "CFE",
+      type: 'result',
       id:"cfe",
       commentaire: "Cotisation foncière des entreprises",
       montant: self.cfe
@@ -122,28 +136,7 @@ const chargesCalculator = function(params) {
   };
 
   /**
-   * Ce qu'il nous reste en banque à partir de notre TTC après avoir
-   * - payé tout ce que l'on devait
-   * - payé notre rémunération
-   * - payé nos frais TTC
-   * @return {ResultLine}
-   */
-  self.getResteEnBanque = () => {
-    const montant = self.chiffreAffaireTtc
-      - self.fraisTtc
-      - self.remuneration
-      - self.totalDettes().montant;
-    return new ObjectInterfaces.ResultLine({
-      id:"resteEnBanque",
-      type:'total',
-      hidden:true,
-      label: "Reste en Banque",
-      montant: montant.toFixedNumber(2)
-    });
-
-  };
-
-  /**
+   * @FIXME : on s'attend à ce que la CGS / CRDS soit là
    * Toute les cotisations sociales à l'exception de la CGS-CRDS et de la prévoyance
    * @returns {[ResultLine,ResultLine,ResultLine,ResultLine,ResultLine]}
    */
@@ -165,27 +158,6 @@ const chargesCalculator = function(params) {
     let total = 0;
     self.getCotisationsSocialesArray().forEach(item => total += item.montant);
     return total;
-  };
-
-  /**
-   * Le total a provisionner, ce pour quoi j'ai créer l'application
-   * c'est à dire ce qui devra être payé un jour ou l'autre, peu
-   * nous importe la date d'ailleurs peu prédictible.
-   * @returns {id, label, montant}
-   */
-  self.totalDettes = () => {
-    let total = self.getCfe().montant
-      + self.getTva().montant
-      + self.getTotalCotisationsSociales().montant
-      + self.cgsCrds().montant
-      + self.getPrevoyance().montant
-      + self.impotSocietes().montant;
-    return new ObjectInterfaces.ResultLine({
-      id: 'totalDettes',
-      label: 'Total A provisionner',
-      hidden:true,
-      montant: total.toFixedNumber(2)
-    });
   };
 
   /**
@@ -300,7 +272,7 @@ const chargesCalculator = function(params) {
 
     // CIPAV
     Results.addLine(self.retraiteBase());
-    Results.addLine(self.retraiteComplementaire(self.remuneration));
+    Results.addLine(self.retraiteComplementaire());
     Results.addLine(self.getPrevoyance());
     Results.addLine({
       id:"totalCIPAV",
@@ -320,36 +292,45 @@ const chargesCalculator = function(params) {
 
     // URSSAF
     Results.addLine(self.formationProfessionnelle());
+    Results.addLine(self.allocationsFamiliales());
     Results.addLine(self.cgsCrds());
     Results.addLine({
       id:"totalURSSAF",
       type:"subtotal",
       label:"Total URSSAF",
-      montant:Results.sum(['formationProfessionnelle', 'cgsCrds'])
+      montant:Results.sum(['formationProfessionnelle', 'cgsCrds', 'allocationsFamiliales'])
     });
 
-    // ajout du sous-total des cotisations sociales
+    // Sous-total des cotisations sociales.
     Results.addLine({
       type:"subtotal",
-      hidden:true,
       id:'totalCotisationSociales',
-      label:"Total cotisations sociales",
+      label:"TOTAL COTISATIONS SOCIALES",
       montant:Results.sum(['totalURSSAF', 'totalRSI', 'totalCIPAV'])
     });
 
-    // IMPOTS et CFE
+    // IS, TVA & CFE
     Results.addLine(self.impotSocietes());
     Results.addLine(self.getCfe());
     Results.addLine(self.getTva());
+
+    Results.addLine(self.getRemuneration());
+
+    // le total du tableau de dettes
     Results.addLine({
       id:'total',
       type:"total",
-      label:'TOTAL',
+      label:'TOTAL DETTES ENTREPRISE',
       montant:Results.getTotal()
     });
 
-    Results.addLine(self.totalDettes());
-    Results.addLine(self.getResteEnBanque());
+    Results.addLine({
+      id:"resteEnBanque",
+      type:'total',
+      hidden: true,
+      label: "Reste en Banque",
+      montant: (self.chiffreAffaireTtc - Results.getTotal()).toFixedNumber(2)
+    });
 
     return Results;
 
