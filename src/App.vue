@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <div class="row menu">
+    <div class="row">
       <div class="small-12 columns">
         <site-menu></site-menu>
       </div>

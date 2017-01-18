@@ -8,7 +8,7 @@ Composant racine de notre simulateur
     <simulateur-results-synthese :Results="Results"></simulateur-results-synthese>
     <div class="row">
       <div class="small-12 columns">
-        <simulateur-results-table :Results="Results"></simulateur-results-table>
+        <simulateur-results-table :params="params" :Results="Results"></simulateur-results-table>
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@ Composant racine de notre simulateur
           bindToFraisHt: true,
           fraisHt: 0,
           fraisTtc: 0,
-          cfe: 200,
+          cfe: 500,
           remuneration: 0,
           prevoyance: 'B'
          }

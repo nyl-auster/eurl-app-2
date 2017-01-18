@@ -29,16 +29,24 @@ const chargesCalculator = function(params) {
   self.fraisHt = params.fraisHt ? params.fraisHt : 0;
   self.cfe = params.cfe ? params.cfe : 0;
   self.prevoyance = params.prevoyance ? params.prevoyance : A;
-  console.log(self);
 
   self.getRemuneration = () => {
-
     return {
       id: "remuneration",
       type: 'result',
       organisme: 'Vous :)',
       label : 'Votre rémunération',
       montant : self.remuneration
+    }
+  };
+
+  self.getfraisTtc = () => {
+    return {
+      id: "fraisTtc",
+      type: 'result',
+      organisme: 'fournisseurs',
+      label : 'Frais TTC',
+      montant : self.fraisTtc.toFixedNumber(2)
     }
   };
 
@@ -121,17 +129,6 @@ const chargesCalculator = function(params) {
       id:"cfe",
       commentaire: "Cotisation foncière des entreprises",
       montant: self.cfe
-    });
-  };
-
-  /**
-   * pseudo charge
-   * @return {ResultLine}
-   */
-  self.getfraisTtc = () => {
-    return new ObjectInterfaces.ResultLine().extends({
-      label: 'fraisTtc',
-      montant: self.fraisTtc
     });
   };
 
@@ -277,7 +274,8 @@ const chargesCalculator = function(params) {
     Results.addLine({
       id:"totalCIPAV",
       type:"subtotal",
-      label:"Total CIPAV",
+      label:"TOTAL",
+      organisme:"CIPAV",
       montant:Results.sum(['retraiteBase', 'retraiteComplementaire', 'prevoyance'])
     });
 
@@ -286,7 +284,8 @@ const chargesCalculator = function(params) {
     Results.addLine({
       id:"totalRSI",
       type:"subtotal",
-      label:"Total RSI",
+      label:"TOTAL",
+      organisme:"RSI",
       montant:Results.sum(['maladieMaternite'])
     });
 
@@ -297,7 +296,8 @@ const chargesCalculator = function(params) {
     Results.addLine({
       id:"totalURSSAF",
       type:"subtotal",
-      label:"Total URSSAF",
+      label:"TOTAL",
+      organisme:"URSSAF",
       montant:Results.sum(['formationProfessionnelle', 'cgsCrds', 'allocationsFamiliales'])
     });
 
@@ -305,22 +305,23 @@ const chargesCalculator = function(params) {
     Results.addLine({
       type:"subtotal",
       id:'totalCotisationSociales',
-      label:"TOTAL COTISATIONS SOCIALES",
+      label:"TOTAL DES COTISATIONS SOCIALES",
       montant:Results.sum(['totalURSSAF', 'totalRSI', 'totalCIPAV'])
     });
 
     // IS, TVA & CFE
     Results.addLine(self.impotSocietes());
-    Results.addLine(self.getCfe());
     Results.addLine(self.getTva());
+    Results.addLine(self.getCfe());
 
     Results.addLine(self.getRemuneration());
+    Results.addLine(self.getfraisTtc());
 
-    // le total du tableau de dettes
+    // le total de toutes les lignes précédemment ajoutées
     Results.addLine({
       id:'total',
       type:"total",
-      label:'TOTAL DETTES ENTREPRISE',
+      label:'TOTAL DEBIT PREVISIONNEL',
       montant:Results.getTotal()
     });
 
@@ -328,7 +329,7 @@ const chargesCalculator = function(params) {
       id:"resteEnBanque",
       type:'total',
       hidden: true,
-      label: "Reste en Banque",
+      label: "Restera en Banque (CA TTC - Dettes)",
       montant: (self.chiffreAffaireTtc - Results.getTotal()).toFixedNumber(2)
     });
 

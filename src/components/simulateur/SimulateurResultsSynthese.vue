@@ -15,13 +15,15 @@ export default {
 <template>
   <div class="row big-picture">
     <div class="small-12 medium-6 columns">
-      <h2> Dettes EURL <span class="subheader"></span></h2>
+      <h2>TOTAL A PROVISIONNER <span class="subheader">HORS REMUNERATION</span></h2>
+      <h3>C'est le total de l'argent que vous devrez reverser aux différents organismes en fonction des chiffres renseignés. Ceci n'inclut pas votre rémunération.</h3>
       <p>
-        <span class="result">{{Results.getLine('total').montant}}</span>
+        <span class="result">{{Results.getLine('total').montant - Results.getLine('remuneration').montant}}</span>
       </p>
     </div>
     <div class="small-12 medium-6 columns">
-      <h2>Solde prévisionnel</h2>
+      <h2>Solde final estimé</h2>
+      <h3>C'est ce qu'il restera de votre chiffre d'affaire TTC une fois retiré l'intégralité de ce que votre société doit payer ( rémunération incluse )</h3>
       <p>
         <span :class="resultClasses" class="result">{{Results.getLine('resteEnBanque').montant}}</span>
       </p>

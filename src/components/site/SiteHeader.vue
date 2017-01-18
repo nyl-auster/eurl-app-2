@@ -1,8 +1,8 @@
 <template>
   <header>
-    <div id="site-title"> Simulateur de dettes pour EURL</div>
-    <div id="site-subtitle">Professions libérales - Impot sur les sociétés</div>
-    <div id="version">version <strong>ALPHA</strong> - v 0.9.6 - 17/01/2017</div>
+    <div id="site-title"> Simulateur de trésorerie pour EURL</div>
+    <div id="site-subtitle">Professions libérales - Impôt sur les sociétés</div>
+    <div id="version">version <strong>ALPHA</strong> - v 0.9.7 - 17/01/2017</div>
   </header>
 </template>
 

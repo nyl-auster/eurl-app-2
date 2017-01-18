@@ -3,6 +3,7 @@
     props:['formValues'],
     data: function() {
       return {
+        showHelp: 1,
         form: this.formValues
       }
     },
@@ -46,6 +47,14 @@
 <template>
 
   <form class="simulator-form">
+
+
+    <div v-show="showHelp" class="callout text-center">
+      <button @click="showHelp = ! showHelp" class="close-button" aria-label="Close alert" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <em>Entrez ci-dessous les chiffres correspondant à vos estimations sur une période d'un an.</em>
+    </div>
 
     <div class="row">
 

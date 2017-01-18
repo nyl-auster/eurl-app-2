@@ -3,7 +3,7 @@ import chargesConfig from "../../services/config";
 
 export default {
   name:'SimulateurResultsTable',
-  props:['Results'],
+  props:['Results', 'params'],
   data:function() {
     return {
       showDetails:false,
@@ -18,7 +18,7 @@ export default {
 
     <table class="table lines-results">
       <caption>
-        DETTES <a class="showDetails" @click="showDetails=!showDetails"> <br/> {{showDetails ? 'Masquer' : 'Montrer'}} les détails des calculs</a>
+        A PAYER PAR VOTRE EURL <br/><a class="showDetails" @click="showDetails=!showDetails"> {{showDetails ? 'Masquer' : 'Montrer'}}  les détails des calculs</a>
       </caption>
       <thead>
         <tr>
