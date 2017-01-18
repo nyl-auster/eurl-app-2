@@ -83,7 +83,7 @@ const Results = function() {
   this.addLine = function(ResultLine) {
     this.lines.push(ResultLine);
     // on ajout au total tous les types de ligne "result"
-    if ('result' === ResultLine.type) {
+    if (true !== ResultLine.excludeFromTotal) {
       this.total += ResultLine.montant.toFixedNumber(2);
     }
   };

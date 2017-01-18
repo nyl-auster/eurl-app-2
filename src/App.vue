@@ -53,11 +53,13 @@ export default {
 h1 {
   font-size:1.9rem;
   text-align:center;
+  text-transform:uppercase
 }
 
 h2 {
   font-size:1.3rem;
   text-align:center;
+  text-transform:uppercase
 }
 
 h3 {
