@@ -274,7 +274,7 @@ const chargesCalculator = function(params) {
     Results.addLine({
       id:"totalCIPAV",
       type:"subtotal",
-      label:"TOTAL CIPAV",
+      label:"Total CIPAV",
       excludeFromTotal:true,
       montant:Results.sum(['retraiteBase', 'retraiteComplementaire', 'prevoyance'])
     });
@@ -285,7 +285,7 @@ const chargesCalculator = function(params) {
       id:"totalRSI",
       type:"subtotal",
       excludeFromTotal:true,
-      label:"TOTAL RSI",
+      label:"Total RSI",
       montant:Results.sum(['maladieMaternite'])
     });
 
@@ -297,7 +297,7 @@ const chargesCalculator = function(params) {
       id:"totalURSSAF",
       type:"subtotal",
       excludeFromTotal:true,
-      label:"TOTAL URSSAF",
+      label:"Total URSSAF",
       montant:Results.sum(['formationProfessionnelle', 'cgsCrds', 'allocationsFamiliales'])
     });
 
@@ -314,13 +314,21 @@ const chargesCalculator = function(params) {
     Results.addLine(self.impotSocietes());
     Results.addLine(self.getTva());
     Results.addLine(self.getCfe());
-    // Sous-total des cotisations sociales.
+    Results.addLine({
+      type:"subtotal",
+      id:'totalImpotsEtTaxes',
+      excludeFromTotal:true,
+      label:"Total des impôts et taxes",
+      montant:Results.sum(['impotSocietes', 'tva', 'cfe'])
+    });
+
+    // le total finale des contributions : cotisations sociales impots et taxes
     Results.addLine({
       type:"subtotal",
       id:'totalContributions',
       excludeFromTotal:true,
-      label:"TOTAL CONTRIBUTIONS",
-      montant:Results.sum(['totalCotisationSociales', 'impotSocietes', 'tva', 'cfe'])
+      label:"TOTAL DES IMPOTS, TAXES ET COTISATIONS SOCIALES",
+      montant:Results.sum(['totalCotisationSociales', 'totalImpotsEtTaxes'])
     });
 
     Results.addLine(self.getRemuneration());
