@@ -1,6 +1,12 @@
 /**
  * Calculer un montant en fonction d'une base de calcul
  * et de ses "tranches" correspondantes.
+ *
+ * @TODO : flagguer les tranches "actives" à true et faire ainsi le total
+ * plutôt que de faire un array tranches Actives
+ * Cela permettra de les voir dans le résultat final, surlignées en jaune
+ * et de voir quand on risque de passer à la tranche suivant, on pourra
+ * même mettre des icône pour indiquer qu'on risque de passer à la tranche suivante
  */
 
 const service = {};
