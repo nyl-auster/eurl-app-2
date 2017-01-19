@@ -4,13 +4,29 @@ Composant racine de notre simulateur
 <template>
 
   <div id="simulateur">
+
     <simulateur-form :formValues="params" @onFormValuesUpdated="setParams"></simulateur-form>
-    <simulateur-results-synthese :Results="Results"></simulateur-results-synthese>
+
+    <simulateur-results-synthese :params="params" :Results="Results"></simulateur-results-synthese>
+
+    <!--
     <div class="row">
       <div class="small-12 columns">
-        <simulateur-results-table :params="params" :Results="Results"></simulateur-results-table>
+
+        <simulateur-charts :params="params" :Results="Results"></simulateur-charts>
+
       </div>
     </div>
+    -->
+
+    <div class="row">
+      <div class="small-12 columns">
+
+        <simulateur-results-table :params="params" :Results="Results"></simulateur-results-table>
+
+      </div>
+    </div>
+
   </div>
 
 </template>
@@ -20,6 +36,7 @@ Composant racine de notre simulateur
   import SimulateurForm from "./simulateurForm"
   import SimulateurResultsTable from "./SimulateurResultsTable"
   import SimulateurResultsSynthese from "./SimulateurResultsSynthese";
+  import SimulateurCharts from "./SimulateurCharts";
   import chargesCalculator from "../../services/chargesCalculator";
 
   export default {
@@ -64,7 +81,8 @@ Composant racine de notre simulateur
       SimulateurForm,
       chargesCalculator,
       SimulateurResultsTable,
-      SimulateurResultsSynthese
+      SimulateurResultsSynthese,
+      SimulateurCharts
     }
   }
 </script>

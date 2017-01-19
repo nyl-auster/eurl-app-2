@@ -61,8 +61,23 @@ export default {
 
 <style scoped>
 
-  .total, .subtotal {
+  .total, .subtotal, .sub-subtotal {
     font-weight:bold;
+  }
+
+  .sub-subtotal {
+    background-color:#f8f8f8;
+  }
+
+  .subtotal {
+    background:rgb(240,240,240);
+  }
+
+  .total {
+    background:rgb(240,240,240);
+    border:solid border 2px;
+    font-size:1.5rem;
+    text-transform:uppercase;
   }
 
   table {

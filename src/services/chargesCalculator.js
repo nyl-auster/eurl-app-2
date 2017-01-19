@@ -273,7 +273,7 @@ const chargesCalculator = function(params) {
     Results.addLine(self.getPrevoyance());
     Results.addLine({
       id:"totalCIPAV",
-      type:"subtotal",
+      type:"sub-subtotal",
       label:"Total CIPAV",
       excludeFromTotal:true,
       montant:Results.sum(['retraiteBase', 'retraiteComplementaire', 'prevoyance'])
@@ -283,7 +283,7 @@ const chargesCalculator = function(params) {
     Results.addLine(self.maladieMaternite());
     Results.addLine({
       id:"totalRSI",
-      type:"subtotal",
+      type:"sub-subtotal",
       excludeFromTotal:true,
       label:"Total RSI",
       montant:Results.sum(['maladieMaternite'])
@@ -295,7 +295,7 @@ const chargesCalculator = function(params) {
     Results.addLine(self.cgsCrds());
     Results.addLine({
       id:"totalURSSAF",
-      type:"subtotal",
+      type:"sub-subtotal",
       excludeFromTotal:true,
       label:"Total URSSAF",
       montant:Results.sum(['formationProfessionnelle', 'cgsCrds', 'allocationsFamiliales'])
@@ -304,9 +304,9 @@ const chargesCalculator = function(params) {
     // Sous-total des cotisations sociales.
     Results.addLine({
       type:"subtotal",
-      id:'totalCotisationSociales',
+      id:'totalCotisationsSociales',
       excludeFromTotal:true,
-      label:"TOTAL DES COTISATIONS SOCIALES",
+      label:"Total des cotisations sociales",
       montant:Results.sum(['totalURSSAF', 'totalRSI', 'totalCIPAV'])
     });
 
@@ -315,7 +315,7 @@ const chargesCalculator = function(params) {
     Results.addLine(self.getTva());
     Results.addLine(self.getCfe());
     Results.addLine({
-      type:"subtotal",
+      type:"sub-subtotal",
       id:'totalImpotsEtTaxes',
       excludeFromTotal:true,
       label:"Total des impôts et taxes",
@@ -327,8 +327,8 @@ const chargesCalculator = function(params) {
       type:"subtotal",
       id:'totalContributions',
       excludeFromTotal:true,
-      label:"TOTAL DES IMPOTS, TAXES ET COTISATIONS SOCIALES",
-      montant:Results.sum(['totalCotisationSociales', 'totalImpotsEtTaxes'])
+      label:"Total impots, cotisations sociales et taxes",
+      montant:Results.sum(['totalCotisationsSociales', 'totalImpotsEtTaxes'])
     });
 
     Results.addLine(self.getRemuneration());
@@ -339,7 +339,7 @@ const chargesCalculator = function(params) {
       id:'total',
       type:"total",
       excludeFromTotal:true,
-      label:'TOTAL DEBIT PREVISIONNEL',
+      label:'Total',
       montant:Results.getTotal()
     });
 
