@@ -28,9 +28,9 @@
 import ObjectInterfaces from "./ObjectInterfaces";
 
 const config = {};
-config.plafondMax =  Number.MAX_SAFE_INTEGER;
+config.plafondMax =  Number.MAX_VALUE;
 // paramètres généraux pour le calcul des montants et charges
-config.plafond_securite_sociale = "39228";
+config.plafond_securite_sociale = 39228;
 
 const contributions = [];
 
