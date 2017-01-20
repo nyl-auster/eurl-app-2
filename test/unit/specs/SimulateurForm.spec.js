@@ -16,8 +16,8 @@ let propsData = {
   }
 };
 
-describe('SimulateurForm.vue', function() {
-  it('contient bien 4 champs input avec les bons ids et un champ select', function() {
+describe('Le composant Vue SimulateurForm.vue', function() {
+  it('contient bien 4 champs input et un select avec les bons ids', function() {
     const Component = Vue.extend(SimulateurForm);
     const vm = new Component({propsData:propsData}).$mount();
     expect(vm.$el.querySelector('input#chiffre-affaire-ttc')).not.toBe(null);

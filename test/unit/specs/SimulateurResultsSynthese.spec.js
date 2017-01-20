@@ -4,7 +4,7 @@ import chargesCalculator from "src/services/chargesCalculator";
 
 describe('SimulateurResultsSynthese.vue', function() {
 
-  it('devrait afficher le bon montant pour les provisions et le solde', function() {
+  it('doit afficher le total à provisionner et le solde restant', function() {
 
     // paramètres de base pour initier le calcul de nos dettes
     const params = {
@@ -30,7 +30,7 @@ describe('SimulateurResultsSynthese.vue', function() {
 
   });
 
-  it('devrait afficher un solde positif avec une classe css success', function() {
+  it('doit ajouter une classe css success quand le solde est positif', function() {
 
     // paramètres de base pour initier le calcul de nos dettes
     let params = {
@@ -57,7 +57,7 @@ describe('SimulateurResultsSynthese.vue', function() {
 
   });
 
-  it('devrait afficher un solde négatif avec une classe css alert', function() {
+  it('doit ajouter une classe css alert quand un solde devient négatif', function() {
 
     // paramètres de base pour initier le calcul de nos dettes
     let params = {

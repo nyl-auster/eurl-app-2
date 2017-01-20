@@ -119,7 +119,6 @@ contributions.push(new ObjectInterfaces.Contribution({
   label: 'Formation professionnelle',
   organisme: 'URSSAF',
   commentaire: "Base de calcul forfaitaire (fixe): plafond de la sécurité sociale",
-  type_tranches: 'exclusive',
   tranches:[
     new ObjectInterfaces.ContributionBracket({
       label: "Tranche 1",
@@ -281,7 +280,6 @@ contributions.push(new ObjectInterfaces.Contribution({
   id:"prevoyance",
   organisme:'CIPAV',
   label: "Invalidité Décès",
-  type_tranches:'exclusive',
   commentaire:"de 76 à 380 euros selon votre choix de classe A, B ou C",
   classes: [
     {
