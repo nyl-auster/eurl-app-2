@@ -46,7 +46,7 @@ const chargesCalculator = function(params) {
       type: 'result',
       organisme: 'Vos fournisseurs',
       label : 'Frais TTC',
-      montant : self.fraisTtc.toFixedNumber(2)
+      montant : _.round(self.fraisTtc, 2)
     }
   };
 
@@ -74,7 +74,7 @@ const chargesCalculator = function(params) {
     return new ObjectInterfaces.ResultLine({
       id:"tvaColllectee",
       label:"TVA collectée",
-      montant:(self.chiffreAffaireTtc - self.chiffreAffaireHt).toFixedNumber(2)
+      montant:_.round((self.chiffreAffaireTtc - self.chiffreAffaireHt), 2)
     });
   };
 
@@ -86,7 +86,7 @@ const chargesCalculator = function(params) {
     return new ObjectInterfaces.ResultLine({
       id:"tvaDeductible",
       label:"TVA déductible",
-      montant: (self.fraisTtc - self.fraisHt).toFixedNumber(2)
+      montant: _.round((self.fraisTtc - self.fraisHt), 2)
     });
   };
 
@@ -349,7 +349,7 @@ const chargesCalculator = function(params) {
       excludeFromTotal:true,
       hidden: true,
       label: "Restera en Banque (CA TTC - Dettes)",
-      montant: (self.chiffreAffaireTtc - Results.getTotal()).toFixedNumber(2)
+      montant: _.round((self.chiffreAffaireTtc - Results.getTotal()) ,2)
     });
 
     return Results;

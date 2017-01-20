@@ -77,12 +77,12 @@ const Results = function() {
     this.lines.push(ResultLine);
     // on ajout au total tous les types de ligne "result"
     if (true !== ResultLine.excludeFromTotal) {
-      this.total += ResultLine.montant.toFixedNumber(2);
+      this.total += _.round(ResultLine.montant, 2);
     }
   };
 
   this.getTotal = function() {
-    return this.total.toFixedNumber(2);
+    return _.round(this.total, 2);
   };
 
   this.sum = function(resultLineIds) {
@@ -91,7 +91,7 @@ const Results = function() {
       const ResultLine = this.getLine(resultLineId);
       sum += ResultLine.montant;
     });
-    return sum.toFixedNumber(2);
+    return _.round(sum, 2);
   };
 
   this.getLine = function(resultLineId) {

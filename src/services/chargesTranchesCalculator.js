@@ -29,9 +29,7 @@ service.calculerMontantTranche = (tranche, baseCalcul) => {
   else if (tranche.taux) {
     montant = baseCalcul * (tranche.taux / 100);
   }
-  // tranche.montant = montant.toFixedNumber(2);
-  // tranche.baseCalcul = baseCalcul;
-  return montant.toFixedNumber(2);
+  return _.round(montant, 2);
 };
 
 /**
@@ -109,7 +107,7 @@ service.calculerTranchesCumulatives = (baseCalcul, tranches) => {
     {
       // ... on calcule le montant dû pour la tranche courante
       tranche.baseCalcul = tranche.intervalle;
-      tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul).toFixedNumber(2);
+      tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
       // on ajoute le montant de la cotisation de cette tranche au total.
       montant += tranche.montant;
       // ajout à la liste des tranches qui s'applique à notre cas.
@@ -123,7 +121,7 @@ service.calculerTranchesCumulatives = (baseCalcul, tranches) => {
       if (depassement_plancher > 0)
       {
         tranche.baseCalcul = depassement_plancher;
-        montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul).toFixedNumber(2);
+        montant += tranche.montant = service.calculerMontantTranche(tranche, tranche.baseCalcul);
         // ajout à la liste des tranches qui s'appliquent à notre cas.
         tranchesActives.push(tranche);
       }
@@ -131,7 +129,7 @@ service.calculerTranchesCumulatives = (baseCalcul, tranches) => {
 
   });
 
-  result.montant = montant;
+  result.montant = _.round(montant, 2);
   result.tranchesActives= tranchesActives;
 
   return result;

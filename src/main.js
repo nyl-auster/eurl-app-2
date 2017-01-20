@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
 import routes from './routes'
-import "src/services/helpers";
+import _ from "lodash";
 
 Vue.use(VueRouter);
 

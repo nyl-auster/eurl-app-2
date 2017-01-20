@@ -27,3 +27,15 @@ describe('Le composant Vue SimulateurForm.vue', function() {
     expect(vm.$el.querySelector('select#prevoyance')).not.toBe(null);
   });
 });
+
+describe('Le composant Vue SimulateurForm.vue', function() {
+  it('contient bien 4 champs input et un select avec les bons ids', function() {
+    const Component = Vue.extend(SimulateurForm);
+    const vm = new Component({propsData:propsData}).$mount();
+    expect(vm.$el.querySelector('input#chiffre-affaire-ttc')).not.toBe(null);
+    expect(vm.$el.querySelector('input#frais-ht')).not.toBe(null);
+    expect(vm.$el.querySelector('input#frais-ttc')).not.toBe(null);
+    expect(vm.$el.querySelector('input#cfe')).not.toBe(null);
+    expect(vm.$el.querySelector('select#prevoyance')).not.toBe(null);
+  });
+});
