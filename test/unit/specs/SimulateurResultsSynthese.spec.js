@@ -23,8 +23,8 @@ describe('SimulateurResultsSynthese.vue', function() {
       Results
     };
 
-    const Ctor = Vue.extend(SimulateurResultsSynthese);
-    const vm = new Ctor({propsData}).$mount();
+    const Component = Vue.extend(SimulateurResultsSynthese);
+    const vm = new Component({propsData}).$mount();
     expect(vm.$el.querySelector(".test--a-provisionner-result").textContent).toEqual(Results.getLine('totalContributions').montant + " €");
     expect(vm.$el.querySelector(".test--solde-result").textContent).toEqual(Results.getLine('resteEnBanque').montant + " €");
 
@@ -49,8 +49,8 @@ describe('SimulateurResultsSynthese.vue', function() {
       Results
     };
 
-    const Ctor = Vue.extend(SimulateurResultsSynthese);
-    const vm = new Ctor({propsData}).$mount();
+    const Component = Vue.extend(SimulateurResultsSynthese);
+    const vm = new Component({propsData}).$mount();
     // success devrait être faux si on ne fait pas de bénéfice
     expect(vm.resultClasses.success).toEqual(true);
     expect(vm.resultClasses.alert).toEqual(false);
@@ -76,8 +76,8 @@ describe('SimulateurResultsSynthese.vue', function() {
       Results
     };
 
-    const Ctor = Vue.extend(SimulateurResultsSynthese);
-    const vm = new Ctor({propsData}).$mount();
+    const Component = Vue.extend(SimulateurResultsSynthese);
+    const vm = new Component({propsData}).$mount();
     // success devrait être faux si on ne fait pas de bénéfice
     expect(vm.resultClasses.success).toEqual(false);
     expect(vm.resultClasses.alert).toEqual(true);
