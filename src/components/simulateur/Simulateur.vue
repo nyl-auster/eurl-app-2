@@ -33,7 +33,7 @@ Composant racine de notre simulateur
 
 <script>
 
-  import SimulateurForm from "./simulateurForm"
+  import SimulateurForm from "./SimulateurForm"
   import SimulateurResultsTable from "./SimulateurResultsTable"
   import SimulateurResultsSynthese from "./SimulateurResultsSynthese";
   import SimulateurCharts from "./SimulateurCharts";

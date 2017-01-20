@@ -37,7 +37,19 @@ const contributions = [];
 contributions.push(new ObjectInterfaces.Contribution({
   id:'maladieMaternite',
   label: 'Maladie-maternité',
+  // @TODO : mettre dans les tranches et calculer
   organisme:'RSI',
+  premiere_annee: {
+    baseCalcul:config.plafond_securite_sociale * 0.19
+  },
+  deuxieme_annee: {
+    baseCalcul:config.plafond_securite_sociale * 0.27
+  },
+  taux_reduit: {
+    plafond: 27460,
+    taux_reduit:"3",
+    taux_plein:"6.5",
+  },
   tranches:[
     new ObjectInterfaces.ContributionBracket({
       label:"Tranche 1",
