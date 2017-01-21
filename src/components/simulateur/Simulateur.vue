@@ -50,7 +50,7 @@ Composant racine de notre simulateur
           bindToFraisHt: true,
           fraisHt: 0,
           fraisTtc: 0,
-          cfe: 500,
+          cfe: 1000,
           remuneration: 0,
           prevoyance: 'B'
          }
