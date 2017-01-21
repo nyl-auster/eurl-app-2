@@ -8,6 +8,7 @@
  * et de voir quand on risque de passer à la tranche suivant, on pourra
  * même mettre des icône pour indiquer qu'on risque de passer à la tranche suivante
  */
+import _ from "lodash";
 
 const service = {};
 

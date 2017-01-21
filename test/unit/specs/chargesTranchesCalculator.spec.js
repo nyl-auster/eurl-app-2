@@ -1,6 +1,6 @@
 import chargesTranchesCalculator from "src/services/chargesTranchesCalculator"
 
-describe('chargesTranchesCalculator', function() {
+describe('Service chargesTranchesCalculator', function() {
 
   it("calculerMontantTranche doit retourner le montant pour d'une tranche avec taux", function() {
 

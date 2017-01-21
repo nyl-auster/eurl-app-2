@@ -17,6 +17,7 @@
 import config from "./config";
 import tranchesCalculator from "./chargesTranchesCalculator";
 import ObjectInterfaces from "./ObjectInterfaces";
+import _ from "lodash";
 
 const chargesCalculator = function(params) {
 
@@ -28,7 +29,7 @@ const chargesCalculator = function(params) {
   self.fraisTtc = params.fraisTtc ? params.fraisTtc : 0;
   self.fraisHt = params.fraisHt ? params.fraisHt : 0;
   self.cfe = params.cfe ? params.cfe : 0;
-  self.prevoyance = params.prevoyance ? params.prevoyance : A;
+  self.prevoyance = params.prevoyance ? params.prevoyance : 'A';
 
   self.getRemuneration = () => {
     return {
@@ -205,7 +206,7 @@ const chargesCalculator = function(params) {
     // formule pour calculer le taux progressif récupérer sur le site de l'URSSAF via un png dégueulasse
     const tauxProgressif = ((tauxPlein - tauxReduit) / (0.3 * PASS)) * (baseCalcul - 1.1 * PASS) + tauxReduit;
     // voilà notre taux à appliquer pour les base de calcul comprises entre 110% et 140% du passe
-    contribution.tranches[1]['taux'] = tauxProgressif;
+    contribution.tranches[1]['taux'] = _.round(tauxProgressif, 2);
 
     const tranches = tranchesCalculator.calculerTrancheExclusive(baseCalcul, contribution.tranches);
     return new ObjectInterfaces.ResultLine(contribution).extends(tranches);

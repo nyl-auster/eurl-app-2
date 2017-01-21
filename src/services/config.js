@@ -71,6 +71,7 @@ contributions.push(new ObjectInterfaces.Contribution({
       commentaire:"Le plafond de cette tranche est égal à 110% du PASS",
       taux:2.15
     }),
+    // const tauxProgressif = ((tauxPlein - tauxReduit) / (0.3 * PASS)) * (baseCalcul - 1.1 * PASS) + tauxReduit
     new ObjectInterfaces.ContributionBracket({
       label:'Tranche 2',
       commentaire:"Taux progressif de 2.15% à 5.25% entre 110% du PASS et 140% du PASS",

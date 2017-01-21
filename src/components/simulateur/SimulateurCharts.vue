@@ -1,5 +1,5 @@
 <script>
-import simulateurPie from './simulateurPie'
+import SimulateurPie from './SimulateurPie'
 
 export default {
   props:['Results', 'params'],
@@ -40,7 +40,7 @@ export default {
        }
   },
   components: {
-    simulateurPie
+    SimulateurPie
   }
 }
 

@@ -35,9 +35,9 @@ import SiteFooter from './components/site/SiteFooter'
 
 export default {
   components: {
-  SiteMenu,
-  SiteHeader,
-  SiteFooter
+    SiteMenu,
+    SiteHeader,
+    SiteFooter
   }
 }
 </script>
