@@ -30,38 +30,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-  .big-picture {
-    border-top:1px solid silver;
-    border-bottom:1px solid silver;
-    margin:2rem;
-    text-align:center;
-    padding:1rem;
-    padding-top:1.2rem;
-  }
-
-  .big-picture h2 {
-    text-transform:uppercase;
-    font-weight:bold
-  }
-
-  .big-picture .result {
-    font-weight:bold;
-    font-size:2rem;
-  }
-
-  .result {
-    color:inherit;
-  }
-
-  .result.success {
-    color:green;
-    transition:all 1s;
-  }
-
-  .result.alert {
-    color:red;
-    transition:all 1s;
-  }
-</style>

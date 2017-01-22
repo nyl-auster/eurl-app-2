@@ -26,9 +26,3 @@
 
   </div>
 </template>
-
-<script>
-export default {
-  name: 'pageAide'
-}
-</script>

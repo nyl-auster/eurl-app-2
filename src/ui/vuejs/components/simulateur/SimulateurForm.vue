@@ -135,7 +135,3 @@
     </div>
   </form>
 </template>
-
-<style scoped>
-
-</style>

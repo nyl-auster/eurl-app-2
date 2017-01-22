@@ -41,34 +41,3 @@ export default {
   }
 }
 </script>
-
-<style>
-#app,h1, h2, h3, h4, h5, h6 {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif !important;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
-h1 {
-  font-size:1.9rem;
-  text-align:center;
-  text-transform:uppercase
-}
-
-h2 {
-  font-size:1.3rem;
-  text-align:center;
-  text-transform:uppercase
-}
-
-h3 {
-  font-size:1.2rem;
-  text-align:center;
-}
-
-.router-view {
-  margin-top:1.5rem;
-}
-
-</style>

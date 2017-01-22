@@ -86,8 +86,3 @@ Composant racine de notre simulateur
     }
   }
 </script>
-
-<style>
-
-</style>
-

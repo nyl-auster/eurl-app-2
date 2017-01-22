@@ -53,14 +53,3 @@ export default {
 
   </div>
 </template>
-
-<style>
-  .simulateur-charts canvas{
-     height:200px !important;
-     width:200px !important;
-  }
-
-
-
-
-</style>
