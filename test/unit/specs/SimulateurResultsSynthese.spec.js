@@ -1,5 +1,5 @@
 import Vue from "vue";
-import SimulateurResultsSynthese from 'src/components/simulateur/SimulateurResultsSynthese'
+import SimulateurResultsSynthese from 'src/ui/vuejs/components/simulateur/SimulateurResultsSynthese'
 import chargesCalculator from "src/services/chargesCalculator";
 
 describe('SimulateurResultsSynthese.vue', function() {

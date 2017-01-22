@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import SimulateurForm from 'src/components/simulateur/SimulateurForm'
+import SimulateurForm from 'src/ui/vuejs/components/simulateur/SimulateurForm'
 
 let propsData = {
   // paramètres de base pour initier le calcul de nos dettes

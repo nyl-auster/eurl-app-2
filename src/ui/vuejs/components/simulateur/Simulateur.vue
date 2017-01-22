@@ -37,7 +37,7 @@ Composant racine de notre simulateur
   import SimulateurResultsTable from "./SimulateurResultsTable"
   import SimulateurResultsSynthese from "./SimulateurResultsSynthese";
   import SimulateurCharts from "./SimulateurCharts";
-  import chargesCalculator from "../../services/chargesCalculator";
+  import chargesCalculator from "src/services/chargesCalculator";
 
   export default {
     data: function() {

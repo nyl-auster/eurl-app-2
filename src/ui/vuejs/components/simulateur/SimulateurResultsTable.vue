@@ -1,5 +1,5 @@
 <script>
-import chargesConfig from "../../services/config";
+import chargesConfig from "src/services/config";
 
 export default {
   name:'SimulateurResultsTable',
