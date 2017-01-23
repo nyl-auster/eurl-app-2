@@ -5,6 +5,34 @@
   color: #2c3e50;
 }
 
+header {
+  text-align:center;
+  margin-top:1rem;
+}
+
+#site-title {
+  font-size:1.7rem;
+  text-transform:uppercase;
+}
+
+#site-subtitle {
+  font-size:1.2rem;
+  margin-bottom:0.5rem;
+}
+
+#version {
+  font-style:italic;
+  font-size:0.9rem;
+  margin:auto;
+
+  margin-bottom:1rem;
+}
+
+footer {
+  text-align:center;
+  margin-bottom:3rem;
+}
+
 h1 {
   font-size:1.9rem;
   text-align:center;
@@ -24,6 +52,14 @@ h3 {
 
 .router-view {
   margin-top:1.5rem;
+}
+
+.menu-center a {
+  text-transform:uppercase;
+}
+
+.menu-center a.router-link-active {
+  border-bottom: solid #1779ba 1px;
 }
 
 .big-picture {
@@ -109,3 +145,4 @@ table tr:nth-of-type(even) {
   height:200px !important;
   width:200px !important;
 }
+

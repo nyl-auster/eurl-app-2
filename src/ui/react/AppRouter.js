@@ -9,8 +9,11 @@ export default React.createClass({
   render() {
     return (
       <Router history={hashHistory}>
+        {/* Le composant racine est App */}
         <Route path="/" component={App}>
+          {/* La page par défaut est notre simulateur */}
           <IndexRoute component={PageSimulateur}/>
+          {/* Les routes de notre application */}
           <Route path="/simulateur" component={PageSimulateur}/>
           <Route path="/aide" component={PageAide}/>
           <Route path="/contact" component={PageContact}/>

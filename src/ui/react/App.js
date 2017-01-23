@@ -1,21 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router'
+import SiteMenu from './components/site/SiteMenu'
+import SiteHeader from './components/site/SiteHeader'
+import SiteFooter from './components/site/SiteFooter'
 
 export default React.createClass({
   render() {
     return (
       <div>
-
-        <h1>Simulateur</h1>
-        <ul role="nav">
-          <li><Link  to="/simulateur" activeClassName="active">Simulateur</Link></li>
-          <li><Link to="/aide" activeClassName="active">Aide</Link></li>
-          <li><Link to="/contact" activeClassName="active">Contact</Link></li>
-        </ul>
-
-        {/* Les composants apparaitront ici */}
+        <SiteHeader />
+        <SiteMenu />
+        {/* Les composants injectées par react-router apparaitront ici */}
         {this.props.children}
-
+        <SiteFooter />
       </div>
     )
   }

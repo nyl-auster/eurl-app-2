@@ -6,7 +6,6 @@ export default React.createClass({
     return (
       <div>
         <Simulateur />
-        Ceci est le simulateur
       </div>
     )
   }
