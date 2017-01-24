@@ -3,21 +3,20 @@ import SimulateurForm from './SimulateurForm';
 
 export default class Simulateur extends React.Component {
 
-
   constructor(props) {
     super(props);
-    //..this.handleFormChange = this.handleFormChange.bind(this);
+    this.state = {calculatorParams: {}}
+    this.onCallback = this.onCallback.bind(this);
   }
 
-
-  getFormCHanges(formValues) {
-    console.log(formValues);
+  onCallback(formValues) {
+    this.setState({calculatorParams:formValues});
   }
 
   render() {
     return (
       <div>
-        <SimulateurForm getFormChanges={this.getFormChanges}/>
+        <SimulateurForm onCallback={this.onCallback}/>
       </div>
     )
   }

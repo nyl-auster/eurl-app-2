@@ -55,7 +55,7 @@ export default class SimulateurForm extends React.Component {
 
     this.setState(newState);
 
-    //this.props.getFormChanges(newState);
+    this.props.onCallback(newState);
   }
 
   render() {
