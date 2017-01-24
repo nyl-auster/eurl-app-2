@@ -4,12 +4,58 @@ export default class SimulateurForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = props.formValues;
+    this.state = {
+      chiffreAffaireHt: 0,
+      chiffreAffaireTtc: 0,
+      bindToCaHt: true,
+      bindToFraisHt: true,
+      fraisHt: 0,
+      fraisTtc: 0,
+      cfe: 1000,
+      remuneration: 0,
+      prevoyance: 'B',
+      bindToCaHt:true
+    };
     this.handleFormChange = this.handleFormChange.bind(this);
   }
 
   handleFormChange(event) {
-    this.props.handleFormChange(event);
+
+    const newState = {};
+
+    newState[event.target.name] = event.target.value;
+
+    // si on est en tranche de cocher / décocher la checkbox bindToCaHt
+    if (event.target.name === 'bindToCaHt') {
+      // on prend l'attribut "checked" au lieu de "value" car c'est une checkbox
+      newState.bindToCaHt = event.target.checked;
+      // si elle est cochée, on calcule automatiquement le TTC à partir du HT
+      if (event.target.checked){
+        newState.chiffreAffaireTtc = this.state.chiffreAffaireHt * 0.20;
+      }
+    }
+
+    // si on est en tranche de cocher / décocher la checkbox bindToCaHt
+    if (event.target.name === 'bindToFraisHt') {
+      // on prend l'attribut "checked" au lieu de "value" car c'est une checkbox
+      newState.bindToFraisHt = event.target.checked;
+      // si elle est cochée, on calcule automatiquement le TTC à partir du HT
+      if (event.target.checked){
+        newState.fraisTtc = this.state.fraisHt * 0.20;
+      }
+    }
+
+    if (event.target.name === 'chiffreAffaireHt' && this.state.bindToCaHt === true) {
+      newState.chiffreAffaireTtc = event.target.value * 0.20;
+    }
+
+    if (event.target.name === 'fraisHt' && this.state.bindToFraisHt === true) {
+      newState.fraisTtc = event.target.value * 0.20;
+    }
+
+    this.setState(newState);
+
+    //this.props.getFormChanges(newState);
   }
 
   render() {
@@ -17,12 +63,12 @@ export default class SimulateurForm extends React.Component {
       <form className="simulator-form" onChange={this.handleFormChange}>
 
         {/*
-        <div className="callout text-center">
-          <button className="close-button" aria-label="Close alert" type="button">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <em>Entrez ci-dessous les chiffres correspondant à vos estimations sur une période d'un an.</em>
-        </div>
+         <div className="callout text-center">
+         <button className="close-button" aria-label="Close alert" type="button">
+         <span aria-hidden="true">&times;</span>
+         </button>
+         <em>Entrez ci-dessous les chiffres correspondant à vos estimations sur une période d'un an.</em>
+         </div>
          */}
 
         <div className="row">
@@ -39,9 +85,9 @@ export default class SimulateurForm extends React.Component {
           {/*Chiffre d'affaire TTC */}
           <div className="large-3 small-12 columns">
             <label htmlFor="chiffre-affaire-ttc">Chiffre d'affaires TTC</label>
-            <input defaultValue={this.state.chiffreAffaireTtc} name="chiffreAffaireTtc" type="text" id="chiffre-affair‡e-ttc" />
+            <input value={this.state.chiffreAffaireTtc} name="chiffreAffaireTtc" type="text" id="chiffre-affair‡e-ttc" />
             <div className="simulator-form__field__description">
-              <input type="checkbox" /> <em>automatiquement à 20% du HT</em> <br />
+              <input name="bindToCaHt" defaultChecked={this.state.bindToCaHt} type="checkbox" /> <em>automatiquement à 20% du HT</em> <br />
               Le total des ventes de la société en incluant la TVA.
             </div>
           </div>
@@ -58,9 +104,9 @@ export default class SimulateurForm extends React.Component {
           {/*frais TTC*/}
           <div className="large-3 small-12 columns">
             <label htmlFor="frais-ttc"> Frais TTC </label>
-            <input defaultValue={this.state.fraisTtc} name="fraisTtc" type="text" id="frais-ttc" className="form-control" />
+            <input value={this.state.fraisTtc} name="fraisTtc" type="text" id="frais-ttc" className="form-control" />
             <div className="simulator-form__field__description">
-              <input type="checkbox" />
+              <input name="bindToFraisHt" defaultChecked={this.state.bindToFraisHt} type="checkbox" />
               <em>automatiquement à 20% du HT</em> <br />
               <div className="">
                 Vos dépenses de sociétés avec la TVA : expertise comptable, achats, fournisseurs etc ...
