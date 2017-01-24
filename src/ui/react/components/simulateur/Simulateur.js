@@ -1,5 +1,6 @@
 import React from 'react';
 import SimulateurForm from './SimulateurForm';
+import SimulateurResultsSynthese from './SimulateurResultsSynthese';
 import chargesCalculator from "src/services/chargesCalculator";
 
 export default class Simulateur extends React.Component {
@@ -23,14 +24,13 @@ export default class Simulateur extends React.Component {
     this.onFormChange = this.onFormChange.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.calculateResults();
   }
 
   calculateResults() {
-    const Results = chargesCalculator(this.state).getResults(this.state.calculatorParams);
-    console.log(Results);
-    this.setState({Results:Results});
+    const Results = chargesCalculator(this.state.calculatorParams);
+    this.setState({Results:Results.getResults()});
   }
 
   onFormChange(formValues) {
@@ -40,13 +40,15 @@ export default class Simulateur extends React.Component {
         calculatorParams[property] = formValues[property];
       }
     }
-    this.setState({calculatorParams})
+    this.calculateResults(calculatorParams);
+    this.setState({calculatorParams});
   }
 
   render() {
     return (
       <div>
         <SimulateurForm defaultFormValues={this.state.calculatorParams} onFormChange={this.onFormChange}/>
+        <SimulateurResultsSynthese Results={this.state.Results} />
       </div>
     )
   }

@@ -42,7 +42,7 @@ export default class SimulateurForm extends React.Component {
       formValues.bindToCaHt = event.target.checked;
       // si elle est cochée, on calcule automatiquement le TTC à partir du HT
       if (event.target.checked){
-        formValues.chiffreAffaireTtc = _.round(this.state.formValues.chiffreAffaireHt * 0.20);
+        formValues.chiffreAffaireTtc = _.round(this.state.formValues.chiffreAffaireHt * 1.20);
       }
     }
 
@@ -52,16 +52,16 @@ export default class SimulateurForm extends React.Component {
       formValues.bindToFraisHt = event.target.checked;
       // si elle est cochée, on calcule automatiquement le TTC à partir du HT
       if (event.target.checked){
-        formValues.fraisTtc = _.round(this.state.formValues.fraisHt * 0.20, 2);
+        formValues.fraisTtc = _.round(this.state.formValues.fraisHt * 1.20, 2);
       }
     }
 
     if (event.target.name === 'chiffreAffaireHt' && this.state.formValues.bindToCaHt === true) {
-      formValues.chiffreAffaireTtc = _.round(event.target.value * 0.20, 2);
+      formValues.chiffreAffaireTtc = _.round(event.target.value * 1.20, 2);
     }
 
     if (event.target.name === 'fraisHt' && this.state.formValues.bindToFraisHt === true) {
-      formValues.fraisTtc = _.round(event.target.value * 0.20, 2);
+      formValues.fraisTtc = _.round(event.target.value * 1.20, 2);
     }
 
     this.setState({formValues:formValues});

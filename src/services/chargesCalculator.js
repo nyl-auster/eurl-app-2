@@ -23,13 +23,15 @@ const chargesCalculator = function(params) {
 
   const self = {};
 
-  self.chiffreAffaireTtc = params.chiffreAffaireTtc ? params.chiffreAffaireTtc : 0;
-  self.chiffreAffaireHt = params.chiffreAffaireHt ? params.chiffreAffaireHt : 0;
-  self.remuneration = params.remuneration ? params.remuneration : 0;
-  self.fraisTtc = params.fraisTtc ? params.fraisTtc : 0;
-  self.fraisHt = params.fraisHt ? params.fraisHt : 0;
-  self.cfe = params.cfe ? params.cfe : 0;
+  self.chiffreAffaireTtc = params.chiffreAffaireTtc ? parseFloat(params.chiffreAffaireTtc) : 0;
+  self.chiffreAffaireHt = params.chiffreAffaireHt ? parseFloat(params.chiffreAffaireHt) : 0;
+  self.remuneration = params.remuneration ? parseFloat(params.remuneration) : 0;
+  self.fraisTtc = params.fraisTtc ? parseFloat(params.fraisTtc) : 0;
+  self.fraisHt = params.fraisHt ? parseFloat(params.fraisHt) : 0;
+  self.cfe = params.cfe ? parseFloat(params.cfe) : 0;
   self.prevoyance = params.prevoyance ? params.prevoyance : 'A';
+
+  console.log(self);
 
   self.getRemuneration = () => {
     return {
