@@ -25,11 +25,11 @@ export default class Simulateur extends React.Component {
   }
 
   componentWillMount() {
-    this.calculateResults();
+    this.calculateResults(this.state.calculatorParams);
   }
 
-  calculateResults() {
-    const Results = chargesCalculator(this.state.calculatorParams);
+  calculateResults(params) {
+    const Results = chargesCalculator(params);
     this.setState({Results:Results.getResults()});
   }
 
@@ -40,8 +40,8 @@ export default class Simulateur extends React.Component {
         calculatorParams[property] = formValues[property];
       }
     }
-    this.calculateResults(calculatorParams);
     this.setState({calculatorParams});
+    this.calculateResults(calculatorParams);
   }
 
   render() {

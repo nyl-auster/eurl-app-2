@@ -31,8 +31,6 @@ const chargesCalculator = function(params) {
   self.cfe = params.cfe ? parseFloat(params.cfe) : 0;
   self.prevoyance = params.prevoyance ? params.prevoyance : 'A';
 
-  console.log(self);
-
   self.getRemuneration = () => {
     return {
       id: "remuneration",
