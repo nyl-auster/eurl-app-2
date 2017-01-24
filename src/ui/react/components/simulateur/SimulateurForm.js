@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from "lodash"
 
 export default class SimulateurForm extends React.Component {
 
@@ -41,21 +42,21 @@ export default class SimulateurForm extends React.Component {
       newState.bindToFraisHt = event.target.checked;
       // si elle est cochée, on calcule automatiquement le TTC à partir du HT
       if (event.target.checked){
-        newState.fraisTtc = this.state.fraisHt * 0.20;
+        newState.fraisTtc = _.round(this.state.fraisHt * 0.20, 2);
       }
     }
 
     if (event.target.name === 'chiffreAffaireHt' && this.state.bindToCaHt === true) {
-      newState.chiffreAffaireTtc = event.target.value * 0.20;
+      newState.chiffreAffaireTtc = _.round(event.target.value * 0.20, 2);
     }
 
     if (event.target.name === 'fraisHt' && this.state.bindToFraisHt === true) {
-      newState.fraisTtc = event.target.value * 0.20;
+      newState.fraisTtc = _.round(event.target.value * 0.20, 2);
     }
 
     this.setState(newState);
 
-    this.props.onCallback(newState);
+    this.props.onFormChange(newState);
   }
 
   render() {
@@ -76,7 +77,7 @@ export default class SimulateurForm extends React.Component {
           {/*Chiffres d'affaires HT */}
           <div className="large-3 small-12 columns">
             <label htmlFor="chiffre-affaire-ht">Chiffre d'affaires HT</label>
-            <input type="text" name="chiffreAffaireHt" defaultValue={this.state.chiffreAffaireHt} id="chiffre-affaire-ht"/>
+            <input type="text" name="chiffreAffaireHt" value={this.state.chiffreAffaireHt} id="chiffre-affaire-ht"/>
             <div className="simulator-form__field__description">
               Votre chiffre d'affaires sans la TVA de vos ventes. C'est une base de calcul pour certaines des charges.
             </div>
@@ -95,7 +96,7 @@ export default class SimulateurForm extends React.Component {
           {/*frais HT */}
           <div className="large-3 small-12 columns">
             <label htmlFor="frais-ht"> Frais HT </label>
-            <input defaultValue={this.state.fraisHt} step="any"  name="fraisHt"  type="text" id="frais-ht" />
+            <input value={this.state.fraisHt} name="fraisHt"  type="text" id="frais-ht" />
             <div className="simulator-form__field__description">
               Vos dépenses de sociétés <strong>hors taxe</strong> : expertise comtpable, achats, fournisseurs etc ...
             </div>
@@ -118,7 +119,7 @@ export default class SimulateurForm extends React.Component {
           {/*CFE */}
           <div className="large-3 small-12 columns">
             <label htmlFor="cfe"> CFE à verser </label>
-            <input defaultValue={this.state.cfe} name="cfe" type="text" id="cfe" placeholder="CFE" />
+            <input value={this.state.cfe} name="cfe" type="text" id="cfe"/>
             <div className="simulator-form__field__description">
               Vous devez verser une cotisation foncière des entreprises, dont le montant dépend de votre commune.
             </div>
@@ -127,7 +128,7 @@ export default class SimulateurForm extends React.Component {
           {/*Rémunération */}
           <div className="large-3 small-12 columns">
             <label htmlFor="remuneration"> Rémunération </label>
-            <input defaultValue={this.state.remuneration}  name="remuneration" id="remuneration" type="text" placeholder="Rémunération" />
+            <input value={this.state.remuneration}  name="remuneration" id="remuneration" type="text" />
             <div className="simulator-form__field__description">
               Votre rémunération en tant que gérant. Les cotisations sociales sont calculées sur cette base.
             </div>
