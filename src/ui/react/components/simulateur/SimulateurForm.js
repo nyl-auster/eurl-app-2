@@ -7,6 +7,7 @@ export default class SimulateurForm extends React.Component {
 
     super(props);
     this.state = {
+      showHelpMessage:true,
       formValues: {
         chiffreAffaireHt: 0,
         chiffreAffaireTtc: 0,
@@ -16,8 +17,7 @@ export default class SimulateurForm extends React.Component {
         fraisTtc: 0,
         cfe: 1000,
         remuneration: 0,
-        prevoyance: 'B',
-        bindToCaHt: true
+        prevoyance: 'B'
       }
     };
 
@@ -26,64 +26,57 @@ export default class SimulateurForm extends React.Component {
       Object.assign(this.state.formValues, props.defaultFormValues);
     }
     this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleHelpMessageClick = this.handleHelpMessageClick.bind(this);
+  }
+
+  handleHelpMessageClick() {
+    this.setState({showHelpMessage:!this.state.showHelpMessage})
   }
 
   handleFormChange(event) {
 
-    // on fait attention à ne pas muter this.state directement
-    // car setState pourrait overrider ces modifications
+    // on ne mute pas "state" directement
     const formValues = Object.assign({}, this.state.formValues);
 
     formValues[event.target.name] = event.target.value;
 
-    // si on est en tranche de cocher / décocher la checkbox bindToCaHt
-    if (event.target.name === 'bindToCaHt') {
-      // on prend l'attribut "checked" au lieu de "value" car c'est une checkbox
-      formValues.bindToCaHt = event.target.checked;
-      // si elle est cochée, on calcule automatiquement le TTC à partir du HT
-      if (event.target.checked){
-        formValues.chiffreAffaireTtc = _.round(this.state.formValues.chiffreAffaireHt * 1.20);
-      }
+    // pour les cases à cocher, on prend l'attribut "checked" au lieu de "value"
+    if (event.target.name === 'bindToCaHt' || event.target.name === 'bindToFraisHt') {
+      formValues[event.target.name ] = event.target.checked;
     }
 
-    // si on est en tranche de cocher / décocher la checkbox bindToCaHt
-    if (event.target.name === 'bindToFraisHt') {
-      // on prend l'attribut "checked" au lieu de "value" car c'est une checkbox
-      formValues.bindToFraisHt = event.target.checked;
-      // si elle est cochée, on calcule automatiquement le TTC à partir du HT
-      if (event.target.checked){
-        formValues.fraisTtc = _.round(this.state.formValues.fraisHt * 1.20, 2);
-      }
+    // quand le CA HT change, on update automatiquemet le CA TTC si demandé
+    if (formValues.bindToCaHt === true) {
+      formValues.chiffreAffaireTtc = _.round(formValues.chiffreAffaireHt * 1.20, 2);
     }
 
-    if (event.target.name === 'chiffreAffaireHt' && this.state.formValues.bindToCaHt === true) {
-      formValues.chiffreAffaireTtc = _.round(event.target.value * 1.20, 2);
-    }
-
-    if (event.target.name === 'fraisHt' && this.state.formValues.bindToFraisHt === true) {
-      formValues.fraisTtc = _.round(event.target.value * 1.20, 2);
+    if (formValues.bindToFraisHt === true) {
+      formValues.fraisTtc = _.round(formValues.fraisHt * 1.20, 2);
     }
 
     this.setState({formValues:formValues});
 
-    // si nous avons un callback pour écouter les changement de valeurs de notre formulaire
+    // si nous avons un callback pour écouter les changements de valeurs de notre formulaire
     if (this.props.hasOwnProperty("onFormChange")) {
       this.props.onFormChange(formValues);
     }
   }
 
   render() {
+
+    const helpMessage = (
+      <div className="callout text-center">
+        <button onClick={this.handleHelpMessageClick} className="close-button" aria-label="Close alert" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <em>Entrez ci-dessous les chiffres correspondant à vos estimations sur une période d'un an.</em>
+      </div>
+    );
+
     return (
       <form className="simulator-form" onChange={this.handleFormChange}>
 
-        {/*
-         <div className="callout text-center">
-         <button className="close-button" aria-label="Close alert" type="button">
-         <span aria-hidden="true">&times;</span>
-         </button>
-         <em>Entrez ci-dessous les chiffres correspondant à vos estimations sur une période d'un an.</em>
-         </div>
-         */}
+        {this.state.showHelpMessage ? helpMessage : ''}
 
         <div className="row">
 
@@ -99,7 +92,7 @@ export default class SimulateurForm extends React.Component {
           {/*Chiffre d'affaire TTC */}
           <div className="large-3 small-12 columns">
             <label htmlFor="chiffre-affaire-ttc">Chiffre d'affaires TTC</label>
-            <input value={this.state.formValues.chiffreAffaireTtc} name="chiffreAffaireTtc" type="text" id="chiffre-affair‡e-ttc" />
+            <input disabled={this.state.formValues.bindToCaHt} value={this.state.formValues.chiffreAffaireTtc} name="chiffreAffaireTtc" type="text" id="chiffre-affair‡e-ttc" />
             <div className="simulator-form__field__description">
               <input name="bindToCaHt" defaultChecked={this.state.formValues.bindToCaHt} type="checkbox" /> <em>automatiquement à 20% du HT</em> <br />
               Le total des ventes de la société en incluant la TVA.
@@ -118,7 +111,7 @@ export default class SimulateurForm extends React.Component {
           {/*frais TTC*/}
           <div className="large-3 small-12 columns">
             <label htmlFor="frais-ttc"> Frais TTC </label>
-            <input value={this.state.formValues.fraisTtc} name="fraisTtc" type="text" id="frais-ttc" className="form-control" />
+            <input disabled={this.state.formValues.bindToFraisHt} value={this.state.formValues.fraisTtc} name="fraisTtc" type="text" id="frais-ttc" className="form-control" />
             <div className="simulator-form__field__description">
               <input name="bindToFraisHt" defaultChecked={this.state.formValues.bindToFraisHt} type="checkbox" />
               <em>automatiquement à 20% du HT</em> <br />
