@@ -9,16 +9,6 @@ Composant racine de notre simulateur
 
     <simulateur-results-synthese :params="params" :Results="Results"></simulateur-results-synthese>
 
-    <!--
-    <div class="row">
-      <div class="small-12 columns">
-
-        <simulateur-charts :params="params" :Results="Results"></simulateur-charts>
-
-      </div>
-    </div>
-    -->
-
     <div class="row">
       <div class="small-12 columns">
 

@@ -11,6 +11,7 @@ export default class Simulateur extends React.Component {
     this.state = {
       // résultats du calculator
       Results: {},
+      resultClasses: '',
       // paramètres par défaut du calculator
       calculatorParams: {
         chiffreAffaireHt: 0,
@@ -47,10 +48,14 @@ export default class Simulateur extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="simulateur">
         <SimulateurForm defaultFormValues={this.state.calculatorParams} onFormChange={this.onFormChange}/>
         <SimulateurResultsSynthese Results={this.state.Results} />
-        <SimulateurResultsTable Results={this.state.Results} />
+        <div className="row">
+          <div className="small-12 columns">
+            <SimulateurResultsTable Results={this.state.Results} />
+          </div>
+        </div>
       </div>
     )
   }
