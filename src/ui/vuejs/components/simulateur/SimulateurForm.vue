@@ -7,9 +7,6 @@
         form: this.formValues
       }
     },
-    methods: {
-
-    },
     watch: {
       "form": {
         deep: true,
