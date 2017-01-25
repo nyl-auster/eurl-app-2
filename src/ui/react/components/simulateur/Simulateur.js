@@ -1,6 +1,7 @@
 import React from 'react';
 import SimulateurForm from './SimulateurForm';
 import SimulateurResultsSynthese from './SimulateurResultsSynthese';
+import SimulateurResultsTable from './SimulateurResultsTable';
 import chargesCalculator from "src/services/chargesCalculator";
 
 export default class Simulateur extends React.Component {
@@ -49,6 +50,7 @@ export default class Simulateur extends React.Component {
       <div>
         <SimulateurForm defaultFormValues={this.state.calculatorParams} onFormChange={this.onFormChange}/>
         <SimulateurResultsSynthese Results={this.state.Results} />
+        <SimulateurResultsTable Results={this.state.Results} />
       </div>
     )
   }
