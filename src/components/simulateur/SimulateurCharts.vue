@@ -1,66 +1,62 @@
 <script>
-import SimulateurPie from './SimulateurPie'
+  import SimulateurPie from './SimulateurPie'
 
-export default {
-  props:['Results', 'params'],
-  computed: {
-    resultClasses: function() {
-      return {
-        alert:this.Results.getLine('resteEnBanque').montant < 0,
-        success:this.Results.getLine('resteEnBanque').montant > 0
-      }
-    },
-    chartData:function(){
-    return {
-        labels: [
-            "Cotisations sociales",
-            "Salaire"
+  export default {
+    props:['Results', 'params'],
+    computed: {
+      resultClasses: function() {
+        return {
+          alert:this.Results.getLine('resteEnBanque').montant < 0,
+          success:this.Results.getLine('resteEnBanque').montant > 0
+        }
+      },
+      chartData:function(){
+        return {
+          labels: [
+          "Cotisations sociales",
+          "Salaire"
             //"Yellow"
-        ],
-        datasets: [
-        {
-          data: [
-            this.Results.getLine('totalCotisationsSociales').montant,
-            this.params.remuneration
-          ]
+            ],
+            datasets: [
+            {
+              data: [
+              this.Results.getLine('totalCotisationsSociales').montant,
+              this.params.remuneration
+              ]
           //100]
           ,
           backgroundColor: [
-              "#FF6384",
-              "#36A2EB"
+          "#FF6384",
+          "#36A2EB"
               //"#FFCE56"
-          ],
-          hoverBackgroundColor: [
+              ],
+              hoverBackgroundColor: [
               "#FF6384",
               "#36A2EB"
              // "#FFCE56"
-          ]
-        }]
-      }
+             ]
+           }]
+         }
        }
-  },
-  components: {
-    SimulateurPie
-  }
-}
+     },
+     components: {
+       SimulateurPie
+     }
+   }
 
-</script>
+ </script>
 
-<template>
-  <div class="simulateur-charts">
+ <template>
+ <div class="component simulateur-charts">
 
-    <simulateur-pie :chartData="chartData"></simulateur-pie>
+     <simulateur-pie :chartData="chartData"></simulateur-pie>
 
-  </div>
-</template>
+   </div>
+ </template>
 
-<style>
-  .simulateur-charts canvas{
+ <style scoped>
+   .simulateur-charts canvas{
      height:200px !important;
      width:200px !important;
-  }
-
-
-
-
-</style>
+   }
+ </style>

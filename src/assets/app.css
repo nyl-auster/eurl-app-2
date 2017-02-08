@@ -1,0 +1,78 @@
+.big-picture {
+  border-top:1px solid silver;
+  border-bottom:1px solid silver;
+  margin:2rem;
+  text-align:center;
+  padding:1rem;
+  padding-top:1.2rem;
+}
+
+.big-picture h2 {
+  text-transform:uppercase;
+  font-weight:bold
+}
+
+.big-picture .result {
+  font-weight:bold;
+  font-size:2rem;
+}
+
+.result {
+  color:inherit;
+}
+
+.result.success {
+  color:green;
+  transition:all 1s;
+}
+
+.result.alert {
+  color:red;
+  transition:all 1s;
+}
+
+.total, .subtotal, .sub-subtotal {
+  font-weight:bold;
+}
+
+.sub-subtotal {
+  background-color:#f8f8f8;
+}
+
+.subtotal {
+  background:rgb(240,240,240);
+}
+
+.total {
+  background:rgb(240,240,240);
+  border:solid border 2px;
+  font-size:1.5rem;
+  text-transform:uppercase;
+}
+
+table {
+  border-collapse:collapse;
+  border: solid black 1px;
+}
+
+.showDetails {
+  font-weight: normal;
+}
+
+table tr:nth-of-type(even) {
+  background-color: transparent !important;
+}
+
+.lines-results__result__details {
+  font-style: italic;
+  color: #888;
+  font-size: .9em;
+}
+
+.lines-results__result__total td {
+  border-top: 1px solid #BBB;
+}
+
+.montant {
+  text-align:right;
+}

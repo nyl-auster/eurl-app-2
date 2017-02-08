@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="component" id="component--page-simulateur">
     <simulateur></simulateur>
   </div>
 </template>
@@ -8,8 +8,6 @@
 import Simulateur from '../simulateur/Simulateur'
 export default {
   name: 'pageSimulateur',
-  components: {
-    Simulateur
-  }
+  components: {Simulateur}
 }
 </script>

@@ -1,12 +1,14 @@
 <template>
-  <div class="aide">
+  <div class="component" id="component--page-aide">
     <h1>Aide</h1>
     <h2>A quoi sert ce simulateur ?</h2>
 
     <p><strong>Ce simulateur essaie de donner à un dirigeant d'EURL la réponse la plus simple possible à la question complexe "combien il restera à ma société une fois tout payé" ?</strong></p>
 
-    <p>Difficile d'y voir clair dans la fiscalité complexe des sociétés françaises pour un indépendant, celui-ci n'a d'ailleurs que peu de temps pour décortiquer un système qui en demande beaucoup pour être pleinement compris.
-      Si bien qu'il est bien difficile pour celui-ci d'avoir une vision claire de ce qu'il lui revient et de ce qu'il devra reverser tôt ou tard aux différents organismes.</p>
+    <p>Difficile d'y voir clair dans la fiscalité complexe des sociétés françaises pour un indépendant, celui-ci n'a d'ailleurs que peu de temps pour décortiquer un système qui en demande beaucoup pour être pleinement compris.</p>
+
+    <p>Si bien qu'il est bien difficile pour celui-ci d'avoir une vision claire de ce qu'il lui revient et de ce qu'il devra reverser tôt ou tard aux différents organismes.</p>
+
     <p>Ce manque de visibilité sur sa trésorerie est dramatique et peut lui coûter la survie de sa structure.</p>
     <p>On lui dit parfois qu'il suffit de mettre la moitié de ce qu'il gagne pour éviter tout souci. Oui mais la moitié de quoi ? De son chiffre d'affaire Hors taxe ? De la rémunération qu'il se verse ? Est-ce vrai pour toutes les situations ?</p>
 
@@ -26,9 +28,3 @@
 
   </div>
 </template>
-
-<script>
-export default {
-  name: 'pageAide'
-}
-</script>

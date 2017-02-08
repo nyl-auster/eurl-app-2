@@ -8,15 +8,3 @@
     </ul>
   </div>
 </template>
-
-<style scoped>
-
-  a {
-    text-transform:uppercase;
-  }
-
-  a.router-link-active {
-    border-bottom: solid #1779ba 1px;
-  }
-
-</style>

@@ -2,37 +2,15 @@
 Composant racine de notre simulateur
 -->
 <template>
-
-  <div id="simulateur">
-
+  <div class="component" id="component--simulateur">
     <simulateur-form :formValues="params" @onFormValuesUpdated="setParams"></simulateur-form>
-
     <simulateur-results-synthese :params="params" :Results="Results"></simulateur-results-synthese>
-
-    <!--
-    <div class="row">
-      <div class="small-12 columns">
-
-        <simulateur-charts :params="params" :Results="Results"></simulateur-charts>
-
-      </div>
-    </div>
-    -->
-
-    <div class="row">
-      <div class="small-12 columns">
-
-        <simulateur-results-table :params="params" :Results="Results"></simulateur-results-table>
-
-      </div>
-    </div>
-
+    <simulateur-results-table :params="params" :Results="Results"></simulateur-results-table>
   </div>
 
 </template>
 
 <script>
-
   import SimulateurForm from "./SimulateurForm"
   import SimulateurResultsTable from "./SimulateurResultsTable"
   import SimulateurResultsSynthese from "./SimulateurResultsSynthese";
@@ -53,7 +31,7 @@ Composant racine de notre simulateur
           cfe: 1000,
           remuneration: 0,
           prevoyance: 'B'
-         }
+        }
       }
     },
     // calculer les résultats lors de la création de la vue
@@ -68,10 +46,10 @@ Composant racine de notre simulateur
     methods: {
       // mettre à jour les données de notre simulateur
       setParams:function(formValues) {
-         for (const property in formValues) {
-            this.params[property] = formValues[property];
-         }
-         this.calculateResults();
+        for (const property in formValues) {
+          this.params[property] = formValues[property];
+        }
+        this.calculateResults();
       },
       calculateResults:function() {
         this.Results = chargesCalculator(this.params).getResults();
@@ -86,8 +64,3 @@ Composant racine de notre simulateur
     }
   }
 </script>
-
-<style>
-
-</style>
-
