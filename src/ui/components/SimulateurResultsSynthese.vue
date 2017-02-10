@@ -1,15 +1,7 @@
 <script>
-  export default {
-    props:['Results', 'params'],
-    computed: {
-      resultClasses: function() {
-        return {
-          success:this.Results.getLine('resteEnBanque').montant > 0,
-          alert:this.Results.getLine('resteEnBanque').montant < 0,
-        }
-      }
-    }
-  }
+  import Component from "../controllers/SimulateurResultsSynthese.js"
+  Component.components = {}
+  export default Component;
 </script>
 
 <template>

@@ -1,3 +1,9 @@
+<script>
+  import Component from "../controllers/PageAide.js"
+  Component.components = {}
+  export default Component;
+</script>
+
 <template>
   <div class="component" id="component--page-aide">
     <h1>Aide</h1>
@@ -28,3 +34,4 @@
 
   </div>
 </template>
+

@@ -1,3 +1,9 @@
+<script>
+  import Component from "../controllers/PageAPropos.js"
+  Component.components = {}
+  export default Component;
+</script>
+
 <template>
   <div class="component" id="component--page-a-propos">
     <h1>A propos de l'auteur</h1>

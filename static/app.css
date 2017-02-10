@@ -1,0 +1,43 @@
+/**
+ * Global
+ */
+
+// largeur du site
+#app .row {
+  max-width: 50rem !important;
+}
+
+/**
+ * Menu
+ */
+ .menu__link a {
+   color:rgb(57,57,57);
+ }
+
+ .home-page-screen {
+   height:100%
+ }
+
+/**
+ * calculette-presentation
+ */
+.calculette-presentation {
+  padding:2rem;
+  margin:auto;
+  background:rgb(62,162,55);
+  color:white;
+}
+
+.calculette-presentation__title {
+  color:white;
+
+}
+
+.calculette-presentation__subtitle {
+  color:white;
+
+}
+
+.calculette-presentation__teaser {}
+
+.calculette-presentation

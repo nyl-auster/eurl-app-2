@@ -1,3 +1,9 @@
+<script>
+  import Component from "../controllers/PageContact.js"
+  Component.components = {}
+  export default Component;
+</script>
+
 <template>
   <div class="component" id="component--page-contact">
     <h1>Me contacter</h1>
