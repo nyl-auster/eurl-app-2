@@ -2,9 +2,9 @@
  * Global
  */
 
-// largeur du site
+/* largeur du site */
 #app .row {
-  max-width: 50rem !important;
+  max-width: 60rem !important;
 }
 
 /**
