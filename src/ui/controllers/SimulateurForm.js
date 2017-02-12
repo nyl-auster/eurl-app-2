@@ -16,6 +16,8 @@ export default {
   watch: {
     "form": {
       deep:true,
+      // synchroniser les résultats du calculateur à chaque
+      // changement du formulaire
       handler: function() {
         //this.$emit('onFormValuesUpdated', this.form);
       }
