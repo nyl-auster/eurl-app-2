@@ -30,8 +30,6 @@
     <h2>Comment se servir de ce simulateur ?</h2>
 
     <p> Entrez des chiffres correspondant à une période d’un an pour être au plus près de la réalité : le simulateur vous donnera le montant que vous devrez provisionner au titre de cette année.</p>
-
-
   </div>
 </template>
 

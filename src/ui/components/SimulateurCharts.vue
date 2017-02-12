@@ -11,6 +11,6 @@
 
 <template>
   <div class="component simulateur-charts">
-    <simulateur-pie :chartData="chartData"></simulateur-pie>
+    <simulateur-pie :chartData="chartData" />
   </div>
 </template>

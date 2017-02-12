@@ -10,7 +10,7 @@
 
 <template>
   <div class="component home-page-screen-A home-page-screen">
-    <calculettePresentation></calculettePresentation>
+    <calculettePresentation />
   </div>
 </template>
 
