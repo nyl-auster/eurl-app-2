@@ -1,24 +1,27 @@
 <script>
   import Component from "../controllers/App.js";
-  import SiteMenu from './SiteMenu'
-  import SiteHeader from './SiteHeader'
-  import SiteFooter from './SiteFooter'
+  import AppMenu from './AppMenu'
+  import AppHeader from './AppHeader'
+  import AppFooter from './AppFooter'
   import AppVersionNumber from './AppVersionNumber'
+  import AppWarning from './AppWarning'
   Component.components = {
-    SiteMenu,
-    SiteHeader,
-    SiteFooter,
-    AppVersionNumber
+    AppMenu,
+    AppHeader,
+    AppFooter,
+    AppVersionNumber,
+    AppWarning
   }
   export default Component
 </script>
 
 <template>
   <div id="app">
-    <site-header></site-header>
-    <app-version-number></app-version-number>
-    <site-menu></site-menu>
-    <router-view></router-view>
-    <site-footer></site-footer>
+    <app-header />
+    <app-version-number />
+    <app-menu />
+    <app-warning />
+    <router-view />
+    <app-footer />
   </div>
 </template>

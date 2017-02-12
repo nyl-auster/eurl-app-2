@@ -5,8 +5,12 @@
 </script>
 
 <template>
-  <div class="app-version text-center">
-    <div>version <strong>ALPHA</strong> - v 0.9.8 - 22/01/2017</div>
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="app-version text-center">
+        version <strong>ALPHA</strong> - v 0.9.6 - 12/02/2017
+      </div>
+    </div>
   </div>
 </template>
 

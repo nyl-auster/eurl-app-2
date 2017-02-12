@@ -1,5 +1,5 @@
 <script>
-  import Component from "../controllers/SiteFooter.js"
+  import Component from "../controllers/AppFooter.js"
   Component.components = {}
   export default Component;
 </script>

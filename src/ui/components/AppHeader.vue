@@ -1,5 +1,5 @@
 <script>
-  import Component from "../controllers/SiteHeader.js"
+  import Component from "../controllers/AppHeader.js"
   Component.components = {}
   export default Component;
 </script>

@@ -1,5 +1,5 @@
 <script>
-  import Component from "../controllers/SiteMenu.js"
+  import Component from "../controllers/AppMenu.js"
   Component.components = {}
   export default Component;
 </script>

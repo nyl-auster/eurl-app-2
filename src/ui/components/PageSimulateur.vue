@@ -8,12 +8,8 @@
 </script>
 
 <template>
-  <div class="component row" id="component--page-simulateur">
-    <div class="row">
-      <div class="small-12 columns">
-        <simulateur></simulateur>
-      </div>
-    </div>
+  <div class="component" id="component--page-simulateur">
+    <simulateur />
   </div>
 </template>
 
