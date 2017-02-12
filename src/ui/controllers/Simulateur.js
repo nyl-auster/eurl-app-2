@@ -8,11 +8,6 @@ export default {
     Results() {
       return chargesCalculator(this.params).getResults();
     }
-  },
-  methods: {
-    setParams (params) {
-      this.$store.commit('calculatorParams', params);
-    }
   }
 }
 

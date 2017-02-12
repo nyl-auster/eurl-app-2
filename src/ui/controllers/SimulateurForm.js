@@ -1,27 +1,22 @@
 import _ from 'lodash'
 
 export default {
-  props:['formValues'],
   data: function() {
     return {
-      showHelp: 1,
-      form: Object.assign({}, this.formValues)
+      showHelp: 1
+    }
+  },
+  computed: {
+    form() {
+      return Object.assign({}, this.$store.state.calculatorParams)
     }
   },
   methods: {
-    submit: function() {
-      this.$emit('onFormValuesUpdated', this.form)
+    submit() {
+      this.$store.commit('calculatorParams', this.form);
     }
   },
   watch: {
-    "form": {
-      deep:true,
-      // synchroniser les résultats du calculateur à chaque
-      // changement du formulaire
-      handler: function() {
-        //this.$emit('onFormValuesUpdated', this.form);
-      }
-    },
     "form.bindToCaHt": function(val, oldVal) {
       if (oldVal == 0) {
         this.form.chiffreAffaireTtc = _.round(this.form.chiffreAffaireHt * 1.20, 2);

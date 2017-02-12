@@ -13,9 +13,9 @@
 
 <template>
   <div>
-    <simulateur-form :formValues="params" @onFormValuesUpdated="setParams" />
-    <simulateur-results-synthese :params="params" :Results="Results" />
-    <simulateur-results-table :params="params" :Results="Results" />
+    <simulateur-form :formValues="params"/>
+    <simulateur-results-synthese :Results="Results" />
+    <simulateur-results-table :Results="Results" />
   </div>
 </template>
 
