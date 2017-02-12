@@ -13,7 +13,7 @@ export default {
         fraisTtc: 0,
         cfe: 1000,
         remuneration: 0,
-        prevoyance: 'B'
+        prevoyance: 'A'
       }
     }
   },
