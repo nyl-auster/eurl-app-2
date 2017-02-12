@@ -6,8 +6,7 @@
 
 <template>
   <header class="component" id="site-header">
-    <div id="site-header__title"> Simulateur de trésorerie pour EURL</div>
-    <div id="site-header__subtitle">Professions libérales - Impôt sur les sociétés</div>
-
+    <div id="site-title"> Simulateur de trésorerie pour EURL</div>
+    <div id="site-subtitle">Professions libérales - Impôt sur les sociétés</div>
   </header>
 </template>

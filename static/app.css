@@ -20,11 +20,10 @@ header {
   margin-bottom:0.5rem;
 }
 
-#version {
+.app-version {
   font-style:italic;
   font-size:0.9rem;
   margin:auto;
-
   margin-bottom:1rem;
 }
 
@@ -54,11 +53,15 @@ h3 {
   margin-top:1.5rem;
 }
 
-.menu-center a {
+.navigation {
+  padding-bottom:1rem;
+}
+
+.navigation a {
   text-transform:uppercase;
 }
 
-.menu-center a.router-link-active {
+.navigation a.router-link-active {
   border-bottom: solid #1779ba 1px;
 }
 

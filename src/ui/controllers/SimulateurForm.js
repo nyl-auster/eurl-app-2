@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export default {
   props:['formValues'],
   data: function() {
@@ -20,22 +22,22 @@ export default {
     },
     "form.bindToCaHt": function(val, oldVal) {
       if (oldVal == 0) {
-        this.form.chiffreAffaireTtc = this.form.chiffreAffaireHt * 1.20;
+        this.form.chiffreAffaireTtc = _.round(this.form.chiffreAffaireHt * 1.20, 2);
       }
     },
     "form.bindToFraisHt": function(val, oldVal) {
       if (oldVal == 0) {
-        this.form.fraisTtc = this.form.fraisHt * 1.20;
+        this.form.fraisTtc = _.round(this.form.fraisHt * 1.20, 2);
       }
     },
     "form.chiffreAffaireHt": function(val, oldVal) {
       if (this.form.bindToCaHt) {
-        this.form.chiffreAffaireTtc = this.form.chiffreAffaireHt * 1.20;
+        this.form.chiffreAffaireTtc = _.round(this.form.chiffreAffaireHt * 1.20, 2);
       }
     },
     "form.fraisHt": function(val, oldVal) {
       if (this.form.bindToFraisHt) {
-        this.form.fraisTtc = this.form.fraisHt * 1.20;
+        this.form.fraisTtc = _.round(this.form.fraisHt * 1.20, 2);
       }
     }
   }
