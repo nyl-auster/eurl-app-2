@@ -1,12 +1,15 @@
 import chargesConfig from "../../services/config";
 
 export default {
-  name:'SimulateurResultsTable',
-  props:['Results', 'params'],
   data:function() {
     return {
       showDetails:false,
       plafondMax:chargesConfig.plafondMax
+    }
+  },
+  computed: {
+    Results() {
+      return this.$store.state.calculatorResults
     }
   }
 }

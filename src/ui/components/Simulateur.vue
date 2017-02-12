@@ -13,8 +13,8 @@
 
 <template>
   <div>
-    <simulateur-form :formValues="params"/>
-    <simulateur-results-synthese :Results="Results" />
+    <simulateur-form />
+    <simulateur-results-synthese />
     <simulateur-results-table :Results="Results" />
   </div>
 </template>

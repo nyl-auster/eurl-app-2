@@ -13,11 +13,15 @@ export default {
       cfe: 1000,
       remuneration: 0,
       prevoyance: 'A'
-    }
+    },
+    calculatorResults: {}
   },
   mutations: {
     calculatorParams (state, params) {
       state.calculatorParams = params
+    },
+    calculatorResults(state, params) {
+      state.calculatorResults = params;
     }
   }
 };

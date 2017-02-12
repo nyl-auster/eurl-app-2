@@ -6,7 +6,9 @@ export default {
       return this.$store.state.calculatorParams
     },
     Results() {
-      return chargesCalculator(this.params).getResults();
+      const results = chargesCalculator(this.params).getResults();
+      this.$store.commit('calculatorResults', results);
+      return results;
     }
   }
 }
