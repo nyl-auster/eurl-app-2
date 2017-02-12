@@ -3,12 +3,8 @@ import _ from 'lodash'
 export default {
   data: function() {
     return {
-      showHelp: 1
-    }
-  },
-  computed: {
-    form() {
-      return Object.assign({}, this.$store.state.calculatorParams)
+      showHelp: 1,
+      form: Object.assign({}, this.$store.state.calculatorParams)
     }
   },
   methods: {
