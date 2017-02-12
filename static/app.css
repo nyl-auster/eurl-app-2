@@ -1,43 +1,148 @@
-/**
- * Global
- */
-
-/* largeur du site */
-#app .row {
-  max-width: 60rem !important;
+#app,h1, h2, h3, h4, h5, h6 {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
 }
 
-/**
- * Menu
- */
- .menu__link a {
-   color:rgb(57,57,57);
- }
+header {
+  text-align:center;
+  margin-top:1rem;
+}
 
- .home-page-screen {
-   height:100%
- }
+#site-title {
+  font-size:1.7rem;
+  text-transform:uppercase;
+}
 
-/**
- * calculette-presentation
- */
-.calculette-presentation {
-  padding:2rem;
+#site-subtitle {
+  font-size:1.2rem;
+  margin-bottom:0.5rem;
+}
+
+#version {
+  font-style:italic;
+  font-size:0.9rem;
   margin:auto;
-  background:rgb(62,162,55);
-  color:white;
+
+  margin-bottom:1rem;
 }
 
-.calculette-presentation__title {
-  color:white;
-
+footer {
+  text-align:center;
+  margin-bottom:3rem;
 }
 
-.calculette-presentation__subtitle {
-  color:white;
-
+h1 {
+  font-size:1.9rem;
+  text-align:center;
+  text-transform:uppercase
 }
 
-.calculette-presentation__teaser {}
+h2 {
+  font-size:1.3rem;
+  text-align:center;
+  text-transform:uppercase
+}
 
-.calculette-presentation
+h3 {
+  font-size:1.2rem;
+  text-align:center;
+}
+
+.router-view {
+  margin-top:1.5rem;
+}
+
+.menu-center a {
+  text-transform:uppercase;
+}
+
+.menu-center a.router-link-active {
+  border-bottom: solid #1779ba 1px;
+}
+
+.big-picture {
+  border-top:1px solid silver;
+  border-bottom:1px solid silver;
+  margin:2rem;
+  text-align:center;
+  padding:1rem;
+  padding-top:1.2rem;
+}
+
+.big-picture h2 {
+  text-transform:uppercase;
+  font-weight:bold
+}
+
+.big-picture .result {
+  font-weight:bold;
+  font-size:2rem;
+}
+
+.result {
+  color:inherit;
+}
+
+.result.success {
+  color:green;
+  transition:all 1s;
+}
+
+.result.alert {
+  color:red;
+  transition:all 1s;
+}
+
+.total, .subtotal, .sub-subtotal {
+  font-weight:bold;
+}
+
+.sub-subtotal {
+  background-color:#f8f8f8;
+}
+
+.subtotal {
+  background:rgb(240,240,240);
+}
+
+.total {
+  background:rgb(240,240,240);
+  border:solid border 2px;
+  font-size:1.5rem;
+  text-transform:uppercase;
+}
+
+table {
+  border-collapse:collapse;
+  border: solid black 1px;
+}
+
+.showDetails {
+  font-weight: normal;
+}
+
+table tr:nth-of-type(even) {
+  background-color: transparent !important;
+}
+
+.lines-results__result__details {
+  font-style: italic;
+  color: #888;
+  font-size: .9em;
+}
+
+.lines-results__result__total td {
+  border-top: 1px solid #BBB;
+}
+
+.montant {
+  text-align:right;
+}
+
+.simulateur-charts canvas{
+  height:200px !important;
+  width:200px !important;
+}
+
