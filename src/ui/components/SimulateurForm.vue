@@ -82,7 +82,7 @@
         </div>
       </div>
 
-      <div class="large-3 small-12 columns end">
+      <div class="large-3 small-12 columns">
         <label> Prévoyance </label>
         <select id="prevoyance" v-model="form.prevoyance" type="number">
           <option value="A">A</option>
@@ -92,6 +92,11 @@
         <div class="simulator-form__field__description">
           Assurance vie.
         </div>
+      </div>
+
+      <div class="large-3 small-12 columns">
+        <br />
+        <input @click.prevent="submit()" class="button" type="submit" value="Soumettre"/>
       </div>
 
     </div>

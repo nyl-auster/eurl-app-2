@@ -12,7 +12,7 @@
 </script>
 
 <template>
-  <div id="component--simulateur">
+  <div>
     <simulateur-form :formValues="params" @onFormValuesUpdated="setParams" />
     <simulateur-results-synthese :params="params" :Results="Results" />
     <simulateur-results-table :params="params" :Results="Results" />

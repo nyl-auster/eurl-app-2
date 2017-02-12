@@ -5,19 +5,19 @@ export default {
   data: function() {
     return {
       showHelp: 1,
-      form: this.formValues
+      form: Object.assign({}, this.formValues)
     }
   },
   methods: {
-
+    submit: function() {
+      this.$emit('onFormValuesUpdated', this.form);
+    }
   },
   watch: {
     "form": {
-      deep: true,
-      // on émet un évènement à chaque fois que les données du formulaire
-      // sont mises à jour pour les autres composants
-      handler:function(val, oldVal) {
-        this.$emit('onFormValuesUpdated', this.form);
+      deep:true,
+      handler: function() {
+        //this.$emit('onFormValuesUpdated', this.form);
       }
     },
     "form.bindToCaHt": function(val, oldVal) {

@@ -17,10 +17,6 @@ export default {
       }
     }
   },
-// calculer les résultats lors de la création de la vue
-  created: function () {
-    //this.calculateResults();
-  },
   computed: {
     Results: function () {
       return chargesCalculator(this.params).getResults();
