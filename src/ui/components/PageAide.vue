@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div class="component" id="component--page-aide">
+  <div class="component row" id="component--page-aide">
     <h1>Aide</h1>
     <h2>A quoi sert ce simulateur ?</h2>
 

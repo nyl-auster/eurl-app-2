@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <div class="component" id="component--page-simulateur">
+  <div class="component row" id="component--page-simulateur">
     <div class="row">
       <div class="small-12 columns">
         <simulateur></simulateur>

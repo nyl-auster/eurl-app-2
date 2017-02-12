@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div class="component" id="component--page-contact">
+  <div class="component row" id="component--page-contact">
     <h1>Me contacter</h1>
     <p>
       Un bug ? une suggestion ? J'ai besoin de vous pour améliorer ce simulateur qui n'est qu'une première version. N'hésitez pas à me faire part de vos suggestions d'améliorations à l'adresse suivante :

@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div class="component" id="component--page-a-propos">
+  <div class="component row" id="component--page-a-propos">
     <h1>A propos de l'auteur</h1>
     <p>Je suis développeur freelance indépendant depuis 2012. Après avoir passé quelques mois en auto-entrepreneur, un dépassement de plafond me fait automatiquement passer en entrepeneur individuel. Je décide alors de monter une SARL unipersonnelle pour gérer mon activité.</p>
 
