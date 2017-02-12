@@ -4,10 +4,12 @@
 import Vue from 'vue'
 import App from './ui/components/App'
 import VueRouter from 'vue-router'
-import routes from './ui/routes'
-import _ from "lodash";
+import Vuex from 'vuex'
+import routes from './ui/Routes'
+import Store from './ui/Store'
 
-Vue.use(VueRouter);
+Vue.use(Vuex)
+Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
@@ -16,6 +18,7 @@ const router = new VueRouter({
 
 new Vue({
   router,
+  store: new Vuex.Store(Store),
   template: '<App/>',
   components: { App }
-}).$mount('#app');
+}).$mount('#app')

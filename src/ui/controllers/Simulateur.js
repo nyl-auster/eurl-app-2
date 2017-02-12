@@ -1,24 +1,11 @@
 import chargesCalculator from "../../services/chargesCalculator"
 
 export default {
-  data: function () {
-    return {
-      // paramètres de base pour initier le calcul de nos dettes
-      params: {
-        chiffreAffaireHt: 0,
-        chiffreAffaireTtc: 0,
-        bindToCaHt: true,
-        bindToFraisHt: true,
-        fraisHt: 0,
-        fraisTtc: 0,
-        cfe: 1000,
-        remuneration: 0,
-        prevoyance: 'A'
-      }
-    }
-  },
   computed: {
-    Results: function () {
+    params() {
+      return this.$store.state.calculatorParams
+    },
+    Results() {
       return chargesCalculator(this.params).getResults();
     }
   },
@@ -28,10 +15,11 @@ export default {
       for (const property in formValues) {
         this.params[property] = formValues[property];
       }
+      this.$store.commit('calculatorParams', this.params);
       this.calculateResults();
     },
     calculateResults: function () {
-      this.Results = chargesCalculator(this.params).getResults();
+      this.Results = chargesCalculator(this.$store.state.calculatorParams).getResults();
     }
   }
 }

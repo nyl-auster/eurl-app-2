@@ -10,7 +10,7 @@ export default {
   },
   methods: {
     submit: function() {
-      this.$emit('onFormValuesUpdated', this.form);
+      this.$emit('onFormValuesUpdated', this.form)
     }
   },
   watch: {
