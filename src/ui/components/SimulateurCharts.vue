@@ -1,11 +1,7 @@
 <script>
   import Component from "../controllers/SimulateurCharts.js"
-  import SimulateurPie from "../components/SimulateurPie"
-  Component.components = {
-      SimulateurForm,
-      SimulateurResultsTable,
-      SimulateurResultsSynthese
-  }
+  import SimulateurPie from "./SimulateurPie"
+  Component.components = {}
   export default Component;
 </script>
 
