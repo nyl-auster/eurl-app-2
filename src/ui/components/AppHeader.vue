@@ -11,7 +11,7 @@
       <span class="small">Pour</span>
       <strong>Gérant Majoritaire</strong>
       <span class="small">en </span>
-      <strong> professions libérales</strong>
+      <strong> profession libérale</strong>
       <span class="small">à l'</span>
       <strong>Impôt sur les sociétés</strong>
     </div>
