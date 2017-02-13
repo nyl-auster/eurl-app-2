@@ -7,7 +7,7 @@ export default {
         success:this.Results.getLine('resteEnBanque').montant > 0
       }
     },
-    chartData:function(){
+    chartData() {
       return {
         labels: [
           "Cotisations sociales",

@@ -1,8 +1,6 @@
 export default {
+  props:['Results'],
   computed: {
-    Results() {
-      return this.$store.state.calculatorResults
-    },
     resultClasses() {
       return {
         success:this.Results.getLine('resteEnBanque').montant > 0,

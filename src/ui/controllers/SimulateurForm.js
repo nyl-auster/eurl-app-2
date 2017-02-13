@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 export default {
-  data: function() {
+  data () {
     return {
       showHelp: 1,
       form: Object.assign({}, this.$store.state.calculatorParams)

@@ -1,15 +1,11 @@
 import chargesConfig from "../../services/config";
 
 export default {
-  data:function() {
+  props:['Results'],
+  data () {
     return {
       showDetails:false,
       plafondMax:chargesConfig.plafondMax
-    }
-  },
-  computed: {
-    Results() {
-      return this.$store.state.calculatorResults
     }
   }
 }

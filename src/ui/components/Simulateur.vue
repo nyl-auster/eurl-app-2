@@ -14,7 +14,7 @@
 <template>
   <div>
     <simulateur-form />
-    <simulateur-results-synthese />
+    <simulateur-results-synthese :Results="Results" />
     <simulateur-results-table :Results="Results" />
   </div>
 </template>
