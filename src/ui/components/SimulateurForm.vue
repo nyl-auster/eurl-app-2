@@ -6,7 +6,6 @@
 
 <template>
   <form class="simulator-form">
-
     <div class="row">
       <div class="small-12 columns">
         <div v-show="showHelp" class="callout text-center">
@@ -96,7 +95,12 @@
 
       <div class="large-3 small-12 columns">
         <br />
-        <input @click.prevent="submit()" class="button" type="submit" value="Calculer"/>
+        <input
+          :class="{ secondary: submitted && formValuesChanged.length == 0 }"
+          @click.prevent="submit()"
+          class="button"
+          type="submit"
+          :value="'Calculer' + submitButtonSuffix"/>
       </div>
 
     </div>

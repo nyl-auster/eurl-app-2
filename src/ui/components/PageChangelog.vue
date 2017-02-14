@@ -8,6 +8,7 @@
   <div class="row">
     <div class="small-12 columns">
       <ul>
+        <li><span class="date">14/12/2017 : </span><span class="text">Ajout du bouton de soumission pour lancer le calcul</span></li>
         <li><span class="date">12/12/2017 : </span><span class="text">Ajout des sous-totaux par organismes</span></li>
       </ul>
     </div>
