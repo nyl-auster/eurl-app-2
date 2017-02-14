@@ -13,7 +13,7 @@
 
 <template>
   <div>
-    <simulateur-form />
+    <simulateur-form :formValues="formValues" @formSubmitted="formSubmitted" />
     <simulateur-results-synthese :Results="Results" />
     <simulateur-results-table :Results="Results" />
   </div>

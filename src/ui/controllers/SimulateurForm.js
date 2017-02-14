@@ -1,15 +1,15 @@
 import _ from 'lodash'
 
 export default {
+  props: ['formValues'],
   data () {
     return {
-      showHelp: 1,
-      form: Object.assign({}, this.$store.state.calculatorParams)
+      showHelp: 1
     }
   },
   methods: {
     submit() {
-      this.$store.commit('calculatorParams', this.form);
+      this.$emit('formSubmitted', Object.assign({}, this.formValues));
     }
   },
   watch: {
