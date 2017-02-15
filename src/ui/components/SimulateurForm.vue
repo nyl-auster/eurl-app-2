@@ -96,7 +96,7 @@
       <div class="large-3 small-12 columns">
         <br />
         <input
-          :class="{ secondary: submitted && formValuesChanged.length == 0 }"
+          :class="{ secondary: submitted && !formValuesChanged }"
           @click.prevent="submit()"
           class="button"
           type="submit"
