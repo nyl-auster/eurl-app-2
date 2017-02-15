@@ -6,9 +6,9 @@
 
 <template>
   <header class="component" id="site-header">
-    <div id="site-title"> Simulateur de charges et de trésorerie pour EURL</div>
+    <div id="site-title"> Simulateur de charges pour EURL*</div>
     <div id="site-subtitle">
-      <span class="small">Pour</span>
+      <span class="small">*Pour</span>
       <strong>Gérant Majoritaire</strong>
       <span class="small">en </span>
       <strong> profession libérale</strong>

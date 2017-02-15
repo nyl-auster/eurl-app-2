@@ -1,7 +1,8 @@
-/* largeur maximale du site */
+/* largeur maximale du site
 #app .row {
   max-width: 70rem;
 }
+*/
 
 #app,h1, h2, h3, h4, h5, h6 {
   font-family: 'Avenir', Helvetica, Arial, sans-serif !important;
@@ -20,12 +21,12 @@ header .small {
 }
 
 #site-title {
-  font-size:2rem;
+  font-size:1.5rem;
   text-transform:uppercase;
 }
 
 #site-subtitle {
-  font-size:1.5rem;
+  font-size:1rem;
   margin-bottom:0.5rem;
   text-transform:uppercase;
 }
@@ -138,6 +139,10 @@ table {
   border-radius:5px;
 }
 
+.simulator-form .label {
+  text-transform:uppercase;
+}
+
 .showDetails {
   font-weight: normal;
 }
@@ -163,4 +168,23 @@ table tr:nth-of-type(even) {
 .simulateur-charts canvas{
   height:200px !important;
   width:200px !important;
+}
+
+/**
+ YINEO-TOOLTIP
+ */
+.yineo-tooltip {
+  float:right;
+  top:-3px;
+}
+
+/**
+ TRANSITIONS
+ */
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0
 }

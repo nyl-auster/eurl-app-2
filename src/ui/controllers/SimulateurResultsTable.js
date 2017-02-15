@@ -2,7 +2,7 @@ import chargesConfig from "../../services/config";
 
 export default {
   props:['Results'],
-  data () {
+  data() {
     return {
       showDetails:false,
       plafondMax:chargesConfig.plafondMax
