@@ -132,7 +132,7 @@ table {
   border: solid black 1px;
 }
 
-.simulator-form .button {
+.simulator-form .submit-button {
   text-transform: uppercase;
   font-weight: bold;
   width: 100%;
@@ -173,7 +173,7 @@ table tr:nth-of-type(even) {
 /**
  YINEO-TOOLTIP
  */
-.yineo-tooltip {
+.simulator-form .yineo-tooltip {
   float:right;
   top:-3px;
 }

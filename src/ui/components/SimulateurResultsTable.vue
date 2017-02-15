@@ -11,7 +11,8 @@
 
         <table class="table lines-results">
           <caption>
-            A PAYER PAR VOTRE EURL <br/><a class="showDetails" @click="showDetails=!showDetails"> {{showDetails ? 'Masquer' : 'Montrer'}}  les détails des calculs</a>
+            A PAYER PAR VOTRE EURL <br/>
+            <a class="showDetails show-for-large" @click="showDetails=!showDetails"> {{showDetails ? 'Masquer' : 'Montrer'}}  les détails des calculs</a>
           </caption>
           <thead>
             <tr>

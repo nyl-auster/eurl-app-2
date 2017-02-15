@@ -10,8 +10,10 @@ export default {
 </script>
 
 <template>
-  <span @mouseover="show=true" class="yineo-tooltip" @mouseleave="show=false">
-    <span class="trigger-modal"> ? </span>
+  <span class="yineo-tooltip">
+    <!--<span class="trigger-modal" @click="this.$emit('pushTooltip')"> ? </span>-->
+    <!--<span title="cliquer pour avoir de l'aide" class="trigger-modal" @click="show=!show"> ? </span>-->
+    <span title="cliquer pour avoir de l'aide" class="trigger-modal" @click="show=!show"> ? </span>
 
     <div class="modal" v-show="show">
       <div class="row">
@@ -21,7 +23,7 @@ export default {
         </div>
 
 
-        <div class="small-12 columns show-for-small-only">
+        <div class="small-12 columns">
           <span @click="show=false" class="small button">OK</span>
         </div>
 
@@ -47,6 +49,7 @@ export default {
     text-align:center;
     width:1.7rem;
     height:1.7rem;
+
   }
 
   .button {

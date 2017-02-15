@@ -58,7 +58,7 @@
       <!-- frais TTC-->
       <div class="large-3 small-12 columns">
         <label for="frais-ttc"> FRAIS TTC
-        <yineo-tooltip message="Vos dépenses de sociétés avec la TVA"/>
+        <yineo-tooltip message="Vos dépenses de sociétés avec la TVA" />
         </label>
         <input v-model="formValues.fraisTtc" type="number" id="frais-ttc" class="form-control" :disabled="formValues.bindToFraisHt">
         <div class="simulator-form__field__description">
@@ -104,7 +104,7 @@
         <input
           :class="{ secondary: submitted && !formValuesChanged }"
           @click.prevent="submit()"
-          class="button"
+          class="button submit-button"
           type="submit"
           :value="'Calculer' + submitButtonSuffix"/>
       </div>
