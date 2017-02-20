@@ -173,18 +173,27 @@ table tr:nth-of-type(even) {
 /**
  YINEO-TOOLTIP
  */
+
+.yineo-tooltip {
+  z-index:999;
+}
+
 .simulator-form .yineo-tooltip {
-  float:right;
-  top:-3px;
+  position:relative;
+  top:28px;
+  left:-6px;
 }
 
-/**
- TRANSITIONS
+
+/* Medium and up */
+@media screen and (min-width: 40em) {
+  /**
+ YINEO-TOOLTIP
  */
+  .simulator-form .yineo-tooltip {
+    position:relative;
+    top:28px;
+    left:-20px;
+  }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
-  opacity: 0
 }
