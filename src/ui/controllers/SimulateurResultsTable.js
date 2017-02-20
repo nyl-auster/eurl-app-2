@@ -1,7 +1,7 @@
 import chargesConfig from "../../services/config";
 
 export default {
-  props:['Results'],
+  props:['Results', 'CalculatorParams'],
   data() {
     return {
       showDetails:false,

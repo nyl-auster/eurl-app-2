@@ -15,7 +15,7 @@
   <div>
     <simulateur-form :formValues="formValues" @formSubmitted="formSubmitted" />
     <simulateur-results-synthese :Results="Results" />
-    <simulateur-results-table :Results="Results" />
+    <simulateur-results-table :Results="Results" :CalculatorParams="CalculatorParams" />
   </div>
 </template>
 

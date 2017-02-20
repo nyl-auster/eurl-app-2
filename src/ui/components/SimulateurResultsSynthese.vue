@@ -33,7 +33,7 @@
       </div>
 
       <div class="small-12 medium-4 columns">
-        <h2 class="solde">BENEFICE<br/><span class="subheader">Restera en banque</span><br/></h2>
+        <h2 class="solde">BENEFICE<br/><span class="subheader">Restera sur votre compte pro</span><br/></h2>
         <p>
           <span :class="resultClasses" class="result test--solde-result">{{Results.getLine('resteEnBanque').montant}} €</span>
         </p>

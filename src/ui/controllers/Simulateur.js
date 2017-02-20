@@ -12,6 +12,9 @@ export default {
     }
   },
   computed: {
+    CalculatorParams(){
+      return this.$store.state.calculatorParams
+    },
     Results() {
       const results = chargesCalculator(this.$store.state.calculatorParams).getResults();
       this.$store.commit('calculatorResults', results);

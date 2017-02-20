@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <form class="simulator-form">
+  <form class="simulator-form" autocomplete="off">
     <div class="row">
       <div class="small-12 columns text-center">
         <strong>Entrez ci-dessous les chiffres correspondant à vos estimations sur une période d'un an.</strong><br /><br />

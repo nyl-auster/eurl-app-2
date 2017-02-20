@@ -184,6 +184,10 @@ table tr:nth-of-type(even) {
   left:-6px;
 }
 
+.lines-results .CATTC {
+  font-size: 1.2rem;
+}
+
 
 /* Medium and up */
 @media screen and (min-width: 40em) {

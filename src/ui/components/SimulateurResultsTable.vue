@@ -11,7 +11,8 @@
 
         <table class="table lines-results">
           <caption>
-            A PAYER PAR VOTRE EURL <br/>
+            A PAYER PAR VOTRE EURL<br />
+            <span class="CATTC"> ( Chiffre d'Affaires TTC : {{CalculatorParams.chiffreAffaireTtc}} € )</span><br />
             <a class="showDetails show-for-large" @click="showDetails=!showDetails"> {{showDetails ? 'Masquer' : 'Montrer'}}  les détails des calculs</a>
           </caption>
           <thead>
@@ -43,7 +44,7 @@
               <td> {{tranche.taux}} <span v-show="tranche.taux">%</span> </td>
               <td> {{tranche.montant_forfaitaire }}</td>
               <td> {{tranche.plafond == plafondMax ? ' - ' : (tranche.plafond ) }} </td>
-              <td class="montant"> {{tranche.montant }} </td>
+              <td class="montant"> {{tranche.montantPrefix}} {{tranche.montant }} </td>
             </tr>
 
           </tbody>
