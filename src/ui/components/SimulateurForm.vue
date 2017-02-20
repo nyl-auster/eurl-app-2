@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <form class="simulator-form" autocomplete="off">
+  <form class="simulator-form" autocomplete="nope!">
     <div class="row">
       <div class="small-12 columns text-center">
         <strong>Entrez ci-dessous les chiffres correspondant à vos estimations sur une période d'un an.</strong><br /><br />
@@ -44,7 +44,7 @@
         <div class="row">
           <div class="small-10 columns">
             <label for="chiffre-affaire-ttc">CHIFFRE AFFAIRE TTC
-              <input v-model.number="formValues.chiffreAffaireTtc" type="number" id="chiffre-affaire-ttc" :disabled="formValues.bindToCaHt">
+              <input v-model.number="formValues.chiffreAffaireTtc" type="number" id="chiffre-affaire-ttc">
             </label>
             <div class="simulator-form__field__description">
               <input type="checkbox" v-model.number="formValues.bindToCaHt"> <em> à 20% du HT</em> <br>
@@ -79,7 +79,7 @@
 
           <div class="small-10 columns">
             <label for="frais-ttc"> FRAIS TTC </label>
-            <input v-model="formValues.fraisTtc" type="number" id="frais-ttc" class="form-control" :disabled="formValues.bindToFraisHt">
+            <input v-model="formValues.fraisTtc" type="number" id="frais-ttc" class="form-control">
             <div class="simulator-form__field__description">
               <input type="checkbox" v-model="formValues.bindToFraisHt">
               <em> à 20% du HT</em> <br>

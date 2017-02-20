@@ -61,9 +61,20 @@ export default {
         this.formValues.chiffreAffaireTtc = _.round(this.formValues.chiffreAffaireHt * 1.20, 2)
       }
     },
+    "formValues.chiffreAffaireTtc": function(val, oldVal) {
+      if (this.formValues.bindToCaHt) {
+        this.formValues.chiffreAffaireHt = _.round(this.formValues.chiffreAffaireTtc / 1.2, 2)
+      }
+    },
     "formValues.fraisHt": function(val, oldVal) {
       if (this.formValues.bindToFraisHt) {
         this.formValues.fraisTtc = _.round(this.formValues.fraisHt * 1.20, 2)
+      }
+    },
+    "formValues.fraisTtc": function(val, oldVal) {
+      console.log(this.formValues.fraisTtc);
+      if (this.formValues.bindToFraisHt) {
+        this.formValues.fraisHt = _.round(this.formValues.fraisTtc / 1.20, 2)
       }
     }
   }
