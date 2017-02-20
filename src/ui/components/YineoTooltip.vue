@@ -46,9 +46,9 @@ export default {
     border-radius:10rem;
     display:inline-block;
     text-align:center;
-    font-size:1.4rem;
-    width:2.2rem;
-    height:2.2rem;
+    font-size:1.2rem;
+    width:2.0rem;
+    height:2.0rem;
     z-index:1;
 
   }

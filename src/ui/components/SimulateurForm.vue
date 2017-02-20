@@ -140,13 +140,18 @@
       </div>
 
       <div class="large-3 small-12 columns">
-        <br />
-        <input
-          :class="{ secondary: submitted && !formValuesChanged }"
-          @click.prevent="submit()"
-          class="button submit-button"
-          type="submit"
-          :value="'Calculer' + submitButtonSuffix"/>
+        <div class="row">
+          <div class="small-10 columns">
+            <br />
+            <input
+              :class="{ secondary: submitted && !formValuesChanged }"
+              @click.prevent="submit()"
+              class="button submit-button"
+              type="submit"
+              :value="'Calculer' + submitButtonSuffix"/>
+          </div>
+          <div class="small-2 columns"></div>
+        </div>
       </div>
 
     </div>
