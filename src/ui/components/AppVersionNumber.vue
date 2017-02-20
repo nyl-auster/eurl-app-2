@@ -8,7 +8,7 @@
   <div class="row">
     <div class="small-12 columns">
       <div class="app-version text-center">
-        version <strong>ALPHA</strong> - v 0.9.6 - 12/02/2017
+        version <strong>ALPHA</strong> - v 0.9.7 - 20/02/2017
       </div>
     </div>
   </div>
