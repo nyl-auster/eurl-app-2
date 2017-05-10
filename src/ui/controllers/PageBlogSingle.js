@@ -2,12 +2,12 @@ import contentService from "../../services/contentService";
 
 export default {
   data: () => ({
-    loading: true,
-    posts: []
+    post:{},
+    loading: true
   }),
   created() {
-    contentService.getPosts().then(result => {
-      this.posts = result.data.data
+    contentService.getPost(this.$route.params.id).then(result => {
+      this.post = result.data.data
       this.loading = false
     })
   }

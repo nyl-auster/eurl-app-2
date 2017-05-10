@@ -4,13 +4,11 @@
   import AppHeader from './AppHeader'
   import AppFooter from './AppFooter'
   import AppVersionNumber from './AppVersionNumber'
-  import AppWarning from './AppWarning'
   Component.components = {
     AppMenu,
     AppHeader,
     AppFooter,
-    AppVersionNumber,
-    AppWarning
+    AppVersionNumber
   }
   export default Component
 </script>
@@ -20,7 +18,6 @@
     <app-header />
     <app-version-number />
     <app-menu />
-    <app-warning />
     <router-view />
     <app-footer />
   </div>

@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "dependencies": {
+    "contentful": "^4.3.0",
     "lodash": "^4.17.4",
     "vue": "^2.1.0",
     "vue-bulma-tooltip": "^1.0.2",

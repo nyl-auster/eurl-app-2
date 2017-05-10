@@ -5,6 +5,7 @@ import PageContact from './components/PageContact'
 import PageChangelog from './components/PageChangelog'
 import PageBlog from './components/PageBlog'
 import PageNotFound from './components/PageNotFound'
+import PageBlogSingle from './components/PageBlogSingle'
 
 export default [
   { path: '/', component: PageSimulateur },
@@ -13,5 +14,6 @@ export default [
   { path: '/contact', component: PageContact },
   { path: '/changelog', component: PageChangelog },
   { path: '/blog', component: PageBlog },
+  { path: '/blog/:id', component: PageBlogSingle },
   { path: '*', component: PageNotFound }
 ]
