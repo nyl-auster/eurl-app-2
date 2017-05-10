@@ -10,6 +10,7 @@
       <div class="post-content" v-if="!loading">
       <h1>{{post.attributes.title}} </h1>
         <div class="body" v-html="post.attributes.body.value"></div>
+        <div class="text-center"><a class="button" href="/blog"> &#10094  Retour au blog</a> </div>
       </div>
     </div>
   </div>
